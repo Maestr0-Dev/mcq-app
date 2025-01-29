@@ -1,0 +1,103 @@
+.logo{
+    width: 200px;
+    height: auto;
+}
+header{
+    border-bottom: solid 1px gray;
+    padding-top: 10px;
+    background-color: white;
+}
+.signin{
+    text-decoration: none;
+    margin-top: 10px;
+    padding-right: 20px;
+    border-right: 1px solid black;
+}
+a{
+    text-decoration: none;
+    margin-top: 10px;
+    padding-right: 20px;
+ 
+}
+#lang{
+    border: none;
+    border-right: 1px solid black;
+    padding-right: 20px;
+}
+#country{
+    border: none;
+}
+.container{
+    background-image: url('images/download.jpg') !important;
+    background-size: cover;
+    background-repeat: no-repeat;
+    text-align: center;
+    height: 500px;
+    width: 100%;
+
+}
+.box-container{
+    display: flex;
+}
+.box{
+    width: 300px;
+    height: 350px;
+    margin: 50px;
+    text-align: center;
+    justify-content: center;
+    diplay:flex;
+    color:rgb(0, 0, 0);
+}
+.box-im{
+    height: 150px;
+    width:auto;
+}
+.num{
+    color:white;
+    background-color: black;
+    padding: 2px 3px 10px 3px;
+    width: 30px;
+    height: 30px;
+    border-radius:100%;
+    margin-left: 50%;
+}
+.bottom{
+    background-color: rgb(240, 240, 157);
+    width: 85%;
+    height: 300px;
+    margin: 30px 100px 30px 100px;
+    display: flex;
+}
+footer{
+    border-top: solid gray 1px;
+    border-bottom: solid gray 1px;
+    text-align: center;
+    /* display: flex; */
+    justify-content: center;
+    padding-left: 100px !important;
+}
+/* sign in style */
+.signin-body{
+    background-color: #fdf4da;
+}
+form{
+    background-color: white;
+    box-shadow: 0px, 0px,1000px rgb(0, 0,0, 0.4);
+    padding: 50px;
+    border-radius: 20px;
+
+}
+.profile-div{
+    display: flex;
+
+}
+.profile-img{
+    height: 60px;
+    width: 60px;
+    border-radius: 100%;
+}
+.footer{
+    text-align: center;
+    justify-content: center;
+    font-size: 12px;
+}
