@@ -32,10 +32,9 @@ private $username="root";
             try{
             $conn= new PDO('mysql:host=localhost;dbname='.$this->DBname(),$this->pass(),$this->username());
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql="SELECT * FROM $table WHERE email = ? AND `pass` = ?";
+            $sql="SELECT * FROM $table WHERE email = ? AND `password` = ?";
             $statement = $conn->prepare($sql);
 			$statement->execute([$data[0],$data[1]]);
-			$result = "Welcome back";
             $conn = null;
 		}catch(PDOException $err){
 			$result= $err->getMessage();
@@ -58,31 +57,33 @@ private $username="root";
 			$conn = null;
         }catch(PDOException $err){
             $result= $err->getMessage();
-            echo "an error occured";
+            echo "An error occurred: " . $err->getMessage();
+
             $conn = null;
-            $data=[];b
+            $data=[];
         }
     }
    
 
 //displaying the questions and other requirements
-public function fetch($table, $arr = null){
-    $question = []; 
+public function Get($table,array $data,$arr=null) {
+    
     try{
-        $conn= new PDO('mysql:host=localhost; DBname='.$this->DBname(),$this->pass(),$this->username());
+        $conn= new PDO("mysql:host=localhost; dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM $table";
+        $sql = "SELECT * FROM $table WHERE `year` = ? AND `subject` = ?";
         $statement = $conn->prepare($sql);
-        $statement->execute();
+        $statement->execute([$data[0], $data[1]]);
         $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $question = $statement->fetchAll();
+        $questions = $statement->fetchAll();
         $conn = null;
     }catch(PDOException $err){
-        $result= $err->getMessage();
-        $conn = null;
+        $questions = [];
+
     }
-    return $question;
+   return $questions;
 }
+
 }
 
 ?>

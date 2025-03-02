@@ -1,56 +1,57 @@
-<? 
+<?php
+session_start();
 include 'classes.php';
-$password="";
-$email="";
-$username="";
-$num="";
-$err=false;
+$_SESSION['is_logged_in']="";
+$password = "";
+$email = "";
+// $username = "";
+// $num = "";
+$message = "";
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $email=$_POST['email'];
-    $num=$_POST['number'];
-    $username=$_POST['username'];
-    $password=$_POST['password'];
-    $data=[$email,$num,$username,$password];
-    $table="forlearners";
-    $db= new DB();
-    $result=$db-> login($table, $data);
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $email = $_POST['email'];
+    // $num = $_POST['number'];
+    // $username = $_POST['username'];
+    $password = $_POST['password'] ;
+    $data = [$email, $password];
+    
+    $db = new DB();
+    $result = $db->login('learners', $data);
     echo $result;
 
-    if($err == false){
-        $data=[$email,$num,$username,$password];
-    $table="learners";
-    $db= new DB();
-    $result=$db-> login($table, $data);
-
-        if(count($result) > 0){
-            $_SESSION['id'] = $result[0]['id'];
-            $_SESSION['username'] = $result[0]['name'];
-            $_SESSION['email'] = $result[0]['email'];
-            $_SESSION['password'] = $result[0]['password'];
-            $_SESSION['num'] = $result[0]['number'];
-
-
-            echo '<script>window.location.href = "./?p=quiz" </script>';
-        }else{
-            $result = "Invalid username or password";
-        }
+    if (count($result) > 0) {
+        $_SESSION['is_logged_in']=true;
+        $_SESSION['id'] = $result[0]['id'];
+        $_SESSION['uname'] = $result[0]['name'];
+        // $_SESSION['email'] = $result[0]['email'];
+        $_SESSION['phone'] = $result[0]['phone'];
+        $_SESSION['usname'] = 'mike';
+        
+        
+        header("location:landing.php");
+        exit;
+    } else {
+        $_SESSION['is_logged_in']=false;
+        $message = "Invalid username or password.";
+     }
     }
-}
 ?>
 <html>
-    <head>
-
-    </head>
-    <body>
-        <h1>login</h1>
-        <form action="" method="post">
-        <input type="email" name="email" placeholder="E-mail">
-        <input type="number" name="number">
-        <input type="text" name="username" >
-        <input type="password" name="password">
-
-<button type="submit">Login</button>
-        </form>
-    </body>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+    <?php if ($message): ?>
+        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
+    <?php endif; ?>
+    <form action="landing.php" method="post">
+        <input type="email" name="email" placeholder="E-mail" required>
+        <!-- <input type="number" name="number" required>
+        <input type="text" name="username" required> -->
+        <input type="password" name="password" required placeholder="password">
+        <button type="submit">Login</button>
+        <a href="sigin.php">create to an account</a>
+    </form>
+</body>
 </html>

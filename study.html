@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Study Groups</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="fonts/css/all.css" rel="stylesheet">
+    <script src="js/bootstrap.min.js"></script>
+</head>
+<body class="bg-light">
+   <div class="wrapper">
+    <a href="landing.html" class="back-button">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary newcontainer">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">StudySquad</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Find Groups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">My Groups</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Create Group</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-light me-2">Sign In</button>
+                    <button class="btn btn-outline-light">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search and Filter Section -->
+    <div class="container mt-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <span class="input-group-text bg-white">
+                        <i class="fas fa-search"></i>
+                    </span>
+                    <input type="search" class="form-control" placeholder="Search study groups..." id="searchInput">
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex gap-2">
+                    <select class="form-select">
+                        <option>All Subjects</option>
+                        <option>Mathematics</option>
+                        <option>Sciences</option>
+                        <option>Languages</option>
+                        <option>History</option>
+                    </select>
+                    <select class="form-select">
+                        <option>All Levels</option>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Study Groups Grid -->
+    <div class="container my-4 tutors-grid">
+        <div class="row g-4">
+            <!-- Study Group Card 1 -->
+            <div class="col-md-12 col-lg-12">
+                <div class="card group-card h-100">
+                    <div class="position-relative">
+                        <img src="/api/placeholder/400/200" class="card-img-top" alt="Group Cover">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-success">Active Now</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Calculus Study Squad</h5>
+                        <p class="card-text text-muted">Advanced calculus group focusing on integration techniques and differential equations</p>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="d-flex">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                            </div>
+                            <span class="ms-2 text-muted">12 members</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">Calculus</span>
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">Math</span>
+                            <span class="badge rounded-pill bg-light text-primary tag">Advanced</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary">Join Group</button>
+                            <button class="btn btn-outline-primary">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Group Card 2 -->
+            <div class="col-md-12 col-lg-12">
+                <div class="card group-card h-100">
+                    <div class="position-relative">
+                        <img src="/api/placeholder/400/200" class="card-img-top" alt="Group Cover">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-warning text-dark">2 spots left</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">English Language Exchange</h5>
+                        <p class="card-text text-muted">Practice English conversation with native speakers and fellow learners</p>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="d-flex">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                            </div>
+                            <span class="ms-2 text-muted">8 members</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">English</span>
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">Language</span>
+                            <span class="badge rounded-pill bg-light text-primary tag">Intermediate</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary">Join Group</button>
+                            <button class="btn btn-outline-primary">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Study Group Card 3 -->
+            <div class="col-md-12 col-lg-12">
+                <div class="card group-card h-100">
+                    <div class="position-relative">
+                        <img src="/api/placeholder/400/200" class="card-img-top" alt="Group Cover">
+                        <div class="position-absolute top-0 end-0 m-2">
+                            <span class="badge bg-info">New Group</span>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Physics Problem Solving</h5>
+                        <p class="card-text text-muted">Weekly meetups to solve complex physics problems and prepare for exams</p>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="d-flex">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                                <img src="/api/placeholder/32/32" class="rounded-circle members-avatar">
+                            </div>
+                            <span class="ms-2 text-muted">15 members</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">Physics</span>
+                            <span class="badge rounded-pill bg-light text-primary me-1 tag">Science</span>
+                            <span class="badge rounded-pill bg-light text-primary tag">All Levels</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary">Join Group</button>
+                            <button class="btn btn-outline-primary">
+                                <i class="far fa-bookmark"></i>
+                            </button>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+ </div>
+</div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script>
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+
+
+        document.querySelectorAll('.btn-outline-primary').forEach(button => {
+            button.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                icon.classList.toggle('fas');
+                icon.classList.toggle('far');
+            });
+        });
+
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredTutors = tutors.filter(tutor => 
+                tutor.name.toLowerCase().includes(searchTerm) ||
+                tutor.subjects.some(subject => subject.toLowerCase().includes(searchTerm))
+            );
+            
+            tutorsGrid.innerHTML = '';
+            filteredTutors.forEach(tutor => {
+                tutorsGrid.innerHTML += createTutorCard(tutor);
+            });
+        });
+    </script>
+</body>
+</html>

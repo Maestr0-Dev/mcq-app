@@ -13,8 +13,7 @@ $D="";
 $imageString="";
  $imageFileType="";
 $err=false;
-$O_subj=['Mathemathics','Chemistry','Biology','Computer science','Geography','Economics','Literature','History','English language','Religion','French'];
-$A_subj=['Literature','History','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French'];
+$subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 $table=$_POST['exam'];
@@ -60,13 +59,12 @@ if(!empty($_FILES['diagram']['name'])){
     $imageContent = file_get_contents($_FILES["diagram"]["tmp_name"]); 
     $imageString = base64_encode($imageContent); 
 
-
-
 }
+
     $data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$imageString, $imageFileType,$ans];
     $db= new DB();
     $result=$db-> questions($table, $data);
-    echo $result;
+    // echo $result;
     }
 ?>
 <!DOCTYPE html>
@@ -76,7 +74,7 @@ if(!empty($_FILES['diagram']['name'])){
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="style.css">
     <link type="text/css" rel="stylesheet" href="CMS-style.css">
-    <title>brave quiz</title>
+    <title>Quiz-master</title>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/script.js"></script>
 </head> 
@@ -92,10 +90,10 @@ if(!empty($_FILES['diagram']['name'])){
     <div class="question_info">
 <select name="exam" id="" required>
     <option disable>Select the type</option>
-    <option value="o_level_mock o_level">O-level Mock</option>
-    <option value="o_level_gce o_level">O-level GCE</option>
-    <option value="a_level_mock a_level">A-level Mock</option>
-    <option value="a_level_gce a_level">A-level GCE</option>
+    <option value="o_level_mock" disabled>O-level Mock</option>
+    <option value="o_level_gce">O-level GCE</option>
+    <option value="a_level_mock" disabled>A-level Mock</option>
+    <option value="a_level_gce">A-level GCE</option>
 </select>
 <select name="year" id="" required>
     <option value="">select the year</option>
@@ -109,25 +107,18 @@ if(!empty($_FILES['diagram']['name'])){
     ?>
 </select>
 
-<input type="text" name="title" required placeholder="title">
-<select name="subject" id="">
-
-<?php
-    $lvl=$_POST['exam'];
-    if($lvl=='o_level'){
-        for($i=0;$i<11;$i++){
+<input type="text" name="title" placeholder="title">
+<select name="subject" id="subj" required>
+    <option value="" selected disabled>subject</option>
+    <?php
+    
+        for($i=0;$i<count($subj);$i++){
             ?>
-            <option value="<?$O_subj[i]?>"><?$O_subj[i]?></option>
-      <?  }
-    }else{
-        for($i=0;$i<11;$i++){
-            ?>
-            <option value="<?$A_subj[i]?>"><?$A_subj[i]?></option>
-      <?  }
-    }
+            <option value="<?=$subj[$i]?>"><?=$subj[$i]?></option>
+     <?php }
     ?>
 </select>
-<input type="text" name="instruction" placeholder="instructions" required>
+<input type="text" name="instruction" placeholder="instructions">
 </div>
 <br><textarea name="question" id="" required>
 enter the question
