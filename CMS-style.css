@@ -44,7 +44,8 @@ input[type="radio"]:checked{
     background-color: rgb(115, 128, 0);
 }
 input[type="file"]{
-    background:linear-gradient(to left,rgb(70, 145, 245),blue);
+    background:linear-gradient(to left,purple,blue);
+
     border-radius: 10px;
     border: none;
     margin: 5px auto;
@@ -74,7 +75,8 @@ flex-direction: column;
 }
 
 button{
-    background:linear-gradient(to left,rgb(71, 165, 253),blue);
+      background:linear-gradient(to left,purple,blue);
+
     border-radius: 10px;
     border: none;
     margin: 5px auto;
