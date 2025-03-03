@@ -72,7 +72,6 @@ if(!empty($_FILES['diagram']['name'])){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="style.css">
     <link type="text/css" rel="stylesheet" href="CMS-style.css">
     <title>Quiz-master</title>
     <script src="js/bootstrap.min.js"></script>

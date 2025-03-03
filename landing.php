@@ -47,11 +47,7 @@ session_start();
                         <a href="chat.html"><button>Chat with AI <i class="fa fa-robot"></i></button></a>
 
                     </div>
-                    <div class="slide">
-                        <h1>Study Groups</h1> <br>
-                        <p>Create study groups for an interactive learning with <br> other students around you to ease learning <br> and boost progress</p>
-                        <a href="study.html"><button>Join Group <i class="fa fa-book"></i></button></a>
-                    </div>
+                    
                 </div>
                 <div class="navigation-buttons">
                     <button class="nav-btn prev-btn">&lt;</button>

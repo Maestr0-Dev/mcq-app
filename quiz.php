@@ -69,7 +69,7 @@ $t=$result[0];
 <p><?=$t['instructions']?></p>
 
 <?php
-$_SESSION['SCR']=4;
+$_SESSION['SCR']=0;
 foreach($result as $key => $q) {
     $real_ans=$q['ans'];
     $num++;
@@ -93,21 +93,19 @@ foreach($result as $key => $q) {
 
 <script>
 
-//    function checkAns(ans,real_ans,num) {
-//        $_SESSION['SCR']=3;
-//      }
-// //   function checkAns(user_ans,real_ans,quest){
-//     if(user_ans == real_ans){
-//         $.ajax({
-//             type: 'POST',
-//             url: 'update_score.php',
-//             data: {update: true},
-//             success: function(data) {
-//                 console.log(data);
-//             }
-//         });
-//     }
-// }
+    
+    function checkAns(user_ans,real_ans,quest){
+     if(user_ans == real_ans){
+         $.ajax({
+             type: 'POST',
+             url: 'update_score.php',
+             data: {update: true},
+             success: function(data) {
+                 console.log(data);
+             }
+         });
+     }
+ }
 //for the timer
 </script>
 <?php
