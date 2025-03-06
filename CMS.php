@@ -10,8 +10,7 @@ $A="";
 $B="";
 $C="";
 $D="";
-$imageString="";
- $imageFileType="";
+$ans="";
 $err=false;
 $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
 
@@ -38,33 +37,42 @@ $ans=$options[$_POST['ans']];
 //image to database
  
 if(!empty($_FILES['diagram']['name'])){
-    $target_dir = "./diagrams"; 
-    $poster = $target_dir . basename($_FILES["diagram"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = pathinfo($poster,PATHINFO_EXTENSION); 
-    $check = getimagesize($_FILES["diagram"]["tmp_name"]);
+    
+    $fileName= $_FILES["diagram"]["name"];
+    $fileSize= $_FILES["diagram"]["size"];
+    $tmpName= $_FILES["diagram"]["tmp_name"];
+    $validImageExtension=['jpeg','jpg','png'];
+    $imageExtension=explode('.',$fileName);
+    $imageExtension=strtolower(end($imageExtension));
+    if(!in_array($imageExtension, $validImageExtension)){
+        echo"
+        <p>Invalid image type</p>
+        ";
+    }else if($fileSize>500000){
+        echo"
+        <p>Image too big</p>
+        ";
+    }else{
+        $newImageName=uniqid();
+        $newImageName .= '.' . $imageExtension;
 
-    if($check === false) {
-    $uploadOk = 0;
-    $pictureErr = "The file is not a picture or it is too large";
-    }
-    if ($_FILES["diagram"]["size"] > 8000000) {
-        $pictureErr = "The file is too large. It must be at most 8 megabytes";
-        $uploadOk = 0;
-    }
-    if($imageFileType != "GIF" && $imageFileType != "PNG" && $imageFileType != "JPG" && $imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif" ) {
-        $pictureErr = "Only JPG, JPEG, PNG and GIF file are allowed.";
-        $uploadOk = 0;
-    } 
-    $imageContent = file_get_contents($_FILES["diagram"]["tmp_name"]); 
-    $imageString = base64_encode($imageContent); 
+        move_uploaded_file($tmpName, 'diagrams/'. $newImageName);
+
+   
 
 }
+   
+$data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$newImageName," ",$ans];
+$db= new DB();
+$result=$db-> questions($table, $data);
+ echo "
+ <script>
+ alert('Added Successfully')
+ </script>
+ ";
+ $data=[];
 
-    $data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$imageString, $imageFileType,$ans];
-    $db= new DB();
-    $result=$db-> questions($table, $data);
-    // echo $result;
+}
     }
 ?>
 <!DOCTYPE html>

@@ -6,7 +6,6 @@ $score=$_SESSION['SCR'];
 $year = $_SESSION['year'];
 $subj = $_SESSION['subj'];
 $table = $_SESSION['exam'];
-$time=$_SESSION['time'];
 $num=$_SESSION['num'];
 if ( !isset($table)) {
     echo "Error: Missing session variables.";
@@ -14,10 +13,10 @@ if ( !isset($table)) {
 
 }
 $data = [$year, $subj];
-
+// $ans_data=[$stud_id,$table,$subj,$year,$score,$dur,$date];
 $db = new DB();
 $result = $db->Get($table,$data);
-
+// $done=$db->answered($table,$ans_data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,7 +47,7 @@ $result = $db->Get($table,$data);
         ?>
         <div class="scrCmnt" style="background-color:green;">
         <p>Congrats. You passed the quiz with a total of <br><?=$score.'/'.$num?></p>
-        <p>Total duration: <?=$_SESSION['duration'];?>minutes</p>
+        <!-- <p>Total duration: <?=$_SESSION['duration'];?>minutes</p> -->
         </div>
         <?php
     }else{
