@@ -14,7 +14,7 @@ if($_SESSION['started']==true){
 
     $db = new DB();
     $result = $db->Get($table, $data);
-    
+    count;
 ?>
 <head>
     <title>Quiz-Master</title>
@@ -73,7 +73,7 @@ if($_SESSION['started']==true){
     <p><?=$t['instructions']?></p>
 
 <?php
-    // $_SESSION['SCR'] = 0; // Remove resetting SCR to 0
+    $_SESSION['SCR'] = 0; // Remove resetting SCR to 0
 
     foreach($result as $key => $q) {
        $real_ans = $q['ans'];
@@ -84,10 +84,9 @@ if($_SESSION['started']==true){
         <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
 <?php
         if (!empty($q['img'])) {
-            $data = base64_decode($q['img']);
-            $file = "diagrams/" . $q['img'];
+            $path = "diagrams/" . $q['img'];
 ?>
-            <img src="<?=$file?>">
+            <img src="<?=$path?>">
 <?php
         }
 ?>
@@ -98,6 +97,7 @@ if($_SESSION['started']==true){
 
         <script>
         <?php
+
     $time = 90 * 60;
     $endTime = time() + $time;
 ?>
@@ -110,21 +110,31 @@ if($_SESSION['started']==true){
     }, 1000); // check every second
 
                // Remove PHP logic from JavaScript function
-               function checkAns(user_ans, real_ans, num){
-                   $.ajax({
-                       type: 'POST',
-                       url: 'check_answer.php',
-                       data: {user_ans: user_ans, real_ans: real_ans},
-                       success: function(data) {
-                           console.log(data);
-                       }
-                   });
-               }
+            // //    function checkAns(user_ans, real_ans, num){
+            //        $.ajax({
+            //            type: 'POST',
+            //            url: 'check_answer.php',
+            //            data: {user_ans: user_ans, real_ans: real_ans},
+            //            success: function(data) {
+            //                console.log(data);
+            //            }
+            //        });
+            //    }
+            function checkAns(user_ans, real_ans, num){
+                windows.location.href="check_answer.php";
+
+            }
             
         </script>
         <button type="submit">submit</button>
         </form>
 <?php
+if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+    {
+        $_SESSION['us_ans']=$_POST['us_ans'];
+        $_SESSION['real_ans']=$real_ans;
+
+}
     }
 ?>
 

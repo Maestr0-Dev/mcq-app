@@ -1,9 +1,5 @@
 <?php
 session_start();
-
-// if (!isset( $_SESSION['is_logged_in']) &&  $_SESSION['is_logged_in'] !== true) {
-//   header("location:login.php");
-// }
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +16,7 @@ session_start();
   
 </head>
 <body>
+  <div><?=$_SESSION['is_logged_in']?></div>
     <div class="wrapper">
        
             <div class="slider-container">

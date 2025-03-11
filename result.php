@@ -2,7 +2,7 @@
 session_start();
 include 'classes.php';
 $score=$_SESSION['SCR'];
-// $_SESSION['started']=false;
+$_SESSION['started']=false;
 $year = $_SESSION['year'];
 $subj = $_SESSION['subj'];
 $table = $_SESSION['exam'];

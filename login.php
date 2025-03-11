@@ -1,38 +1,33 @@
 <?php
 session_start();
-include 'classes.php';
-$_SESSION['is_logged_in']="";
-$password = "";
-$email = "";
-// $username = "";
-// $num = "";
-$message = "";
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email'];
-    // $num = $_POST['number'];
-    // $username = $_POST['username'];
+include 'classes.php';
+$password = "";
+$username = "";
+$message = "";
+$_SESSION['logged_in']=false;
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $username = $_POST['username'];
     $password = $_POST['password'] ;
-    $data = [$email, $password];
+
     
+    $data = [$username, $password];
     $db = new DB();
-    $result = $db->login('learners', $data);
-    echo $result;
+    $result = $db->login($data);
 
     if (count($result) > 0) {
-        $_SESSION['is_logged_in']=true;
+        $_SESSION['logged_in']=true;
         $_SESSION['id'] = $result[0]['id'];
-        $_SESSION['uname'] = $result[0]['name'];
-        // $_SESSION['email'] = $result[0]['email'];
-        $_SESSION['phone'] = $result[0]['phone'];
-        $_SESSION['usname'] = 'mike';
+        $_SESSION['uname'] = $result[0]['stud_name'];
+        $_SESSION['email']=$result[0]['email'];
+        $_SESSION['number'] = $result[0]['number'];
         
-        
+        $message = "<p style='color:green;'>Loged in successfuly</p>";
         header("location:landing.php");
-        exit;
+
     } else {
-        $_SESSION['is_logged_in']=false;
-        $message = "Invalid username or password.";
+        $message = "<p style='color:red;'>Invalid username or password.</p>";
      }
     }
 ?>
@@ -42,16 +37,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <h1>Login</h1>
-    <?php if ($message): ?>
-        <p style="color:red;"><?= htmlspecialchars($message) ?></p>
-    <?php endif; ?>
-    <form action="landing.php" method="post">
-        <input type="email" name="email" placeholder="E-mail" required>
-        <!-- <input type="number" name="number" required>
-        <input type="text" name="username" required> -->
+   
+    
+    <form action=" " method="post">
+        <input type="text" name="username" required> 
         <input type="password" name="password" required placeholder="password">
         <button type="submit">Login</button>
-        <a href="sigin.php">create to an account</a>
+        <a href="signin.php">create to an account</a>
+        <p><?=$message ?></p>
+
+
     </form>
 </body>
 </html>

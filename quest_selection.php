@@ -1,19 +1,18 @@
 <?php session_start();
-$_SESSION['started']=true;
-$year="";
-$subject="";
-$subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
-$exam="";
-$timer="";
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-   $_SESSION['year']= $_POST['year'];
-   $_SESSION['subj']=$_POST['subj'];
-   $_SESSION['exam']=$_POST['exam'];
-   
-  header("location:quiz.php");
-
-
-}
+if( $_SESSION['logged_in']=true){
+    $year="";
+    $subject="";
+    $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
+    $exam="";
+    $timer="";
+    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+       $_SESSION['year']= $_POST['year'];
+       $_SESSION['subj']=$_POST['subj'];
+       $_SESSION['exam']=$_POST['exam'];
+       $_SESSION['started']==true;
+      header("location:quiz.php");
+    
+    }
 ?>
 
 
@@ -98,6 +97,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 </head>
 <body>
     <form class="container"  method="post">
+  <p><?=$_SESSION['uname'];?></p>
    
         <div class="section active" id="section1">
         <a href="landing.html" class="back-button">
@@ -150,3 +150,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     
 </body>
 </html> 
+<?php
+}else{
+    header("location:login.php");
+
+}
+?>
