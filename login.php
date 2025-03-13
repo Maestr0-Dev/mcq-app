@@ -18,13 +18,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if (count($result) > 0) {
         $_SESSION['logged_in']=true;
-        $_SESSION['id'] = $result[0]['id'];
+        $_SESSION['id'] = $result[0]['stud_id'];
         $_SESSION['uname'] = $result[0]['stud_name'];
         $_SESSION['email']=$result[0]['email'];
         $_SESSION['number'] = $result[0]['number'];
         
         $message = "<p style='color:green;'>Loged in successfuly</p>";
-        header("location:landing.php");
+        header("location:menu.php");
 
     } else {
         $message = "<p style='color:red;'>Invalid username or password.</p>";

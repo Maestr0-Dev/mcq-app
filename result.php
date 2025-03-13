@@ -1,5 +1,5 @@
 <?php
-session_end();
+session_start();
 include 'classes.php';
 $score=$_SESSION['SCR'];
 $_SESSION['started']=false;
@@ -43,6 +43,20 @@ $done=$db->savePerf($ans_data);
         padding: 30px;
         font-weight:bolder;
     }
+    button {
+            background:linear-gradient(to left,purple,blue);
+            padding: 0.8rem 1.5rem;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin:10px;
+        }
+        img{
+            height:150px;
+            width:auto;
+        }
 </style>
 </head>
 <body>
@@ -76,13 +90,31 @@ foreach($result as $key => $q) {
     } else{
         echo "no ID";}?>
     <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
+    <?php
+        if (!empty($q['img'])) {
+            $path = "diagrams/" . $q['img'];
+?>
+            <img src="<?=$path?>">
+<?php
+        }
+?>
     <p><b>Answer:</b> <span style="color:green;"><?=$q['ans']?></span></p>
 
 <?php
 $num++;
 }?>
 </div>
+<a href="menu.php">
+    <button > Back to menu</button>
+</a>
+<a href="perf.php">
+    <button >View performances</button>
+</a>
     </section>
 </body>
 
 </html>
+<?php
+       $_SESSION['SCR']=0;
+
+?>
