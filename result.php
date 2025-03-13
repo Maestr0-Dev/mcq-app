@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_end();
 include 'classes.php';
 $score=$_SESSION['SCR'];
 $_SESSION['started']=false;
@@ -7,16 +7,21 @@ $year = $_SESSION['year'];
 $subj = $_SESSION['subj'];
 $table = $_SESSION['exam'];
 $num=$_SESSION['num'];
+$stud_id=$_SESSION['id'];
 if ( !isset($table)) {
     echo "Error: Missing session variables.";
     exit;
 
 }
+    // $dur=$_SESSION['duration'];
+$dur=0;
+    $date=date('Y-m-d H:i:s');
+
 $data = [$year, $subj];
-// $ans_data=[$stud_id,$table,$subj,$year,$score,$dur,$date];
+$ans_data=[$stud_id,$table,$subj,$year,$score,$dur,$date];
 $db = new DB();
 $result = $db->Get($table,$data);
-// $done=$db->answered($table,$ans_data);
+$done=$db->savePerf($ans_data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -65,6 +70,11 @@ $result = $db->Get($table,$data);
 foreach($result as $key => $q) {
 ?><br>
   <p><?=$q['instructions']?></p>
+  <?php if(isset($_SESSION['id'])){
+    ?><p><?=$q['instructions']?></p>
+    <?php
+    } else{
+        echo "no ID";}?>
     <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
     <p><b>Answer:</b> <span style="color:green;"><?=$q['ans']?></span></p>
 

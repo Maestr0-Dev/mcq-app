@@ -1,6 +1,6 @@
 <?php session_start();
 include 'classes.php';
-if($_SESSION['started']==true){
+if(isset($_SESSION['started'])){
     $year = $_SESSION['year'];
     $subj = $_SESSION['subj'];
     $table = $_SESSION['exam'];
@@ -14,10 +14,15 @@ if($_SESSION['started']==true){
 
     $db = new DB();
     $result = $db->Get($table, $data);
-    count;
 ?>
-<head>
-    <title>Quiz-Master</title>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <script src="script.js"></script>
+            <title>Quiz-Master</title>
     <style>
         .container {
             max-width: 1000px;
@@ -54,6 +59,7 @@ if($_SESSION['started']==true){
         }
     </style>
 </head>
+<body>
 <div class="container">
 <?php
     if (empty($result)) {
@@ -68,19 +74,17 @@ if($_SESSION['started']==true){
     <p> <?=$t['title']?> <?=$t['year']?></p>
     <p><?=$t['subject']?></p>
 </div>
-
+<form action="result.php" method="post">
 <div style="margin-left:20px;">
     <p><?=$t['instructions']?></p>
 
 <?php
-    $_SESSION['SCR'] = 0; // Remove resetting SCR to 0
-
-    foreach($result as $key => $q) {
+    foreach($result as $key => $q){
        $real_ans = $q['ans'];
         $num++;
         $_SESSION['num']++;
 ?>
-<form action="" method="post">
+
         <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
 <?php
         if (!empty($q['img'])) {
@@ -90,59 +94,22 @@ if($_SESSION['started']==true){
 <?php
         }
 ?>
-        <p>A<input type="radio" name="us_ans" value="<?=$q['A']?>" onclick="checkAns(<?=$q['A']?>,<?=$real_ans?>,<?=$num?>)" ><?=$q['A']?></p>
-        <p>B<input type="radio" name="us_ans" value="<?=$q['B']?>" onclick="checkAns(<?=$q['B']?>,<?=$real_ans?>,<?=$num?>)"> <?=$q['B']?></p>
-        <p>C<input type="radio" name="us_ans" value="<?=$q['C']?>" onclick="checkAns(<?=$q['C']?>,<?=$real_ans?>,<?=$num?>)"> <?=$q['C']?></p>
-        <p>D<input type="radio" name="us_ans" value="<?=$q['D']?>" onclick="checkAns(<?=$q['D']?>,<?=$real_ans?>,<?=$num?>)"> <?=$q['D']?></p>
+        <p>A<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['A']?>" onclick="checkAns('<?=$q['A']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['A']?> </p>
+        <p>B<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['B']?>" onclick="checkAns('<?=$q['B']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['B']?> </p>
+        <p>C<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['C']?>" onclick="checkAns('<?=$q['C']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['C']?> </p>
+        <p>D<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['D']?>" onclick="checkAns('<?=$q['D']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['D']?> </p>
 
-        <script>
-        <?php
-
-    $time = 90 * 60;
-    $endTime = time() + $time;
-?>
-    const endTime = <?= $endTime; ?>;
-    setInterval(function() {
-        var currentTime = new Date().getTime();
-        if (currentTime >= endTime * 1000) {
-            window.location.href = 'result.php';
-        }
-    }, 1000); // check every second
-
-               // Remove PHP logic from JavaScript function
-            // //    function checkAns(user_ans, real_ans, num){
-            //        $.ajax({
-            //            type: 'POST',
-            //            url: 'check_answer.php',
-            //            data: {user_ans: user_ans, real_ans: real_ans},
-            //            success: function(data) {
-            //                console.log(data);
-            //            }
-            //        });
-            //    }
-            function checkAns(user_ans, real_ans, num){
-                windows.location.href="check_answer.php";
-
-            }
-            
-        </script>
-        <button type="submit">submit</button>
-        </form>
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') 
-    {
-        $_SESSION['us_ans']=$_POST['us_ans'];
-        $_SESSION['real_ans']=$real_ans;
-
-}
     }
 ?>
 
-
 </div>
-<a href="result.php" ><button>I'm done</button></a>
+<button type="submit">I'm done</button>
 </div>
-   
+</form>
+<script src="jquery-3.1.0.min.js"></script> 
+</body>
+</html>
 
 <?php
 } else {

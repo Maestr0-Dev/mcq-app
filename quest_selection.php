@@ -1,5 +1,5 @@
 <?php session_start();
-if( $_SESSION['logged_in']=true){
+if( $_SESSION['logged_in']==true){
     $year="";
     $subject="";
     $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
@@ -96,7 +96,7 @@ if( $_SESSION['logged_in']=true){
     </style>
 </head>
 <body>
-    <form class="container"  method="post">
+    <form action="quiz.php" class="container"  method="post">
   <p><?=$_SESSION['uname'];?></p>
    
         <div class="section active" id="section1">
