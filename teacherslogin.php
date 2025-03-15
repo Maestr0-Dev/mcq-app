@@ -92,7 +92,7 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         <label>ID Card:</label><input type="file" name="id_card" required>
         <label>Teaching Certificate:</label><input type="file" name="cert" required>
         <button type="submit">Register</button>
-        <p id="log">Already a verified teacher? <a href="login-teach.php">Login!</a></p>
+        <p id="log">Already a verified teacher? <a href="login.php">Login!</a></p>
     </form>
 
   

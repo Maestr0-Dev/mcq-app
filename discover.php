@@ -42,7 +42,7 @@
             <h1>Discover Tutors</h1>
         </div>
     </nav>
-    <a href="landing.html" class="back-button">
+    <a href="menu.html" class="back-button">
         <i class="fa fa-arrow-left"></i>
     </a>
 
@@ -58,7 +58,7 @@
             </div>
             <div class="filters">
                 <div class="filter-tag" data-subject="math">Mathematics</div>
-                <div class="filter-tag" data-subject="science">Science</div>
+                <div class="filter-tag" data-subject="science">Computer Science</div>
                 <div class="filter-tag" data-subject="english">English</div>
                 <div class="filter-tag" data-subject="history">History</div>
                 <div class="filter-tag" data-subject="programming">Programming</div>

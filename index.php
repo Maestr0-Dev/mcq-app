@@ -1,3 +1,8 @@
+<?php 
+session_start();
+$_SESSION['logged_in']=false; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +20,7 @@
         <h1>Master Any Subject With<br>Interactive MCQs</h1>
         <p>Enhance your learning journey with our intelligent question bank.<br>practice,learn and excel with thousands of carefully <br>curated questions.</p>
         <div class="btnd">
-            <a href="landing.php"><button class="white_btn">Get Started <i class="fa fa-arrow-right"></i></button></a>
+            <a href="menu.php"><button class="white_btn">More <i class="fa fa-arrow-right"></i></button></a>
     </div>
     </div>
     <div class="downsec">

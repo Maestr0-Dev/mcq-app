@@ -4,12 +4,13 @@ if( $_SESSION['logged_in']==true){
     $subject="";
     $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
     $exam="";
-    $timer="";
-
+    $time="";
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
+
        $_SESSION['year']= $_POST['year'];
        $_SESSION['subj']=$_POST['subj'];
        $_SESSION['exam']=$_POST['exam'];
+       $_SESSION['time']=$_POST['timer']*60;
        $_SESSION['started']==true;
        $_SESSION['SCR']=0;
 
@@ -142,19 +143,20 @@ if( $_SESSION['logged_in']==true){
     ?>
 </select>
         
-            <!-- <h2>Select Timer</h2>
-           <input type="number" name="timer" placeholder="Time in minutes"> -->
-        <div class="nav-buttons">
+            <h2>Select Timer</h2>
+           <input type="number" name="timer" placeholder="Time in minutes">
+        <!-- <div class="nav-buttons"> -->
             <button class="nav-btn" id="startQuiz" type="submit">Start Quiz</button>
-        </div>
+        <!-- </div> -->
 </div>
-    </form>
+
 </form>
     
 </body>
 </html> 
 <?php
-}else{
+}
+else{
     header("location:login.php");
 
 }

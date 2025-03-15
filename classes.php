@@ -89,22 +89,22 @@ public function Get($table,array $data,$arr=null) {
    return $questions;
 }
 //get performances per student
-public function getPerf($table,array $data,$arr=null) {
+public function getPerf($id) {
     
     try{
         $conn= new PDO("mysql:host=localhost; dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM $table WHERE `id` = ? ";
+        $sql = "SELECT * FROM stud WHERE `id` = ? ";
         $statement = $conn->prepare($sql);
-        $statement->execute([$data[0]]);
+        $statement->execute([$id]);
         $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
-        $questions = $statement->fetchAll();
+        $perf = $statement->fetchAll();
         $conn = null;
     }catch(PDOException $err){
-        $questions = [];
+        $perf = [];
 
     }
-   return $questions;
+   return $perf;
 }
 
 // save perfromances per student
@@ -124,7 +124,21 @@ public function savePerf( array $data){
     }
 }
 
+
+public function getTopPerformers() {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT stud_id, MAX(score) as max_score FROM stud_answered GROUP BY stud_id ORDER BY max_score DESC LIMIT 10";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $topPerformers = $statement->fetchAll();
+        $conn = null;
+    } catch (PDOException $err) {
+        $topPerformers = [];
+    }
+    return $topPerformers;
 }
-
-
+}
 ?>

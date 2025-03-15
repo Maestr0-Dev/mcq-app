@@ -16,8 +16,8 @@ session_start();
   
 </head>
 <body>
-  <div><?=$_SESSION['is_logged_in']?></div>
-    <div class="wrapper">
+
+<div class="wrapper">
        
             <div class="slider-container">
                 <div class="slider">
