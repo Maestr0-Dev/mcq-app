@@ -1,11 +1,10 @@
 <?php session_start();
 include 'classes.php';
-$time= $_SESSION['time'];
-
 if(isset($_SESSION['started'])){
     $year = $_SESSION['year'];
     $subj = $_SESSION['subj'];
     $table = $_SESSION['exam'];
+    $time = $_SESSION['time'];
     if (!isset($table)) {
         echo "Error: Missing session variables.";
         header("location:quest_selection.php");
@@ -19,15 +18,19 @@ if(isset($_SESSION['started'])){
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+        <script src="script.js"></script>
+            <title>Quiz-Master</title>
     <style>
         .container {
             max-width: 1000px;
             margin: 5px auto;
-            box-shadow: 10px 1px 160px rgba(0.4,0,0,0.4);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius:10px;
             font-family:helvetica;
         }
@@ -57,13 +60,6 @@ if(isset($_SESSION['started'])){
             height:150px;
             width:auto;
         }
-        .timer {
-            font-size: 20px;
-            font-weight: bold;
-            color: red;
-            text-align: center;
-            margin-bottom: 20px;
-        }
     </style>
     <script>
         let timeLeft = <?= $time ?>; 
@@ -72,8 +68,8 @@ if(isset($_SESSION['started'])){
             const timerElement = document.getElementById('timer');
             const interval = setInterval(() => {
                 if (timeLeft <= 0) {
+                   window.location.href = "result.php";
                     clearInterval(interval);
-                    document.getElementById('quizForm').submit();
                 } else {
                     const minutes = Math.floor(timeLeft / 60);
                     const seconds = timeLeft % 60;
@@ -88,7 +84,7 @@ if(isset($_SESSION['started'])){
 </head>
 <body>
 <div class="container">
-    <?php
+<?php
     if (empty($result)) {
         echo "No questions found for the selected criteria.";
         exit;
@@ -96,41 +92,46 @@ if(isset($_SESSION['started'])){
     $num = $_SESSION['num'] = 0;
     $t = $result[0];
 ?>
-    <div class="timer" id="timer"></div>
-    <div class="quest_info">
-        <p class="yr"> </p>
-        <p> <?=$t['title']?> <?=$t['year']?></p>
-        <p><?=$t['subject']?></p>
-    </div>
-    <form id="quizForm" action="result.php" method="post">
-        <div style="margin-left:20px;">
-            <p><?=$t['instructions']?></p>
-            <?php
-            foreach($result as $key => $q){
-                $real_ans = $q['ans'];
-                $num++;
-                $_SESSION['num']++;
-            ?>
-                <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
-                <?php
-                if (!empty($q['img'])) {
-                    $path = "diagrams/" . $q['img'];
-                ?>
-                    <img src="<?=$path?>">
-                <?php
-                }
-                ?>
-                <p>A<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['A']?>"> <?=$q['A']?> </p>
-                <p>B<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['B']?>"> <?=$q['B']?> </p>
-                <p>C<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['C']?>"> <?=$q['C']?> </p>
-                <p>D<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['D']?>"> <?=$q['D']?> </p>
-            <?php
-            }
-            ?>
-        </div>
-        <button type="submit">I'm done</button>
-    </form>
+<div class="quest_info">
+    <p class="yr"> </p>
+    <p> <?=$t['title']?> <?=$t['year']?></p>
+    <p><?=$t['subject']?></p>
+    <p><i class="fa fa-clock"></i> <label for=""id="timer"></label></p>
 </div>
+<form action="result.php" method="post">
+<div style="margin-left:20px;">
+    <p><?=$t['instructions']?></p>
+
+<?php
+    foreach($result as $key => $q){
+       $real_ans = $q['ans'];
+        $num++;
+        $_SESSION['num']++;
+?>
+
+        <p style="font-weight:bolder;"><?=$num . '. ' . $q['question']?></p>
+<?php
+        if (!empty($q['img'])) {
+            $path = "diagrams/" . $q['img'];
+?>
+            <img src="<?=$path?>">
+<?php
+        }
+?>
+        <p>A<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['A']?>" onclick="checkAns('<?=$q['A']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['A']?> </p>
+        <p>B<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['B']?>" onclick="checkAns('<?=$q['B']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['B']?> </p>
+        <p>C<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['C']?>" onclick="checkAns('<?=$q['C']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['C']?> </p>
+        <p>D<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['D']?>" onclick="checkAns('<?=$q['D']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['D']?> </p>
+
+<?php
+    }
+?>
+
+</div>
+<button type="submit">I'm done</button>
+</div>
+</form>
+<script src="jquery-3.1.0.min.js"></script> 
 </body>
 </html>
 

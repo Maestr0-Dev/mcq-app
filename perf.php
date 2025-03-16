@@ -6,7 +6,7 @@ if (isset($_SESSION['id'])) {
     $db = new DB();
     $id = $_SESSION['id'];
     $perform = $db->getPerf($id);
-    $topPerformers = $db->getTopPerformers();
+    $topPerformers = $db->getTopPerformers($_SESSION['level']);
 
     $scores = [];
     $dates = [];
@@ -99,7 +99,7 @@ if (isset($_SESSION['id'])) {
             <thead>
                 <tr>
                     <th>Rank</th>
-                    <th>Student ID</th>
+                    <th>Student Name</th>
                     <th>Score</th>
                 </tr>
             </thead>
@@ -109,7 +109,7 @@ if (isset($_SESSION['id'])) {
                 foreach ($topPerformers as $performer) {
                     echo "<tr>";
                     echo "<td>{$rank}</td>";
-                    echo "<td>{$performer['stud_id']}</td>";
+                    echo "<td>{$performer['stud_name']}</td>";
                     echo "<td>{$performer['max_score']}</td>";
                     echo "</tr>";
                     $rank++;

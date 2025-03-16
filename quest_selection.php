@@ -1,17 +1,20 @@
-<?php session_start();
+<?php 
+session_start();
+include 'classes.php';
 if( $_SESSION['logged_in']==true){
     $year="";
     $subject="";
     $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
     $exam="";
     $time="";
+    
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
        $_SESSION['year']= $_POST['year'];
        $_SESSION['subj']=$_POST['subj'];
        $_SESSION['exam']=$_POST['exam'];
        $_SESSION['time']=$_POST['timer']*60;
-       $_SESSION['started']==true;
+       $_SESSION['started']=true;
        $_SESSION['SCR']=0;
 
       header("location:quiz.php");
@@ -100,7 +103,7 @@ if( $_SESSION['logged_in']==true){
     </style>
 </head>
 <body>
-    <form action="quiz.php" class="container"  method="post">
+    <form action="" class="container"  method="post">
   <p><?=$_SESSION['id'];?></p>
    
         <div class="section active" id="section1">
@@ -146,9 +149,8 @@ if( $_SESSION['logged_in']==true){
             <h2>Select Timer</h2>
            <input type="number" name="timer" placeholder="Time in minutes">
         <!-- <div class="nav-buttons"> -->
-            <button class="nav-btn" id="startQuiz" type="submit">Start Quiz</button>
+            <a href="quiz.php"><button class="nav-btn" id="startQuiz" type="submit">Start Quiz</button></a>
         <!-- </div> -->
-</div>
 
 </form>
     

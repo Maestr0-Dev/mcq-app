@@ -48,7 +48,23 @@ public function login(array $data){
 		}
             return $user;
     }
-    
+
+//Create funtion "update_leaner" to update the learner's information
+public function update_learner(array $data){
+    try{
+        $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql="UPDATE students SET stud_name=?, `number`=?, email=?, level=? WHERE stud_id=?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4]]);
+        $conn = null;
+    }catch(PDOException $err){
+        $result= $err->getMessage();
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        $data=[];
+    }
+}
 
 //Getting the questions and other requirements   
     public function questions($table, array $data){
@@ -112,9 +128,9 @@ public function savePerf( array $data){
     try{
         $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql="INSERT INTO stud_answered(`stud_id`, `o/a_level_title`,`subject`,`year`,score,duration,`date`) VALUES(?,?,?,?,?,?,?)";
+        $sql="INSERT INTO stud_answered(`stud_id`, `o/a_level_title`,`level`,`subject`,`year`,score,duration,`date`) VALUES(?,?,?,?,?,?,?,?)";
         $statement = $conn->prepare($sql);
-        $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4],$data[5],$data[6]]);
+        $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4],$data[5],$data[6],$data[7]]);
         $conn = null;
     }catch(PDOException $err){
         $result= $err->getMessage();
@@ -125,11 +141,11 @@ public function savePerf( array $data){
 }
 
 
-public function getTopPerformers() {
+public function getTopPerformers($lvl) {
     try {
         $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT stud_id, MAX(score) as max_score FROM stud_answered GROUP BY stud_id ORDER BY max_score DESC LIMIT 10";
+        $sql = "SELECT stud_id, MAX(score) as max_score FROM stud_answered GROUP BY stud_id ORDER BY max_score DESC LIMIT 10 WHERE `level` = 'O'";
         $statement = $conn->prepare($sql);
         $statement->execute();
         $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -139,6 +155,56 @@ public function getTopPerformers() {
         $topPerformers = [];
     }
     return $topPerformers;
+}
+
+//create a new community in table "new communities" and insert necessary infor mations in the columns stud_id,teacher_id,com_name,pass
+public function newCommunity(array $data){
+    try{
+        $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql="INSERT INTO new_communities(stud_id,teacher_id,com_name,pass,img) VALUES(?,?,?,?,?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4]]);
+        $conn = null;
+    }catch(PDOException $err){
+        $result= $err->getMessage();
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        $data=[];
+    }
+}
+//function to get all the communities
+public function MyCommunities($id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM comm_members WHERE stud_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$id]);
+        $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $communities = $statement->fetchAll();
+        $conn = null;
+    } catch (PDOException $err) {
+        $communities = [];
+    }
+    return $communities;
+
+}
+// get all existing communities
+public function getExistingCommunities() {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM new_communities";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
+        $communities = $statement->fetchAll();
+        $conn = null;
+    } catch (PDOException $err) {
+        $communities = [];
+    }
+    return $communities;
 }
 }
 ?>

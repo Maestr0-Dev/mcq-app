@@ -1,6 +1,6 @@
 <?php 
-session_start();
-$_SESSION['logged_in']=false; 
+session_destroy();
+// $_SESSION['logged_in']=false; 
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'classes.php';
 ?>
 
 <!DOCTYPE html>
@@ -11,224 +12,215 @@ session_start();
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Quiz-Master</title>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/script.js"></script>
-  
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+        .header {
+            background: linear-gradient(to left, purple, blue);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(to left, purple, blue);
+            padding: 10px 0;
+        }
+        .navbar a {
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 10px;
+            border-radius: 5px;
+        }
+        .navbar a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        .navbar .menu-icon {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: white;
+        }
+        .main-content {
+            padding: 20px;
+            text-align: center;
+        }
+        .main-content h2 {
+            color: #333;
+        }
+        .main-content p {
+            color: #666;
+        }
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+        .feature {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 100%;
+            max-width: 300px;
+            margin: 10px;
+            text-align: center;
+        }
+        .feature img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .feature h3 {
+            color: #333;
+        }
+        .feature p {
+            color: #666;
+        }
+        .footer {
+            background: #333;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        .footer p {
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .navbar a {
+                display: none;
+            }
+            .navbar .menu-icon {
+                display: block;
+            }
+            .navbar.responsive {
+                position: relative;
+            }
+            .navbar.responsive a {
+                display: block;
+                text-align: left;
+                padding: 10px;
+                width: 100%;
+                background: linear-gradient(to left, purple, blue);
+            }
+        }
+        .feat{
+          background: white;
+            border: 2px solid; transparent
+            border-radius: 5px;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            color: transparent;
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-image: linear-gradient(to left, purple, blue);
+        }
+        
+    </style>
 </head>
 <body>
 
-<div class="wrapper">
-       
-            <div class="slider-container">
-                <div class="slider">
-                    <div class="slide">
-                        <h1>Take A Quiz</h1><br>
-                        <p>Boost up your current level with past GCE questions <br>and explore your brain's potential with our <br>quiz timer</p><br>
-                        <a href="quest_selection.php"><button>Take Quiz <i class="fa fa-pen-to-square"></i></button> </a>
-                    </div>
-                    <div class="slide">
-                        <h1>Discover Tutors</h1><br>
-                       <p>Discover tutors all over the globe who are willing <br>to give you a detailed walkthrough on <br> all your subjects</p> 
-                       <a href="discover.html"><button>Discover <i class="fa fa-chalkboard-user"></i></button></a>
+<div class="header">
+    <h1>Quiz-Master</h1>
+    <p>Your alternate platform for interactive learning through carefully curated MCQs</p>
+</div>
 
-                    </div>
-                    <div class="slide">
-                        <h1>Performances</h1> <br>
-                        <p>Explore your various performances and statistics on  <br> your speed and accuracy on taking each test <br>to give you a rapid progress</p>
-                        <a href="performance.html"><button>View performances <i class="fa fa-chart-line"></i></button></a>
+<div class="navbar" id="navbar">
+    <a href="quest_selection.php">Take Quiz <i class="fa fa-pen-to-square"></i></a>
+    <a href="discover.php">Discover Tutors <i class="fa fa-chalkboard-user"></i></a>
+    <a href="perf.php">View Performances <i class="fa fa-chart-line"></i></a>
+    <a href="chat.php">Chat with AI <i class="fa fa-robot"></i></a>
+    <a href="communities.php">Community <i class="fa fa-users"></i></a>
+    <?php
+    $log= $_SESSION['logged_in'];
 
-                    </div>
-                    <div class="slide">
-                        <h1>Chat with Braze AI</h1> <br>
-                        <p>Talk to oui AI chatbot to help you with <br>any doubts or worries while you <br>are studying</p>
-                        <a href="chat.html"><button>Chat with AI <i class="fa fa-robot"></i></button></a>
+      if($log==true){
+        ?>
+    <a href="user_profile.php">My Profile <i class="fa fa-user"></i></a>
+    <?php 
+      }
+    else{?>
+      <a href="login.php" style="border: 1px solid white; background: none; color: white; padding: 10px 20px; text-decoration: none; font-size: 18px; margin: 0 10px; border-radius: 5px;">Login <i class="fa fa-sign-in-alt"></i></a>
+    <?php
+    }
+    ?>
+    <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+</div>
 
-                    </div>
-                    
-                </div>
-                <div class="navigation-buttons">
-                    <button class="nav-btn prev-btn">&lt;</button>
-                    <button class="nav-btn next-btn">&gt;</button>
-                </div>
-            </div>
-            <div class="dots-container"></div>
-            <div class="row">
-                <div class="col-lg-4 head">
-                    <div class="heading bd-placeholder-img rounded-circle" width="140" height="140" >
-                        <i class="fa fa-pen-to-square"></i>
-                    </div>
-                  <h2>Take Quiz</h2>
-                  <p>Boost up your current level with past GCE questions and explore your brain's potential with our quiz timer</p><br>
-                  <p><a class="btn btn-primary" href="quest_selection.php">View details &raquo;</a></p>
-                </div>
-                <div class="col-lg-4 head">
-                    <div class="heading bd-placeholder-img rounded-circle" width="140" height="140" >
-                        <i class="fa fa-chart-line"></i>
-                    </div>          
-                  <h2>Performances</h2>
-                  <p>Explore your various performances and statistics on your speed and accuracy on taking each test to give you a rapid progress</p> <br>
-                  <p><a class="btn btn-primary" href="performance.html">View details &raquo;</a></p>
-                </div>
-                <div class="col-lg-4 head">
-                    <div class="heading bd-placeholder-img rounded-circle" width="140" height="140" >
-                        <i class="fa fa-robot"></i>
-                    </div>          
-                  <h2>Chat with AI</h2>
-                  <p>Talk to oui AI chatbot to help you with any doubts or worries while you are studying thereby making your learning smooth and exciting</p><br>
-                  <p><a class="btn btn-primary" href="chat.html">View details &raquo;</a></p>
-                </div>
-              </div>
-          
-          
-              <hr class="featurette-divider">
-          
-              <div class="row featurette">
-                <div class="col-md-7">
-                  <h2 class="featurette-heading">Unlock Your Potential. <span class="text-muted">Take The Challenge!.</span></h2>
-                  <p class="lead">Test your knowledge and skills with our comprehensive quizzes, carefully crafted to challenge and engage you.Get instant feedback and insights into your strengths and weaknesses.</p>
-                </div>
-                <div class="col-md-5">
-                  <img src="img/quiz.jpeg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Quiz</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em"></text></svg>
-          
-                </div>
-              </div>
-          
-              <hr class="featurette-divider">
-          
-              <div class="row featurette">
-                <div class="col-md-7 order-md-2">
-                  <h2 class="featurette-heading">Your Learning Journey. <span class="text-muted">Track Your Progress!</span></h2>
-                  <p class="lead">Track your progress and evaluate your performancewith our detailed analytics and reporting tools. Identify ares for improvement and monitor your growth over time.</p>
-                </div>
-                <div class="col-md-5 order-md-1">
-                  <img src="img/tuto.jpeg" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="500" height="500" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Tutors</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em"></text></svg>
-          
-                </div>
-              </div>
-          
-              <hr class="featurette-divider">
-          
-              <div class="row featurette">
-                <div class="col-md-7">
-                  <h2 class="featurette-heading">Ask Me Anything. <span class="text-muted">Your Personal Study Assistant!.</span></h2>
-                  <p class="lead">Meet your personal study assistant! Our AI-powered chatbot is here to help you with any questions or topics  you'd like to discuss. Get personalized guidance, explanations, and support to enhance your learning experience.</p>
-                </div>
-                <div class="col-md-5">
-                  <img src="img/ai.png" class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto" width="600" height="600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: 500x500" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Braze AI</title><rect width="100%" height="100%" fill="#eee"/><text x="50%" y="50%" fill="#aaa" dy=".3em"></text></svg>
-          
-                </div>
-              </div>
-          
-              <hr class="featurette-divider">
-              <div class="back">
-                <a href="index.php">
-                    <button class="button float-start">
-                        <i class="fa fa-arrow-left"></i>
-                      </button>
-                      </a>
-                <a href="#">
-                </div>
-                <button class="button float-end">
-                    <svg class="svgIcon" viewBox="0 0 384 512">
-                      <path
-                        d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z"
-                      ></path>
-                    </svg>
-                  </button>
-                  </a></p>
-            
-          </div>
-            <!-- FOOTER -->
-            <div class="darksection">
-                <div class="quizmaster">
-                    <span>QuizMaster</span> <i class="fa fa-puzzle-piece"></i>
-                    <p>Your alternate platform for interactive learning through carefully curated MCQs </p>
-                </div>
-                <div class="feature">
-                    <span>Features</span> <i class="fa-regular fa-globe"></i>
-                    <ul>
-                        <li>Smart Learning</li>
-                        <li>Progress Tracking</li>
-                        <li>Study Groups</li>
-                        <li>Performance Analytics</li>
-                    </ul>
-                </div>
-                <div class="resources">
-                    <span>Resources</span> <i class="fa fa-anchor"></i>
-                    <ul>
-                        <li>Blog</li>
-                        <li>Tutorial</li>
-                        <li>Support</li>
-                        <li>F&Q</li>
-                    </ul>
-                </div>
-                <div class="contact">
-                    <span>Contact</span> <i class="fa fa-phone"></i>
-                    <ul>
-                        <li>brandonokale@gmail.com or lgor.kaze.0@gmail.com</li>
-                        <li>+237 670 26 29 19  or  +237 651 36 08 72</li>
-                        <li>@QuizMaster</li>
-                    </ul>
-                </div>
-                <hr>
-                <div class="foot">
-                  
-        
-                    <p><i class="fa-regular fa-copyright"></i> 2025 QuizMaster. All rights reserved</p>
-                </div>
-            </div>
-            </div>
-          
-            <script src="js/script.js"></script>
-              <script src="js/bootstrap.bundle.min.js"></script>
-            </div>
-            <script>
-                const slider = document.querySelector('.slider');
-                const slides = document.querySelectorAll('.slide');
-                const prevBtn = document.querySelector('.prev-btn');
-                const nextBtn = document.querySelector('.next-btn');
-                const dotsContainer = document.querySelector('.dots-container');
-        
-                let currentSlide = 0;
-                const totalSlides = slides.length;
-        
-                // Create navigation dots
-                slides.forEach((_, index) => {
-                    const dot = document.createElement('span');
-                    dot.classList.add('dot');
-                    if (index === 0) dot.classList.add('active');
-                    dot.addEventListener('click', () => goToSlide(index));
-                    dotsContainer.appendChild(dot);
-                });
-        
-                const dots = document.querySelectorAll('.dot');
-        
-                function goToSlide(slideIndex) {
-                    slider.style.transform = `translateX(-${slideIndex * 100}%)`;
-                    
-                    dots.forEach(dot => dot.classList.remove('active'));
-                    dots[slideIndex].classList.add('active');
-                    
-                    currentSlide = slideIndex;
-                }
-        
-                function nextSlide() {
-                    currentSlide = (currentSlide + 1) % totalSlides;
-                    goToSlide(currentSlide);
-                }
-        
-                function prevSlide() {
-                    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
-                    goToSlide(currentSlide);
-                }
-        
-                // Auto slide every 4 seconds
-                setInterval(nextSlide, 8000);
-        
-                // Event listeners for navigation buttons
-                nextBtn.addEventListener('click', nextSlide);
-                prevBtn.addEventListener('click', prevSlide);
-            </script>
-    
+<div class="main-content">
+    <h2>Learning is For Everyone</h2>
+    <p>At Quiz-Master, we value the individual. Students and parents are provided with experienced industry professionals who make it their business to help you understand your subjects.</p>
+</div>
+<!-- <div class="features">
+  <div class="feature">
+<a href="quest_selection.php">
+  <button class="feat">Take Quiz <i class="fa fa-pen-to-square"></i></button>
+</a>
+</div>
+</div> -->
+
+
+<div class="features">
+    <div class="feature">
+        <img src="img/quiz.jpeg" alt="Take Quiz">
+        <h3>Take A Quiz</h3>
+        <p>Boost up your current level with past GCE questions and explore your brain's potential with our quiz timer.</p>
+        <!-- <a href="quest_selection.php" class="button">Take Quiz <i class="fa fa-pen-to-square"></i></a> -->
+    </div>
+    <div class="feature">
+        <img src="img/tuto.jpeg" alt="Discover Tutors">
+        <h3>Discover Tutors</h3>
+        <p>Discover tutors all over the globe who are willing to give you a detailed walkthrough on all your subjects.</p>
+        <!-- <a href="discover.php" class="button">Discover <i class="fa fa-chalkboard-user"></i></a> -->
+    </div>
+    <div class="feature">
+        <img src="img/ai.png" alt="Chat with AI">
+        <h3>Chat with Braze AI</h3>
+        <p>Talk to our AI chatbot to help you with any doubts or worries while you are studying.</p>
+        <!-- <a href="chat.php" class="button">Chat with AI <i class="fa fa-robot"></i></a> -->
+    </div>
+    <div class="feature">
+        <img src="img/performance.png" alt="View Performance">
+        <h3>View Performance</h3>
+        <p>Track your progress and view detailed performance reports to understand your strengths and areas for improvement.</p>
+        <!-- <a href="perf.php" class="button">View Performance <i class="fa fa-chart-line"></i></a> -->
+    </div>
+    <div class="feature">
+        <img src="img/quiz.jpeg" alt="Take Quiz">
+        <h3>Community</h3>
+        <p>Studying in group help you to evolve and learn faster</p>
+        <!-- <a href="quest_selection.php" class="button">Take Quiz <i class="fa fa-pen-to-square"></i></a> -->
+    </div>
+</div>
+
+<div class="footer">
+    <p>&copy; 2025 Quiz-Master. All rights reserved.</p>
+</div>
+
+<script>
+    function toggleMenu() {
+        var navbar = document.getElementById("navbar");
+        if (navbar.className === "navbar") {
+            navbar.className += " responsive";
+        } else {
+            navbar.className = "navbar";
+        }
+    }
+</script>
+
 </body>
 </html>
