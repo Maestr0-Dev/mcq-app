@@ -2,17 +2,18 @@
 include 'classes.php';
 
 $name = ""; $pw= ""; $email = ""; $phone = "";
-$error = false; $result = "";
+$error = false; $result = "";$lvl="";
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $name = $_POST['username'];
     $pw = $_POST['password'];
     $email =$_POST['email'];
     $phone = $_POST['phone'];
+    $lvl=$_POST['level'];
     $date= date("Y-m-d h:i:s");
     $table="students";
 
-    $data = [$name,$email, $phone,$pw,  $date];        
+    $data = [$name,$email, $phone,$pw,$lvl,  $date];        
     $db = new DB();
     $result = $db->newUser($table, $data);
     
@@ -25,6 +26,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <link type="text/css" rel="stylesheet" href="myCss/signin.css">
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,16 +80,42 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             margin: 10px 0;
             color: #666;
         }
+        .signup-container .options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .signup-container .options a {
+            flex: 1;
+            margin: 0 5px;
+            padding: 10px;
+            background: linear-gradient(to left, purple, blue);
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            text-align: center;
+        }
+        .signup-container .options a:hover {
+            background: linear-gradient(to right, purple, blue);
+        }
     </style>
 </head>
 <body>
     <div class="signup-container">
         <h1>Sign Up</h1>
+        <div class="options">
+            <a href="stud_signin.php">As Student</a>
+            <a href="teachers_signin.php">As Teacher</a>
+        </div>
         <form action="" method="post">
             <input type="text" name="username" required placeholder="Username">
             <input type="password" name="password" required placeholder="Password">
             <input type="email" name="email" required placeholder="Email">
             <input type="number" name="phone" required placeholder="Phone">
+            <select name="level" id="">
+                <option value="A">A-level Student</option>
+                <option value="O">O-level Student</option>
+            </select>            
             <button type="submit">Sign up</button>
             <a href="login.php">Already have an account? Login</a>
             <p><span style="color:green"><?= $result ?></span></p>

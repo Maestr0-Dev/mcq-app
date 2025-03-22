@@ -19,9 +19,9 @@ private $username="root";
         try{            
             $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "INSERT INTO $table(stud_name,email,`number`,pass,`date`) VALUES(?,?,?,?,?)";
+            $sql = "INSERT INTO $table(stud_name,email,`number`,pass,`level`,`date`) VALUES(?,?,?,?,?,?)";
             $statement=$conn->prepare($sql);
-            $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4]]);
+            $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4],$data[5]]);
             $result = "Sigend in successfully";
         }catch( PDOException $err){
             $result= $err->getMessage();
@@ -162,7 +162,7 @@ public function newCommunity(array $data){
     try{
         $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql="INSERT INTO new_communities(stud_id,teacher_id,com_name,pass,img) VALUES(?,?,?,?,?)";
+        $sql="INSERT INTO new_communities(stud_id,teacher_id,com_name,describtion,pass,img) VALUES(?,?,?,?,?)";
         $statement = $conn->prepare($sql);
         $statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4]]);
         $conn = null;
@@ -206,5 +206,23 @@ public function getExistingCommunities() {
     }
     return $communities;
 }
+//function to join a community
+public function joinCommunity(array $data){
+    try{
+        $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql="INSERT INTO comm_memebers(member_id,comm_id,`date`) VALUES(?,?,?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$data[0],$data[1],$data[2]]);
+        $conn = null;
+    }catch(PDOException $err){
+        $result= $err->getMessage();
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        $data=[];
+    }
+}
+//function to get all the members of a community
+
 }
 ?>

@@ -16,6 +16,7 @@ if ($_SESSION['logged_in'] == true) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="myCss/us_profile.css">
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Profile</title>
@@ -60,6 +61,9 @@ if ($_SESSION['logged_in'] == true) {
     </style>
 </head>
 <body>
+<a href="menu.php" class="back-button">
+        <i class="fa fa-arrow-left"></i> 
+        </a>
     <div class="profile-container">
         <h1>Profile</h1>
         <p><strong>Name:</strong> <?=$name?></p>

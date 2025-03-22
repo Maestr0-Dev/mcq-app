@@ -1,0 +1,271 @@
+/* Modern Quiz Interface Stylesheet */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --secondary-gradient: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+  }
+  
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    background-image: linear-gradient(120deg, #f6f7f9 0%, #e9ecef 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: 20px auto;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+  }
+  
+  .quest_info {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 25px 20px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .quest_info p {
+    margin: 8px 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+  
+  .quest_info #timer {
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 8px 15px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 50px;
+    display: inline-block;
+    margin: 5px 0;
+  }
+  
+  .quest_info .fa-clock {
+    margin-right: 8px;
+  }
+  
+  /* Question Content Styling */
+  form {
+    padding: 10px;
+  }
+  
+  form > div {
+    padding: 20px 30px;
+  }
+  
+  form p {
+    margin: 15px 0;
+    font-size: 1rem;
+  }
+  
+  form p:first-child {
+    font-size: 1.1rem;
+    font-weight: normal;
+    margin-bottom: 25px;
+  }
+  
+  form p[style*="font-weight:bolder"] {
+    font-weight: 600 !important;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6a11cb;
+  }
+  
+  /* Option styling */
+  form p:not([style*="font-weight:bolder"]):not(:first-child) {
+    background-color: #ffffff;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin: 10px 0;
+    border: 1px solid #e9ecef;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+  }
+  
+  form p:not([style*="font-weight:bolder"]):not(:first-child):hover {
+    background-color: #f8f9fa;
+    border-color: #dee2e6;
+    transform: translateX(5px);
+  }
+  
+  /* Custom radio buttons */
+  input[type="radio"] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #6a11cb;
+    border-radius: 50%;
+    margin: 0 12px;
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+  }
+  
+  input[type="radio"]::before {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background-color: #6a11cb;
+    transition: transform 0.15s ease-in-out;
+  }
+  
+  input[type="radio"]:checked::before {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  /* Buttons */
+  button {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    margin: 10px 0 20px 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  button:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  button i {
+    margin-right: 8px;
+  }
+  
+  /* Image styling */
+  img {
+    max-height: 250px;
+    width: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Correct/Wrong answer feedback */
+  .correct-answer {
+    background-color: rgba(40, 167, 69, 0.1) !important;
+    border-color: var(--success-color) !important;
+  }
+  
+  .wrong-answer {
+    background-color: rgba(220, 53, 69, 0.1) !important;
+    border-color: var(--danger-color) !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+    
+    .container {
+      margin: 10px;
+    }
+    
+    form > div {
+      padding: 15px;
+    }
+    
+    form p[style*="font-weight:bolder"] {
+      font-size: 1.1rem;
+    }
+    
+    button {
+      margin: 10px 0 20px 15px;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+    }
+  }
+  
+  /* Animation effects */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .container {
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  /* Timer warning states */
+  .timer-warning {
+    color: #ffc107 !important;
+    animation: pulse 1s infinite;
+  }
+  
+  .timer-danger {
+    color: #dc3545 !important;
+    animation: pulse 0.7s infinite;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Add this to your JS file to enable timer warnings */
+  /* 
+  
+  */

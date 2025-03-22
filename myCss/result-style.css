@@ -1,0 +1,260 @@
+/* Modern Quiz Results Stylesheet */
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --secondary-gradient: linear-gradient(135deg, #2575fc 0%, #6a11cb 100%);
+    --success-color: #28a745;
+    --success-gradient: linear-gradient(135deg, #2cb978 0%, #28a745 100%);
+    --danger-color: #dc3545;
+    --danger-gradient: linear-gradient(135deg, #ff5f6d 0%, #dc3545 100%);
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --bg-color: #f8f9fa;
+    --card-bg: #ffffff;
+    --border-radius: 12px;
+    --shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    --transition: all 0.3s ease;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  body {
+    background-color: var(--bg-color);
+    background-image: linear-gradient(120deg, #f6f7f9 0%, #e9ecef 100%);
+    min-height: 100vh;
+    padding: 20px;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: 30px auto;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    animation: fadeIn 0.5s ease forwards;
+  }
+  
+  .scrCmnt {
+    padding: 25px 20px;
+    text-align: center;
+    position: relative;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .scrCmnt[style*="background-color:green"] {
+    background: var(--success-gradient);
+  }
+  
+  .scrCmnt[style*="background-color:red"] {
+    background: var(--danger-gradient);
+  }
+  
+  .scrCmnt p {
+    font-size: 1.3rem;
+    margin: 10px 0;
+  }
+  
+  .scrCmnt p:first-child {
+    font-size: 1.5rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Score display */
+  .score-display {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 15px 0;
+    text-align: center;
+  }
+  
+  /* Content area */
+  .container > div {
+    padding: 30px;
+  }
+  
+  .container > div p {
+    margin: 15px 0;
+    font-size: 1rem;
+  }
+  
+  .container > div p:first-child {
+    font-weight: 500;
+    color: #555;
+    margin-bottom: 25px;
+    font-style: italic;
+  }
+  
+  /* Question styling */
+  p[style*="font-weight:bolder"] {
+    font-weight: 600 !important;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    background-color: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    border-left: 4px solid #6a11cb;
+  }
+  
+  /* Answer styling */
+  p b {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  
+  p span[style*="color:green"] {
+    color: var(--success-color) !important;
+    font-weight: 600;
+    background-color: rgba(40, 167, 69, 0.1);
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  
+  /* Image styling */
+  img {
+    max-height: 250px;
+    max-width: 100%;
+    width: auto;
+    display: block;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Button styling */
+  button {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: 600;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    margin: 10px 10px 20px 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  button:hover {
+    background: var(--secondary-gradient);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  button:active {
+    transform: translateY(0);
+  }
+  
+  /* Result animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Success animation */
+  @keyframes celebrate {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .scrCmnt[style*="background-color:green"] {
+    animation: celebrate 1.5s ease infinite;
+  }
+  
+  /* Certificate-like design for passing results */
+  .certificate {
+    border: 2px dashed var(--success-color);
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    background-color: rgba(40, 167, 69, 0.05);
+    border-radius: 8px;
+    display: none; /* Enable with JavaScript */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    body {
+      padding: 10px;
+    }
+    
+    .container {
+      margin: 10px;
+    }
+    
+    .container > div {
+      padding: 20px;
+    }
+    
+    button {
+      margin: 8px;
+      font-size: 0.9rem;
+      padding: 10px 20px;
+    }
+    
+    .scrCmnt p {
+      font-size: 1.1rem;
+    }
+    
+    .scrCmnt p:first-child {
+      font-size: 1.3rem;
+    }
+  }
+  
+  /* Fix for small screens */
+  @media (max-width: 480px) {
+    button {
+      display: block;
+      width: calc(100% - 16px);
+      margin: 8px;
+    }
+  }
+  
+  /* Review section styling */
+  .review-section {
+    margin-top: 30px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+  }
+  
+  .review-section h3 {
+    color: var(--text-primary);
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+  }
+  
+  /* For additional styling - can be applied with classes */
+  .question-container {
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+  }
+  
+  .question-container:last-child {
+    border-bottom: none;
+  }

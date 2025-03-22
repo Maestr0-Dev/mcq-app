@@ -22,6 +22,7 @@ if(isset($_SESSION['started'])){
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link type="text/css" rel="stylesheet" href="css/style.css">
+        <link type="text/css" rel="stylesheet" href="myCss/quiz-style.css">
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="script.js"></script>
@@ -128,10 +129,24 @@ if(isset($_SESSION['started'])){
 ?>
 
 </div>
+
 <button type="submit">I'm done</button>
 </div>
 </form>
+<a href="quest_selection.php">
+    <button><i class="fa fa-arrow-left"></i> Leave</button>
+</a>
 <script src="jquery-3.1.0.min.js"></script> 
+<script>
+    function updateTimerClass() {
+    const timerElement = document.getElementById('timer');
+    if (timeLeft < 60) { // Less than 1 minute
+      timerElement.classList.add('timer-danger');
+    } else if (timeLeft < 180) { // Less than 3 minutes
+      timerElement.classList.add('timer-warning');
+    }
+  }
+</script>
 </body>
 </html>
 

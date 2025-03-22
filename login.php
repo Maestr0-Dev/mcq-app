@@ -92,12 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <div class="login-container">
+    <a href="menu.php" class="back-button">
+        <i class="fa fa-arrow-left"></i> 
+        </a>
         <h1>Login</h1>
         <form action="" method="post">
             <input type="text" name="username" required placeholder="Username">
             <input type="password" name="password" required placeholder="Password">
             <button type="submit">Login</button>
-            <a href="signin.php">Create an account</a>
+            <a href="stud_signin.php">Create an account</a>
             <p><?=$message ?></p>
         </form>
     </div>

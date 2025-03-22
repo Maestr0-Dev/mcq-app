@@ -1,11 +1,11 @@
 <?php
-sission_start();
+session_start();
 include 'classes.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
     $description = $_POST['description'];
     $creator_id = $_SESSION['id'];
-
+    $pass=$_POST['pass'];
     if(!empty($_FILES['profile_picture']['name'])){
     
         $fileName= $_FILES["profile_picture"]["name"];
@@ -30,8 +30,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
     }
 }
-$data = [$name, $description, $newImageName, $creator_id];
-}    
+if($_SESSION['level']=='A' || $_SESSION['level']=='O'){
+    $data = [$creator_id,0,$name, $description,$pass, $newImageName];
+    $db = new DB();
+    $db->newCommunity($data);
+    header("location:communities.php");
+}   else{
+    $data = [0,$creator_id,$name, $description,$pass, $newImageName];
+    $db = new DB();
+    $db->newCommunity($data);
+    header("location:communities.php");
+}
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,6 +54,7 @@ $data = [$name, $description, $newImageName, $creator_id];
     <a href="communities.php">Discard</a>
     <form action="" method="post" enctype="multipart/form-data">
         <input type="text" name="name" placeholder="Name">
+        <input type="password" name="pass" placeholder="Password">
         <input type="text" name="description" placeholder="Description">
         <input type="file" id="input" name="profile_picture">
         <div class="preview">

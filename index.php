@@ -1,8 +1,3 @@
-<?php 
-session_destroy();
-// $_SESSION['logged_in']=false; 
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

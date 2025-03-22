@@ -129,11 +129,12 @@ $teachers = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <body>
 
     <form action="" method="POST" enctype="multipart/form-data">
-        <h2>Register as a Teacher</h2>
+          <h2>Sgin up</h2>
         <?php if (isset($_GET['success'])) : ?>
             <p class="success">✅ Registration successful! Please wait for approval.</p>
         <?php endif; ?>
-        
+        <a href="signin.php"><h2>As Student</h2></a>
+        <a href="teachers_signin.php"><h2>As Teacher</h2></a> 
         <input type="text" name="name" placeholder="Full Name" required>
         <input type="text" name="phone" placeholder="Phone" required>
         <input type="email" name="email" placeholder="Email" required>

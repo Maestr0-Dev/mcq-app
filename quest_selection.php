@@ -29,6 +29,10 @@ if( $_SESSION['logged_in']==true){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Question selection</title>
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="myCss/qu-sel.css">
+    <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -79,14 +83,15 @@ if( $_SESSION['logged_in']==true){
 
         #startQuiz {
             background-color: #28a745;
-            padding: 0.8rem 1.5rem;
+            /* padding: 0.8rem 1.5rem; */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+      
+        
         #startQuiz:hover {
             background-color:rgb(28, 110, 46);
         }
@@ -104,12 +109,11 @@ if( $_SESSION['logged_in']==true){
 </head>
 <body>
     <form action="" class="container"  method="post">
-  <p><?=$_SESSION['id'];?></p>
-   
+
         <div class="section active" id="section1">
-        <a href="landing.html" class="back-button">
-        <i class="fa fa-arrow-left"></i>
-    </a>
+        <a href="menu.php" class="back-button">
+        <i class="fa fa-arrow-left"></i> 
+        </a>
             <h2>Choose an Option</h2>
             <select name="exam" id="" required>
     <option  disabled>Select exam</option>
@@ -147,9 +151,11 @@ if( $_SESSION['logged_in']==true){
 </select>
         
             <h2>Select Timer</h2>
-           <input type="number" name="timer" placeholder="Time in minutes">
+           <input type="number" name="timer" placeholder="Time in minutes" required>
         <!-- <div class="nav-buttons"> -->
-            <a href="quiz.php"><button class="nav-btn" id="startQuiz" type="submit">Start Quiz</button></a>
+            <a href="quiz.php">
+                <button class="nav-btn" id="startQuiz" type="submit">Start</button>
+            </a>
         <!-- </div> -->
 
 </form>

@@ -9,126 +9,13 @@ include 'classes.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="myCss/menu-style.css">
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Quiz-Master</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background: #f4f4f4;
-        }
-        .header {
-            background: linear-gradient(to left, purple, blue);
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .header h1 {
-            margin: 0;
-        }
-        .navbar {
-            display: flex;
-            justify-content: center;
-            background: linear-gradient(to left, purple, blue);
-            padding: 10px 0;
-        }
-        .navbar a {
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            font-size: 18px;
-            margin: 0 10px;
-            border-radius: 5px;
-        }
-        .navbar a:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        .navbar .menu-icon {
-            display: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: white;
-        }
-        .main-content {
-            padding: 20px;
-            text-align: center;
-        }
-        .main-content h2 {
-            color: #333;
-        }
-        .main-content p {
-            color: #666;
-        }
-        .features {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-        .feature {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            width: 100%;
-            max-width: 300px;
-            margin: 10px;
-            text-align: center;
-        }
-        .feature img {
-            max-width: 100%;
-            border-radius: 10px;
-        }
-        .feature h3 {
-            color: #333;
-        }
-        .feature p {
-            color: #666;
-        }
-        .footer {
-            background: #333;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-        }
-        .footer p {
-            margin: 0;
-        }
-        @media (max-width: 768px) {
-            .navbar a {
-                display: none;
-            }
-            .navbar .menu-icon {
-                display: block;
-            }
-            .navbar.responsive {
-                position: relative;
-            }
-            .navbar.responsive a {
-                display: block;
-                text-align: left;
-                padding: 10px;
-                width: 100%;
-                background: linear-gradient(to left, purple, blue);
-            }
-        }
-        .feat{
-          background: white;
-            border: 2px solid; transparent
-            border-radius: 5px;
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 18px;
-            cursor: pointer;
-            text-decoration: none;
-            color: transparent;
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-image: linear-gradient(to left, purple, blue);
-        }
+      
         
     </style>
 </head>
@@ -146,15 +33,13 @@ include 'classes.php';
     <a href="chat.php">Chat with AI <i class="fa fa-robot"></i></a>
     <a href="communities.php">Community <i class="fa fa-users"></i></a>
     <?php
-    $log= $_SESSION['logged_in'];
-
-      if($log==true){
+      if(isset( $_SESSION['logged_in'])&& $_SESSION['logged_in']==true){
         ?>
     <a href="user_profile.php">My Profile <i class="fa fa-user"></i></a>
     <?php 
       }
     else{?>
-      <a href="login.php" style="border: 1px solid white; background: none; color: white; padding: 10px 20px; text-decoration: none; font-size: 18px; margin: 0 10px; border-radius: 5px;">Login <i class="fa fa-sign-in-alt"></i></a>
+      <a href="login.php" style="border: 1px solid white; background: none; color: gray; padding: 10px 20px; text-decoration: none; font-size: 18px; margin: 0 10px; border-radius: 5px;">Login <i class="fa fa-sign-in-alt"></i></a>
     <?php
     }
     ?>
@@ -220,6 +105,56 @@ include 'classes.php';
             navbar.className = "navbar";
         }
     }
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    // Floating navbar on scroll
+    let prevScrollPos = window.pageYOffset;
+    const navbar = document.querySelector('.navbar');
+    
+    window.onscroll = function() {
+      const currentScrollPos = window.pageYOffset;
+      
+      if (prevScrollPos > currentScrollPos) {
+        navbar.classList.add('visible');
+      } else {
+        navbar.classList.remove('visible');
+      }
+      
+      prevScrollPos = currentScrollPos;
+      
+      // Scroll animations
+      const fadeElements = document.querySelectorAll('.fade-in');
+      fadeElements.forEach(element => {
+        const elementTop = element.getBoundingClientRect().top;
+        if (elementTop < window.innerHeight - 100) {
+          element.classList.add('visible');
+        }
+      });
+    };
+    
+    // Add floating bubbles to header
+    const bubbles = document.createElement('div');
+    bubbles.className = 'bubbles';
+    
+    for (let i = 0; i < 4; i++) {
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubbles.appendChild(bubble);
+    }
+    
+    document.querySelector('.header').appendChild(bubbles);
+    
+    // Add fade-in class to elements
+    document.querySelectorAll('.feature').forEach(element => {
+      element.classList.add('fade-in');
+    });
+    
+    document.querySelector('.main-content h2').classList.add('fade-in');
+    document.querySelector('.main-content p').classList.add('fade-in');
+    
+    // Trigger initial scroll to show visible elements
+    window.dispatchEvent(new Event('scroll'));
+  });
 </script>
 
 </body>

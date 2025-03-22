@@ -1,0 +1,239 @@
+/* Modern CSS for Student/Teacher Registration System */
+
+:root {
+    --primary-color: #6366f1;
+    --primary-dark: #4f46e5;
+    --primary-light: #818cf8;
+    --secondary-color: #9333ea;
+    --background: #f8fafc;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --text-light: #94a3b8;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --border-radius: 8px;
+    --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+  }
+  
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    margin: 0;
+    line-height: 1.6;
+  }
+  
+  .container, form, .signup-container {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+    padding: 2rem;
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+  }
+  
+  h1, h2 {
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  h1 {
+    font-size: 1.8rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  input, select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin: 0.75rem 0;
+    border: 1px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+  }
+  
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+  
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%231e293b' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 16px 12px;
+    padding-right: 2.5rem;
+  }
+  
+  button, .options a {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    width: 100%;
+    margin: 0.75rem 0;
+    transition: var(--transition);
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
+  button:hover, .options a:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--secondary-color));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+  }
+  
+  a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  a:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
+  }
+  
+  p {
+    margin: 0.75rem 0;
+    color: var(--text-secondary);
+  }
+  
+  /* File input styling */
+  input[type="file"] {
+    padding: 0.5rem;
+    background-color: #f8fafc;
+  }
+  
+  /* Label styling */
+  label {
+    display: block;
+    font-weight: 500;
+    margin-top: 0.75rem;
+    text-align: left;
+    color: var(--text-primary);
+  }
+  
+  /* Options container */
+  .options {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .options a {
+    flex: 1;
+    padding: 0.75rem 0;
+  }
+  
+  /* Italicized text */
+  i, p i {
+    color: var(--text-light);
+    font-style: italic;
+  }
+  
+  /* Success message */
+  .success {
+    color: var(--success);
+    background-color: rgba(16, 185, 129, 0.1);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  
+  /* Error message */
+  .error {
+    color: var(--danger);
+    background-color: rgba(239, 68, 68, 0.1);
+    padding: 0.75rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+  }
+  
+  /* Login/Signup links */
+  #log, .signup-container a {
+    display: block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .container, form, .signup-container {
+      padding: 1.5rem;
+    }
+    
+    input, select, button {
+      padding: 0.6rem 0.75rem;
+    }
+    
+    .options {
+      flex-direction: column;
+    }
+  }
+  
+  /* Link tabs styling */
+  .tab-links {
+    display: flex;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .tab-links a {
+    padding: 0.75rem 1rem;
+    flex: 1;
+    text-align: center;
+    color: var(--text-secondary);
+    font-weight: 500;
+  }
+  
+  .tab-links a.active {
+    color: var(--primary-color);
+    border-bottom: 2px solid var(--primary-color);
+  }
+  
+  .tab-links a:hover {
+    text-decoration: none;
+    background-color: rgba(99, 102, 241, 0.05);
+  }
+  
+  /* Document upload section */
+  .document-upload {
+    background-color: #f8fafc;
+    border: 1px dashed #e2e8f0;
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .document-upload p {
+    margin-bottom: 0.5rem;
+  }
