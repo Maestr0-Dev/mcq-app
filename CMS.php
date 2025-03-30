@@ -91,7 +91,7 @@ $result=$db-> questions($table, $data);
 
 <div class="header">
     <h1 style="color:white;"> CONTENT MANAGMENT SYSTEM</h1>
-<p>This section is reserved for administrators and is used to add and edit the questions for the users</p>
+<p>This section is reserved for administrators and is used to add and edit past questions for the users</p>
 </div>
 <form action="" method="post"  enctype="multipart/form-data">
     <div class="question_info">
@@ -114,7 +114,7 @@ $result=$db-> questions($table, $data);
     ?>
 </select>
 
-<input type="text" name="title" placeholder="title">
+<input type="text" name="title" placeholder="title" required>
 <select name="subject" id="subj" required>
     <option value="" selected disabled>subject</option>
     <?php
@@ -132,16 +132,16 @@ enter the question
 </textarea>
  
     <div>
-<p>A: <input  name="A" type="text" ></p>
-<p>B: <input  name="B" type="text" ></p>
-<p>C: <input  name="C" type="text" ></p>
-<p>D: <input  name="D" type="text" ></p>
+<p>A: <input  name="A" type="text" required></p>
+<p>B: <input  name="B" type="text" required></p>
+<p>C: <input  name="C" type="text" required></p>
+<p>D: <input  name="D" type="text" required></p>
 <p>
     <p>Select the answer to the question</p>
-    <span><input name="ans" value="A" type="radio" >A</span>
-    <span><input name="ans" value="B" type="radio" >B</span>
-    <span><input name="ans" value="C" type="radio" >C</span>
-    <span><input name="ans" value="D" type="radio" >D</span>
+    <span><input name="ans" value="A" type="radio" required>A</span>
+    <span><input name="ans" value="B" type="radio" required>B</span>
+    <span><input name="ans" value="C" type="radio" required>C</span>
+    <span><input name="ans" value="D" type="radio" required>D</span>
     
 </p>
 </div>

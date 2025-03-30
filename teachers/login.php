@@ -1,32 +1,30 @@
-<?php
-session_start();
-include 'classes.php';
+<?php 
+include 'C:\xampp\htdocs\mcq-app\classes.php';
 
-$_SESSION['logged_in'] = false;
-$password = "";
-$username = "";
-$message = "";
+
+$email = ""; 
+$password = ""; 
+$error = ""; 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $data = [$username, $password];
     $db = new DB();
-    $result = $db->login($data);
+    $teacher = $db->teacherLogin([$email, $password]);
 
-    if (count($result) > 0) {
-        $_SESSION['logged_in'] = true;
-        $_SESSION['id'] = $result[0]['stud_id'];
-        $_SESSION['uname'] = $result[0]['stud_name'];
-        $_SESSION['email'] = $result[0]['email'];
-        $_SESSION['number'] = $result[0]['number'];
-        $_SESSION['level']=$result[0]['level'];
-
-        $message = "<p style='color:green;'>Logged in successfully</p>";
-        header("location:home.php");
+    if (!empty($teacher)) {
+        // Start session and redirect to dashboard
+        session_start();
+        $_SESSION['teacher_id'] = $teacher['teacher_id'];
+        $_SESSION['full_name'] = $teacher['full_name'];
+        $_SESSION['email'] = $teacher['email'];
+        $_SESSION['phone'] = $teacher['phone'];
+        $_SESSION['subjects'] = $teacher['subjects'];
+        $_SESSION['profile_picture'] = $teacher['profile_picture'];
+        header("location:teacher_dashboard.php");
     } else {
-        $message = "<p style='color:red;'>Invalid username or password.</p>";
+        $error = "Invalid email or password.";
     }
 }
 ?>
@@ -35,7 +33,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>Teacher Login</title>
+    <link type="text/css" rel="stylesheet" href="myCss/signin.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .login-container {
             background: white;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
@@ -86,22 +85,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .login-container p {
             margin: 10px 0;
-            color: #666;
+            color: red;
         }
     </style>
 </head>
 <body>
     <div class="login-container">
-    <a href="menu.php" class="back-button">
-        <i class="fa fa-arrow-left"></i> 
-        </a>
-        <h1>Login</h1>
+        <h1>Teacher Login</h1>
         <form action="" method="post">
-            <input type="text" name="username" required placeholder="Username">
+            <input type="email" name="email" required placeholder="Email">
             <input type="password" name="password" required placeholder="Password">
             <button type="submit">Login</button>
-            <a href="stud_signin.php">Create an account</a>
-            <p><?=$message ?></p>
+            <a href="teacher_signin.php">Don't have an account? Sign up</a>
+            <p><?= $error ?></p>
         </form>
     </div>
 </body>

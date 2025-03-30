@@ -15,7 +15,7 @@
         <h1>Master Any Subject With<br>Interactive MCQs</h1>
         <p>Enhance your learning journey with our intelligent question bank.<br>practice,learn and excel with thousands of carefully <br>curated questions.</p>
         <div class="btnd">
-            <a href="menu.php"><button class="white_btn">More <i class="fa fa-arrow-right"></i></button></a>
+            <a href="home.php"><button class="white_btn">More <i class="fa fa-arrow-right"></i></button></a>
     </div>
     </div>
     <div class="downsec">

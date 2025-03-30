@@ -1,22 +1,43 @@
 <?php 
-include 'classes.php';
+include 'C:\xampp\htdocs\mcq-app\classes.php';
 
-$name = ""; $pw= ""; $email = ""; $phone = "";
-$error = false; $result = "";$lvl="";
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    $name = $_POST['username'];
+$name = ""; $pw = ""; $email = ""; $phone = ""; $subjects = "";
+$error = false; $result = "";
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $name = $_POST['fullname'];
     $pw = $_POST['password'];
-    $email =$_POST['email'];
+    $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $lvl=$_POST['level'];
-    $date= date("Y-m-d h:i:s");
-    $table="students";
+    $subjects = $_POST['subjects'];
+    $date = date("Y-m-d h:i:s");
+    $table = "teachers";
 
-    $data = [$name,$email, $phone,$pw,$lvl,  $date];        
+    if (!empty($_FILES['profile_picture']['name'])) {
+        $fileName = $_FILES["profile_picture"]["name"];
+        $fileSize = $_FILES["profile_picture"]["size"];
+        $tmpName = $_FILES["profile_picture"]["tmp_name"];
+        $validImageExtension = ['jpeg', 'jpg', 'png'];
+        $imageExtension = explode('.', $fileName);
+        $imageExtension = strtolower(end($imageExtension));
+
+        if (!in_array($imageExtension, $validImageExtension)) {
+            echo "<p>Invalid image type</p>";
+        } else if ($fileSize > 500000) {
+            echo "<p>Image too big</p>";
+        } else {
+            $newImageName = uniqid();
+            $newImageName .= '.' . $imageExtension;
+
+            move_uploaded_file($tmpName, 'teach_profil_imgs/' . $newImageName);
+        }
+    }
+
+    $data = [$name, $email, $phone, $pw, $subjects, $newImageName,$date];
     $db = new DB();
-    $result = $db->newUser($table, $data);
-    
+    $result = $db->newTeacher($data);
+
     header("location:login.php");
 }
 ?>
@@ -25,9 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Teacher Sign Up</title>
     <link type="text/css" rel="stylesheet" href="myCss/signin.css">
-    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -50,7 +70,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             margin-bottom: 20px;
             color: #333;
         }
-        .signup-container input {
+        .signup-container input, .signup-container select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -80,44 +100,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             margin: 10px 0;
             color: #666;
         }
-        .signup-container .options {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .signup-container .options a {
-            flex: 1;
-            margin: 0 5px;
-            padding: 10px;
-            background: linear-gradient(to left, purple, blue);
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            text-align: center;
-        }
-        .signup-container .options a:hover {
-            background: linear-gradient(to right, purple, blue);
-        }
     </style>
 </head>
 <body>
     <div class="signup-container">
-        <h1>Sign Up</h1>
-        <div class="options">
-            <a href="stud_signin.php">As Student</a>
-            <a href="teacher_signin.php">As Teacher</a>
-        </div>
-        <form action="" method="post">
-            <input type="text" name="username" required placeholder="Username">
+        <h1>Teacher Sign Up</h1>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type="text" name="fullname" required placeholder="Full Name">
             <input type="password" name="password" required placeholder="Password">
             <input type="email" name="email" required placeholder="Email">
             <input type="number" name="phone" required placeholder="Phone">
-            <select name="level" id="">
-                <option value="A">A-level Student</option>
-                <option value="O">O-level Student</option>
-            </select>            
+            <input type="file" name="profile_picture" required>
+            <input type="text" name="subjects" required placeholder="Subjects (e.g., Math, Science)">
             <button type="submit">Sign up</button>
-            <a href="login.php">Already have an account? Login</a>
+            <a href="teacher_login.php">Already have an account? Login</a>
             <p><span style="color:green"><?= $result ?></span></p>
         </form>
     </div>

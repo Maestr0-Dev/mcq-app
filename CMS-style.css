@@ -1,87 +1,278 @@
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f6f9;
-    color: #333;
+  background-color: #f5f7fa;
+  color: #333;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Main Content Area (adjusted for sidebar) */
+.main-content {
+  margin-left: 250px; /* Same as sidebar width */
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.container {
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header Styles */
+.header {
+  background: linear-gradient(135deg, #3a7bd5, #3a6073);
+  padding: 30px;
+  text-align: center;
+}
+
+.header h1 {
+  color: white;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.header p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 16px;
+}
+
+/* Form Styles */
+form {
+  padding: 30px;
+}
+
+/* Question Info Section */
+.question_info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #3a7bd5;
+}
+
+select, input[type="text"] {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+
+select:focus, input[type="text"]:focus, textarea:focus {
+  border-color: #3a7bd5;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(58, 123, 213, 0.2);
+}
+
+/* Textarea for Question */
+textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 15px;
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: vertical;
+  font-size: 15px;
+}
+
+/* Options Section */
+div:nth-of-type(2) {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #3a7bd5;
+}
+
+div:nth-of-type(2) p {
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+input[type="text"] {
+  margin-left: 10px;
+  flex: 1;
+}
+
+/* Radio Button Styling */
+span {
+  margin-right: 30px;
+  display: inline-flex;
+  align-items: center;
+}
+
+input[type="radio"] {
+  margin-right: 8px;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #3a7bd5;
+  border-radius: 50%;
+  outline: none;
+  position: relative;
+}
+
+input[type="radio"]:checked {
+  background-color: white;
+}
+
+input[type="radio"]:checked::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #3a7bd5;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Image Upload Section */
+div:nth-of-type(3) {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px 0;
+  border-left: 4px solid #3a7bd5;
+}
+
+label {
+  display: block;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+input[type="file"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #3a7bd5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.imgDiv {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#preview {
+  max-width: 300px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  margin-right: 15px;
+}
+
+.save {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.save:hover {
+  background-color: #45a049;
+  box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+}
+
+.view {
+  background-color: #3a7bd5;
+  color: white;
+}
+
+.view:hover {
+  background-color: #2d6bc1;
+  box-shadow: 0 4px 8px rgba(58, 123, 213, 0.3);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .container {
+    width: 95%;
   }
-
-.container{
-    max-width: 1000px;
-    margin:0 auto;
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-   
-}
-.header{
-    background:linear-gradient(to left,purple,blue);
-      color:white;
-      padding: 30px;
 }
 
-textarea{
-    width: 80%;
-    min-height: 100px;
-}
-form{
-    margin: 0;
-    box-shadow: 0 0px 20px rgba(0,0,0,0.5);
-    background-color: rgb(243, 243, 243);
-
-}
-select, input,textarea{
-    padding:5px;
-    border-radius: 5px;
-    border:none;
-    font-size: large;
-}
-input{
-    width: auto;
-    
-}
-
-input[type="radio"]:checked{
-    background-color: rgb(115, 128, 0);
-}
-input[type="file"]{
-    background:linear-gradient(to left,purple,blue);
-
-    border-radius: 10px;
-    border: none;
-    margin: 5px auto;
-    padding: 10px;
-    color: white;
-    font-family: arial;
-    font-weight: bolder;
-}
-.question_info{
-margin:5px auto;
-display: flex;
-flex-direction: column;
-}
-.img_container{
-    display: flex;
-    justify-content: space-evenly;
-}
-.imgDiv{
-    display: flex;
-    justify-content: space-around;
-    height: auto;
-    text-align: center;
-}
-.imgDiv img{
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 70px; /* Same as collapsed sidebar width */
+  }
+  
+  .container {
+    width: 95%;
+    margin: 15px auto;
+  }
+  
+  .question_info {
+    grid-template-columns: 1fr;
+  }
+  
+  span {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  button {
     width: 100%;
-    height: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
 }
 
-button{
-      background:linear-gradient(to left,purple,blue);
-
-    border-radius: 10px;
-    border: none;
-    margin: 5px auto;
+/* Adjust for very small screens */
+@media (max-width: 576px) {
+  .main-content {
     padding: 10px;
-    color: white;
-    font-family: arial;
-    font-weight: bolder;
+  }
+  
+  .container {
+    width: 100%;
+    margin: 10px auto;
+  }
+  
+  form {
+    padding: 15px;
+  }
+}
+
+/* Additional Animation for Focus States */
+@keyframes focusPulse {
+  0% { box-shadow: 0 0 0 0 rgba(58, 123, 213, 0.4); }
+  70% { box-shadow: 0 0 0 5px rgba(58, 123, 213, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(58, 123, 213, 0); }
+}
+
+input:focus, select:focus, textarea:focus {
+  animation: focusPulse 1.5s infinite;
 }

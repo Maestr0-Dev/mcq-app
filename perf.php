@@ -117,7 +117,7 @@ if (isset($_SESSION['id'])) {
                 ?>
             </tbody>
         </table>
-        <a href="menu.php">
+        <a href="home.php">
             <button>Back to menu</button>
         </a>
     </div>

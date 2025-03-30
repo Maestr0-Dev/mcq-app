@@ -61,7 +61,7 @@ if ($_SESSION['logged_in'] == true) {
     </style>
 </head>
 <body>
-<a href="menu.php" class="back-button">
+<a href="home.php" class="back-button">
         <i class="fa fa-arrow-left"></i> 
         </a>
     <div class="profile-container">

@@ -6,7 +6,7 @@ $db = new DB();
 $communities = $db->getExistingCommunities();
 //display communities where user with id is a member
 $db2 = new DB();
-$myCommunities = $db2->MyCommunities($_SESSION['id']);
+$CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
 
 
 ?>
@@ -24,6 +24,13 @@ $myCommunities = $db2->MyCommunities($_SESSION['id']);
 <div class='Allcommunit'>
 <h1>All Communities</h1>
 <?php
+foreach($CheckCommunities as $Check){
+
+//     $id=$Check['comm_id'];
+//     $db3 = new DB();
+// $MyCommunities = $db3->MyCommunities($id);
+
+    if($_SESSION['id'] != $Check['member_id'] ){
 foreach ($communities as $community) {
     $path = "comm_profil_imgs/" . $community['img'];
     $_SESSION['com_id']=$community['com_id'];
@@ -35,6 +42,10 @@ foreach ($communities as $community) {
 <button id="joinCom" onclick="join('<?=$community['com_id']?>','<?=$_SESSION['id']?>')">Join</button>
 </div>
 <?php
+break;
+}
+}
+
 }
 ?>
 </div>
@@ -43,18 +54,25 @@ foreach ($communities as $community) {
 <h1>My communities</h1>
 
 <?php
-foreach ($myCommunities as $myCom) {
-$path = "comm_profile/" . $myCom['img'];
+foreach($CheckCommunities as $Check){
+
+    $id=$Check['comm_id'];
+    $db3 = new DB();
+$MyCommunities = $db3->MyCommunities($id);
+
+foreach($MyCommunities as $myCom){
+$path = "comm_profil_imgs/" . $myCom['img'];
 
 ?>
 
 <div class="community">
-<img src="<?=$path?>" alt="profile">
-<h2><?=$myCom['name']?></h2>";
-<p><?=$myCom['description'] ?></p>";
+<img style="max-width:50px; height:auto;" src="<?=$path?>" alt="profile">
+
+<h2><?=$myCom['com_name']?></h2>
+<p><?=$myCom['describtion'] ?></p>
 </div>
 <?php
-}
+}}
 ?>
 </div>
 <script src="jquery-3.1.0.min.js"></script>

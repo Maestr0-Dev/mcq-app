@@ -42,7 +42,7 @@
             <h1>Discover Tutors</h1>
         </div>
     </nav>
-    <a href="menu.php" class="back-button">
+    <a href="home.php" class="back-button">
         <i class="fa fa-arrow-left"></i>
     </a>
 

@@ -87,11 +87,17 @@ foreach($result as $key => $q) {
 $num++;
 }?>
 </div>
-<a href="menu.php">
-    <button > Back to menu</button>
+<a href="home.php">
+    <button > 
+    <i class="fa fa-arrow-home"></i>
+
+    </button>
 </a>
 <a href="perf.php">
-    <button >View performances</button>
+    <button >
+    <i class="fa fa-arrow-chart-line"></i>
+
+    </button>
 </a>
     </section>
 </body>

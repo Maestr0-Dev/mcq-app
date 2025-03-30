@@ -34,7 +34,10 @@ if($_SESSION['level']=='A' || $_SESSION['level']=='O'){
     $data = [$creator_id,0,$name, $description,$pass, $newImageName];
     $db = new DB();
     $db->newCommunity($data);
-    header("location:communities.php");
+    // header("location:communities.php");
+    echo"
+    <p style='color:green;'> Study group created </p>
+    ";
 }   else{
     $data = [0,$creator_id,$name, $description,$pass, $newImageName];
     $db = new DB();

@@ -111,7 +111,7 @@ if( $_SESSION['logged_in']==true){
     <form action="" class="container"  method="post">
 
         <div class="section active" id="section1">
-        <a href="menu.php" class="back-button">
+        <a href="home.php" class="back-button">
         <i class="fa fa-arrow-left"></i> 
         </a>
             <h2>Choose an Option</h2>
