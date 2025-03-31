@@ -40,7 +40,7 @@ include 'classes.php';
     <a href="quest_selection.php"> Official MCQ <i class="fa fa-pen-to-square"></i> </a>
     <a href="discover.php"> Discover Tutors <i class="fa fa-chalkboard-user"></i> </a>
     <a href="perf.php"> View Performances <i class="fa fa-chart-line"></i> </a>
-    <a href="chat.php"> Braze AI <i class="fa fa-robot"></i> </a>
+    <a href="chat_with_ai.php"> Braze AI <i class="fa fa-robot"></i> </a>
     <a href="communities.php">Community <i class="fa fa-users"></i> </a>
     <a href="question_bank.php"> Question Bank <i class="fa fa-bank"></i> </a>
     <a href="learn.php"> learn <i class="fa fa-book"></i> </a>

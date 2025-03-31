@@ -91,8 +91,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <tr>
                         <td><?= $request['full_name'] ?></td>
                         <td><?= $request['dob'] ?></td>
-                        <td><a href="../<?= $request['id_card'] ?>" target="_blank">View ID Card</a></td>
-                        <td><a href="../<?= $request['certificate'] ?>" target="_blank">View Certificate</a></td>
+                        <td><a href="../teachers/<?= $request['id_card'] ?>" target="_blank">View ID Card</a></td>
+                        <td><a href="../teachers/<?= $request['certificate'] ?>" target="_blank">View Certificate</a></td>
                         <td><?= $request['state'] ?></td>
                         <td>
                             <form action="" method="post" style="display: inline;">

@@ -9,7 +9,8 @@
     <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="css/style.css">
-    <link type="text/css" rel="stylesheet" href="myCss/menu-style.css">
+    <link type="text/css" rel="stylesheet" href="myCss/home.css">
+
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="css/bootstrap.min.css" rel="stylesheet">

@@ -6,40 +6,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link type="text/css" rel="stylesheet" href="myCss/nav.css">
-    <style>
-        .teacher-nav {
-            background: #333;
-            color: white;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .teacher-nav .logo {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .teacher-nav ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        .teacher-nav ul li {
-            margin: 0 15px;
-        }
-        .teacher-nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .teacher-nav ul li a:hover {
-            text-decoration: underline;
-        }
-    </style>
+        
 </head>
 <body>
+
     <div class="teacher-nav">
+<h1>Quiz-master</h1>
+
         <div class="logo">Teacher Portal</div>
         <ul>
             <li><?php

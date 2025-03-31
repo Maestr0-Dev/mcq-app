@@ -349,4 +349,85 @@ public function updateVerificationState($verification_id, $state) {
         $conn = null;
     }
 }
+public function checkVerificationStatus($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT state FROM Verified_teachers WHERE teacher_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $conn = null;
+
+        return $result && $result['state'] === 'Yes';
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return false;
+    }
+}
+public function getAllTeachers() {
+    $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+    $sql = "SELECT teacher_id, full_name, profile_picture, subjects, TIMESTAMPDIFF(YEAR, date_created, CURDATE()) AS time_on_platform FROM teachers";
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function getVerifiedTeachers() {
+    $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+    $sql = "SELECT t.teacher_id, t.full_name, t.profile_picture, t.subjects, 
+                   TIMESTAMPDIFF(YEAR, t.date_created, CURDATE()) AS time_on_platform 
+            FROM teachers t 
+            JOIN Verified_teachers v ON t.teacher_id = v.teacher_id 
+            WHERE v.state = 'Yes'";
+    $statement = $conn->prepare($sql);
+    $statement->execute();
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+public function getStudentMentors($student_id) {
+    $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+    $sql = "SELECT t.teacher_id, t.full_name, t.profile_picture, t.subjects, 
+                   TIMESTAMPDIFF(YEAR, t.date_created, CURDATE()) AS time_on_platform 
+            FROM teachers t 
+            JOIN mentors m ON t.teacher_id = m.teacher_id 
+            WHERE m.stud_id = ?";
+    $statement = $conn->prepare($sql);
+    $statement->execute([$student_id]);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function requestMentor($student_id, $teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO mentors (stud_id, teacher_id, state) VALUES (?, ?, 'No')";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$student_id, $teacher_id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return false;
+    }
+}
+public function isMentorRequestSent($student_id, $teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT COUNT(*) FROM mentors WHERE stud_id = ? AND teacher_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$student_id, $teacher_id]);
+        $count = $statement->fetchColumn();
+        $conn = null;
+        return $count > 0;
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return false;
+    }
+}
 }

@@ -1,0 +1,58 @@
+/* nav.css */
+
+.teacher-nav {
+    background: linear-gradient(135deg, #6a11cb, #2575fc); /* Modern gradient background */
+    color: white;
+    padding: 15px 30px; /* Increased padding for better spacing */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
+}
+
+.teacher-nav .logo {
+    font-size: 24px; /* Larger logo font */
+    font-weight: 600; /* Semi-bold font */
+    letter-spacing: 1px; /* Slight letter spacing */
+}
+
+.teacher-nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center; /* Vertically align items */
+}
+
+.teacher-nav ul li {
+    margin: 0 20px; /* Increased margin for spacing */
+}
+
+.teacher-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px; /* Slightly larger font */
+    transition: color 0.3s ease, transform 0.2s ease; /* Smooth hover effects */
+    padding: 8px 12px; /* Add padding to the anchor */
+    border-radius: 5px; /* Add slight border radius for buttons */
+}
+
+.teacher-nav ul li a:hover {
+    color: #b3e5fc; /* Lighter color on hover */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.teacher-nav ul li a img{
+    vertical-align: middle;
+}
+
+.teacher-nav ul li a[style*="login.php"] { /* Specific styling for the login button*/
+    border: 2px solid white;
+    background: transparent;
+    padding: 10px 20px;
+}
+
+.teacher-nav ul li a[style*="login.php"]:hover{
+    background-color: rgba(255,255,255,0.2);
+}

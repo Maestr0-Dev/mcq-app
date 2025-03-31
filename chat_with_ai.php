@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <title>Chat with Braze AI</title>
+</head>
+<body>
+    <div class="wrapper">
+    <a href="home.php" class="back-button">
+        <i class="fa fa-arrow-left"></i>
+    </a>
+
+    <div class="chat-container">
+        <div class="chat-header">
+            <i class="fa fa-robot fa-2x"></i>
+            <div>
+                <h1>Braze AI</h1>
+                <div class="ai-status">Online • Ready to help</div>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                <div class="message-avatar">
+                    <i class="fa fa-robot"></i>
+                </div>
+                <div class="message-content">
+                    👋 Hello! I'm Braze AI, your personal study assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+
+        <div class="chat-input-container">
+            <div class="suggestions">
+                <div class="suggestion-chip" onclick="usesuggestion('Help me understand photosynthesis')">Help me understand photosynthesis</div>
+                <div class="suggestion-chip" onclick="usesuggestion('Explain Newton\'s laws')">Explain Newton's laws</div>
+                <div class="suggestion-chip" onclick="usesuggestion('Math problem help')">Math problem help</div>
+                <div class="suggestion-chip" onclick="usesuggestion('Explain Trigonometry')">Explain Trigonometry</div>
+                <div class="suggestion-chip" onclick="usesuggestion('What is Excretionp')">What is Excretion</div>
+                <div class="suggestion-chip" onclick="usesuggestion('Help me understand data structures')">Help me understand data structures</div>
+                <div class="suggestion-chip" onclick="usesuggestion('Explain periodicity')">Explain periodicity</div>
+                <div class="suggestion-chip" onclick="usesuggestion('motion of projectiles')">motion of projectiles</div>
+            </div>
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Type your message..." autocomplete="off">
+                <button class="send-button" onclick="sendMessage()" id="sendButton">
+                    <i class="fa fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+    <script>
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const chatMessages = document.getElementById('chatMessages');
+
+        function createTypingIndicator() {
+            const typing = document.createElement('div');
+            typing.className = 'message ai-message';
+            typing.innerHTML = `
+                <div class="message-avatar">
+                    <i class="fa fa-robot"></i>
+                </div>
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
+            return typing;
+        }
+
+        function usesuggestion(text) {
+            messageInput.value = text;
+            messageInput.focus();
+        }
+
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            
+            if (message) {
+                // Add user message
+                const userMessageHTML = `
+                    <div class="message user-message">
+                        <div class="message-avatar">
+                            <i class="fa-regular fa-user"></i>
+                        </div>
+                        <div class="message-content">
+                            ${message}
+                        </div>
+                    </div>
+                `;
+                chatMessages.insertAdjacentHTML('beforeend', userMessageHTML);
+                
+                // Clear input and scroll to bottom
+                messageInput.value = '';
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Show typing indicator
+                const typingIndicator = createTypingIndicator();
+                chatMessages.appendChild(typingIndicator);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                
+                // Simulate AI response after delay
+                setTimeout(() => {
+                    // Remove typing indicator
+                    typingIndicator.remove();
+                    
+                    // Add AI response
+                    const aiMessageHTML = `
+                        <div class="message ai-message">
+                            <div class="message-avatar">
+                                <i class="fa fa-robot"></i>
+                            </div>
+                            <div class="message-content">
+                                ${getAIResponse(message)}
+                            </div>
+                        </div>
+                    `;
+                    chatMessages.insertAdjacentHTML('beforeend', aiMessageHTML);
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }, 2000);
+            }
+        }
+
+        function getAIResponse(message) {
+            const responses = [
+                "I'd be happy to help you understand this topic better! Let's break it down step by step...",
+                "That's an excellent question. Here's what you need to know...",
+                "I can help you with that! First, let's establish the key concepts...",
+                "Great question! Let me explain this in a way that's easy to understand...",
+                "I understand what you're asking about. Here's a clear explanation..."
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        // Send message on Enter key
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Enable/disable send button based on input
+        messageInput.addEventListener('input', () => {
+            sendButton.disabled = messageInput.value.trim() === '';
+        });
+    </script>
+</body>
+</html>

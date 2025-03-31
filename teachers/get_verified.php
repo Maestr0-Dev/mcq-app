@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_FILES['id_card']['name'])) {
         $id_card_name = $_FILES['id_card']['name'];
         $id_card_tmp = $_FILES['id_card']['tmp_name'];
-        $id_card_path = 'verification_docs/' . uniqid() . '_' . $id_card_name;
+        $id_card_path = 'verification_docs/' . uniqid();
         move_uploaded_file($id_card_tmp, $id_card_path);
     }
 
@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (!empty($_FILES['certificate']['name'])) {
         $certificate_name = $_FILES['certificate']['name'];
         $certificate_tmp = $_FILES['certificate']['tmp_name'];
-        $certificate_path = 'verification_docs/' . uniqid() . '_' . $certificate_name;
+        $certificate_path = 'verification_docs/' . uniqid();
         move_uploaded_file($certificate_tmp, $certificate_path);
     }
 
@@ -47,9 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- FontAwesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Sidebar CSS -->
-    <!-- <link rel="stylesheet" href="css/sidebar.css"> -->
-    <!-- Verification page CSS -->
+   
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
