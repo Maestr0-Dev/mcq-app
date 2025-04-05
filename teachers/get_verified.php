@@ -3,7 +3,7 @@ session_start();
 include 'C:\xampp\htdocs\mcq-app\classes.php';
 
 if (!isset($_SESSION['teacher_id'])) {
-    header("location:teacher_login.php");
+    header("location:login.php");
     exit();
 }
 

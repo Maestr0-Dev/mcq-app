@@ -46,7 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             width: 300px;
             text-align: center;
         }
-        .signup-container h1 {
+        .signup-container h2 {
             margin-bottom: 20px;
             color: #333;
         }
@@ -102,11 +102,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 </head>
 <body>
     <div class="signup-container">
-        <h1>Sign Up</h1>
-        <div class="options">
-            <a href="stud_signin.php">As Student</a>
-            <a href="teacher_signin.php">As Teacher</a>
-        </div>
+        <h2>Student Sign Up</h2>
         <form action="" method="post">
             <input type="text" name="username" required placeholder="Username">
             <input type="password" name="password" required placeholder="Password">

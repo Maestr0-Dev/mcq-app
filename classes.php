@@ -393,7 +393,7 @@ public function getStudentMentors($student_id) {
                    TIMESTAMPDIFF(YEAR, t.date_created, CURDATE()) AS time_on_platform 
             FROM teachers t 
             JOIN mentors m ON t.teacher_id = m.teacher_id 
-            WHERE m.stud_id = ?";
+            WHERE m.stud_id = ? AND m.state = 'Yes'";
     $statement = $conn->prepare($sql);
     $statement->execute([$student_id]);
     return $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -424,6 +424,42 @@ public function isMentorRequestSent($student_id, $teacher_id) {
         $count = $statement->fetchColumn();
         $conn = null;
         return $count > 0;
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return false;
+    }
+}
+
+public function getMentorRequestsForTeacher($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT m.mentor_id, s.stud_id, s.stud_name, m.state,s.level
+                FROM mentors m 
+                JOIN students s ON m.stud_id = s.stud_id 
+                WHERE m.teacher_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $result;
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return [];
+    }
+}
+
+public function updateMentorRequestState($mentor_id, $state) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE mentors SET state = ? WHERE mentor_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$state, $mentor_id]);
+        $conn = null;
+        return true;
     } catch (PDOException $err) {
         echo "An error occurred: " . $err->getMessage();
         $conn = null;

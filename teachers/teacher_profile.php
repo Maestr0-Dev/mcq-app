@@ -70,6 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h1>My Profile</h1>
         <form action="" method="post" enctype="multipart/form-data">
             <img src="teach_profil_imgs/<?= $teacher['profile_picture'] ?>" alt="Profile Picture">
+            <?php if ($is_verified): ?>
+            <p><i class="verified-icon">✔ Verified</i></p>
+        <?php else: ?>
+            <a href="get_verified.php">Get Verified</a>
+        <?php endif; ?>
             <input type="text" name="fullname" value="<?= $teacher['full_name'] ?>" required placeholder="Full Name">
             <input type="email" name="email" value="<?= $teacher['email'] ?>" required placeholder="Email">
             <input type="number" name="phone" value="<?= $teacher['phone'] ?>" required placeholder="Phone">
@@ -83,11 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
             <button type="submit">Update Profile</button>
         </form>
-        <?php if ($is_verified): ?>
-            <p><i class="verified-icon">✔ Verified</i></p>
-        <?php else: ?>
-            <a href="get_verified.php">Get Verified</a>
-        <?php endif; ?>
+            <a href="C:\xampp\htdocs\mcq-app\logout.php">
+        <button>Logout</button>
+
+            </a>
     </div>
    
 <script>

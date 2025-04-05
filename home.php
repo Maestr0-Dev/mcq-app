@@ -17,6 +17,7 @@
 </head>
 <body>
 <div class="header">
+<img src="Quiz-master-logo.png" alt="Quiz-Master Logo" style="width: 100px; height: auto; vertical-align: middle; margin-right: 10px;">
     <h1>Quiz-Master</h1>
     <p>Your alternate platform for interactive learning through carefully curated MCQs</p>
 </div>
@@ -25,7 +26,7 @@ include 'menu.php';
 ?>
 <div class="main-content">
     <h2>Learning is For Everyone</h2>
-    <p>At Quiz-Master, we value the individual. Students and parents are provided with experienced industry professionals who make it their business to help you understand your subjects.</p>
+    <p>At Quiz-Master, we value the individual. Students are provided with experienced industry professionals who make it their business to help you understand your subjects.</p>
 </div>
 
 <div class="features">
