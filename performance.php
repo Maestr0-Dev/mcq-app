@@ -13,7 +13,7 @@
 </head>
 <body>
     <div class="wrapper">
-        <a href="landing.html" class="back-button">
+        <a href="home.php" class="back-button">
         <i class="fa fa-arrow-left"></i>
     </a>
         <div class="performance-container">

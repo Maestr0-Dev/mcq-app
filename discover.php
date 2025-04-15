@@ -27,6 +27,9 @@ $mentors = $db->getStudentMentors($student_id);
 </head>
 <body>
     <div class="container">
+    <a href="home.php" style="color:blue; text-decoration:none; ">
+        <i class="fa fa-arrow-left"></i> Back
+    </a>
         <h1>Discover Tutors</h1>
         <div class="tabs">
             <button class="tab-btn active" data-target="all-teachers">All Teachers</button>

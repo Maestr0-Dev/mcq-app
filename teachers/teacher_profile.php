@@ -65,11 +65,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-
+ 
     <div class="profile-container">
+   
         <h1>My Profile</h1>
+      
         <form action="" method="post" enctype="multipart/form-data">
             <img src="teach_profil_imgs/<?= $teacher['profile_picture'] ?>" alt="Profile Picture">
+            <br>
             <?php if ($is_verified): ?>
             <p><i class="verified-icon">✔ Verified</i></p>
         <?php else: ?>
@@ -92,6 +95,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button>Logout</button>
 
             </a>
+            <a href="teacher_dashboard.php" style="color:blue; text-decoration:none; ">
+        <i class="fa fa-arrow-left"></i>Back
+    </a>
     </div>
    
 <script>

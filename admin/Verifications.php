@@ -72,7 +72,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
-   
     <div class="container">
         <h1>Teacher Verifications</h1>
         <table>

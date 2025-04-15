@@ -22,9 +22,12 @@ if ( !isset($table)) {
 
 $data = [$year, $subj];
 $ans_data=[$stud_id,$table,$lvl,$subj,$year,$score,$dur,$date];
+
 $db = new DB();
-$result = $db->Get($table,$data);
 $done=$db->savePerf($ans_data);
+
+$dB = new DB();
+$result = $dB->Get($table,$data);
 ?>
 <!DOCTYPE html>
 <html>
@@ -80,26 +83,29 @@ foreach($result as $key => $q) {
 <?php
         }
 ?>
-    <p><b>Answer:</b> <span style="color:green;"><?=$q['ans']?></span></p>
+    <p><b>Answer:</b> <span style="color:green;"><?=$q['ans']?></span>  <i  style="color:green;"class="fa fa-brain"></i></p>
     </div>
 
 <?php
 $num++;
 }?>
 </div>
-<a href="home.php">
+
+    </section>
+    <a href="home.php">
     <button > 
     <i class="fa fa-arrow-home"></i>
-
+    Home
     </button>
 </a>
-<a href="perf.php">
+<a href="quest_selection.php">
     <button >
     <i class="fa fa-arrow-chart-line"></i>
-
+    Take another Quiz
     </button>
 </a>
-    </section>
+<button>Save </button>
+
 </body>
 
 </html>

@@ -65,7 +65,7 @@ if ($_SESSION['logged_in'] == true) {
         <i class="fa fa-arrow-left"></i> 
         </a>
     <div class="profile-container">
-        <h1>Profile</h1>
+        <h1>Hi,  <?=$name?></h1>
         <p><strong>Name:</strong> <?=$name?></p>
         <p><strong>Number:</strong> <?=$num?></p>
         <p><strong>Email:</strong> <?=$email?></p>

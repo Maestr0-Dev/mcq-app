@@ -9,10 +9,7 @@
 </head>
 <body>
 <?php
-/**
- * Sidebar Navigation Menu
- * Include this file in different pages to display a consistent sidebar navigation
- */
+
 ?>
 <div class="sidebar">
     <div class="sidebar-header">

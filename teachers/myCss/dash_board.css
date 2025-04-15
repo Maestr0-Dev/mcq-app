@@ -1,0 +1,221 @@
+/* Modern Dashboard Stylesheet */
+:root {
+    --primary-gradient: linear-gradient(135deg, #4568DC, #B06AB3);
+    --primary-blue: #4568DC;
+    --primary-purple: #B06AB3;
+    --dark-bg: #f8f9fa;
+    --card-bg: #ffffff;
+    --text-dark: #2c3e50;
+    --text-muted: #6c757d;
+    --border-light: #e1e5eb;
+    --success: #28a745;
+    --pending: #ffc107;
+    --danger: #dc3545;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --radius: 8px;
+    --transition: all 0.3s ease;
+  }
+  
+  body {
+    font-family: 'Inter', 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background-color: var(--dark-bg);
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Dashboard Header and Stats */
+  .dashboard-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 0 0 var(--radius) var(--radius);
+    box-shadow: var(--shadow);
+  }
+  
+  .stats-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    margin: 2rem;
+  }
+  
+  .stat-card {
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    flex: 1;
+    min-width: 200px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .stat-card p {
+    margin: 0 0 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  .stat-card strong {
+    font-size: 1.8rem;
+    color: var(--primary-blue);
+    display: block;
+  }
+  a{
+    text-decoration: none;
+  }
+  /* Main Content */
+  .content {
+    padding: 1rem 2rem;
+  }
+  
+  h1 {
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    color: var(--text-dark);
+  }
+  
+  h1:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 60px;
+    background: var(--primary-gradient);
+    border-radius: 2px;
+  }
+  
+  /* Tables */
+  .table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1.5rem 0;
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  
+  .table thead {
+    background: var(--primary-gradient);
+    color: white;
+  }
+  
+  .table th {
+    text-align: left;
+    padding: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+  }
+  
+  .table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: middle;
+  }
+  
+  .table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  
+  .table-zebra tbody tr:nth-child(even) {
+    background-color: rgba(69, 104, 220, 0.05);
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(69, 104, 220, 0.1);
+  }
+  
+  /* Status */
+  .status {
+    padding: 0.35rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+  .status-approved {
+    background-color: rgba(40, 167, 69, 0.15);
+    color: var(--success);
+  }
+  
+  .status-pending {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: var(--pending);
+  }
+  
+  /* Buttons */
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: var(--radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-right: 0.5rem;
+  }
+  
+  button[value="approve"] {
+    background-color: var(--success);
+    color: white;
+  }
+  
+  button[value="reject"] {
+    background-color: var(--danger);
+    color: white;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+  }
+  
+  /* Forms */
+  form {
+    display: inline-block;
+  }
+  
+  /* Navigation Styling Override */
+  nav {
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 1rem 2rem;
+  }
+  
+  nav a {
+    color: var(--text-dark);
+    text-decoration: none;
+    font-weight: 500;
+    margin-right: 1.5rem;
+    transition: var(--transition);
+  }
+  
+  nav a:hover, nav a.active {
+    color: var(--primary-purple);
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .stats-container {
+      flex-direction: column;
+    }
+    
+    .table {
+      display: block;
+      overflow-x: auto;
+    }
+    
+    .dashboard-header {
+      padding: 1.5rem;
+    }
+  }

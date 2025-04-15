@@ -10,7 +10,7 @@ if (!isset($_SESSION['teacher_id'])) {
 $db = new DB();
 $teacher_id = $_SESSION['teacher_id'];
 $requests = $db->getMentorRequestsForTeacher($teacher_id);
-
+$approved_students_count = $db->getApprovedStudentsCount($teacher_id);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $mentor_id = $_POST['mentor_id'];
     $action = $_POST['action'];
@@ -29,12 +29,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dash Board</title>
+    <link type="text/css" rel="stylesheet" href="myCss/dash_board.css">
+ 
 </head>
 <body>
 <?php  include 'teacher_nav.php';
     ?>
-    <h1>Mentor Requests</h1>
-    <table>
+    <div class="stats-container">
+        <div class="stat-card">
+        <a href="myStudents.php">
+
+    <p> Students: <strong><?= $approved_students_count ?></strong></p>
+    <?php
+$average_score = $db->getAverageStudentScore($teacher_id);
+?>
+</a>
+
+</div>
+<div class="stat-card">
+<p>Average Student Score: <strong> <?=$average_score?> </strong></p>
+</div>
+</div>
+    <h1>Mentorship Requests</h1>
+
+    <table class="table table-zebra">
         <thead>
             <tr>
                 <th>Student Name</th>

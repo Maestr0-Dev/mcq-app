@@ -215,6 +215,7 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
     </style>
 </head>
 <body>
+     
     <div class="header">
         <h1>Community Platform</h1>
         <a href="create_com.php" class="create-btn">Create a community</a>
@@ -222,30 +223,7 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
 
     <div class="container">
         <div class="communities-container">
-            <div class="communities-section">
-                <h1>All Communities</h1>
-                <?php
-                foreach($CheckCommunities as $Check){
-                    if($_SESSION['id'] != $Check['member_id'] ){
-                        foreach ($communities as $community) {
-                            $path = "comm_profil_imgs/" . $community['img'];
-                            $_SESSION['com_id']=$community['com_id'];
-                ?>
-                <div class="community">
-                    <img src="<?=$path?>" alt="community profile">
-                    <div class="community-info">
-                        <h2><?=$community['com_name']?></h2>
-                        <p><?=$community['describtion'] ?></p>
-                    </div>
-                    <button class="join-btn" onclick="join('<?=$community['com_id']?>','<?=$_SESSION['id']?>')">Join</button>
-                </div>
-                <?php
-                            break;
-                        }
-                    }
-                }
-                ?>
-            </div>
+           
 
             <div class="communities-section">
                 <h1>My Communities</h1>
@@ -270,18 +248,42 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
                 }
                 ?>
             </div>
+            <div class="communities-section">
+                <h1>All Communities</h1>
+                <?php
+                foreach($CheckCommunities as $Check){
+                    if($_SESSION['id'] != $Check['member_id'] ){
+                        foreach ($communities as $community) {
+                            $path = "comm_profil_imgs/" . $community['img'];
+                            $_SESSION['com_id']=$community['com_id'];
+                ?>
+                <div class="community">
+                    <img src="<?=$path?>" alt="community profile">
+                    <div class="community-info">
+                        <h2><?=$community['com_name']?></h2>
+                        <p><?=$community['describtion'] ?></p>
+                    </div>
+                    <button class="join-btn" onclick="join('<?=$community['com_id']?>','<?=$_SESSION['id']?>')">Join</button>
+                </div>
+                <?php
+                            break;
+                        }
+                    }
+                }
+                ?>
+            </div>
         </div>
 
         <div class="discussion-section">
             <div class="community-header">
                 <img src="comm_profil_imgs\67d8f68bac4b5.jpg" alt="Community Profile">
                 <div>
-                    <h1>Programming Enthusiasts</h1>
-                    <p>A community for sharing knowledge and resources about programming</p>
+                    <h1>Quality-Learner's</h1>
+                    <p>Only for students of QIS. Success is our portion</p>
                 </div>
             </div>
 
-            <h2>Recent Discussions & Quizzes</h2>
+            <h2>Recent Posts</h2>
             
             <!-- Quiz Placeholder 1 -->
             <div class="quiz-item">

@@ -248,7 +248,7 @@ public function newTeacher(array $data) {
     try {
         $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO teachers(full_name, email, phone, password, subjects, profile_picture, date_created) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO teachers(full_name, email, phone, `password`, subjects, profile_picture, date_created) VALUES(?, ?, ?, ?, ?, ?, ?)";
         $statement = $conn->prepare($sql);
         $statement->execute([$data[0], $data[1], $data[2], $data[3], $data[4], $data[5], $data[6]]);
         $result = "Teacher signed up successfully";
@@ -464,6 +464,44 @@ public function updateMentorRequestState($mentor_id, $state) {
         echo "An error occurred: " . $err->getMessage();
         $conn = null;
         return false;
+    }
+}
+public function getApprovedStudentsCount($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT COUNT(*) AS approved_count 
+                FROM mentors 
+                WHERE teacher_id = ? AND state = 'Yes'";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $result['approved_count'];
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return 0;
+    }
+}
+
+public function getAverageStudentScore($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT AVG(s.score) AS average_score 
+                FROM stud_answered s 
+                JOIN mentors m ON s.stud_id = m.stud_id 
+                WHERE m.teacher_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $conn = null;
+        return round($result['average_score'], 2);
+    } catch (PDOException $err) {
+        echo "An error occurred: " . $err->getMessage();
+        $conn = null;
+        return 0;
     }
 }
 }
