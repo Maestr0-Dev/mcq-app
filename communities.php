@@ -3,10 +3,13 @@ session_start();
 include 'classes.php';
 //display all existing communities with a button to join
 $db = new DB();
-$communities = $db->getExistingCommunities();
+$communities = $db->getExistingCommunities($_SESSION['id']);
+$db3 = new DB();
+$MyCommunities = $db3->MyCommunities($_SESSION['id']);
+
 //display communities where user with id is a member
-$db2 = new DB();
-$CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
+// $db2 = new DB();
+// $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
 
 ?>
 
@@ -228,11 +231,9 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
             <div class="communities-section">
                 <h1>My Communities</h1>
                 <?php
-                foreach($CheckCommunities as $Check){
-                    $id=$Check['comm_id'];
-                    $db3 = new DB();
-                    $MyCommunities = $db3->MyCommunities($id);
-
+                // foreach($CheckCommunities as $Check){
+                //     $id=$Check['comm_id'];
+                   
                     foreach($MyCommunities as $myCom){
                         $path = "comm_profil_imgs/" . $myCom['img'];
                 ?>
@@ -245,14 +246,13 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
                 </div>
                 <?php
                     }
-                }
+                // }
                 ?>
             </div>
             <div class="communities-section">
                 <h1>All Communities</h1>
                 <?php
-                foreach($CheckCommunities as $Check){
-                    if($_SESSION['id'] != $Check['member_id'] ){
+               
                         foreach ($communities as $community) {
                             $path = "comm_profil_imgs/" . $community['img'];
                             $_SESSION['com_id']=$community['com_id'];
@@ -266,10 +266,8 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
                     <button class="join-btn" onclick="join('<?=$community['com_id']?>','<?=$_SESSION['id']?>')">Join</button>
                 </div>
                 <?php
-                            break;
                         }
-                    }
-                }
+                  
                 ?>
             </div>
         </div>
@@ -278,7 +276,7 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
             <div class="community-header">
                 <img src="comm_profil_imgs\67d8f68bac4b5.jpg" alt="Community Profile">
                 <div>
-                    <h1>Quality-Learner's</h1>
+                    <h1>QIS-Learners</h1>
                     <p>Only for students of QIS. Success is our portion</p>
                 </div>
             </div>
@@ -338,24 +336,7 @@ $CheckCommunities = $db2->CheckCommunities($_SESSION['id']);
                 </div>
                 <button class="take-quiz-btn">Take Quiz</button>
             </div>
-
-            <!-- Quiz Placeholder 4 -->
-            <div class="quiz-item">
-                <div class="quiz-header">
-                    <div class="quiz-author">
-                        <div>
-                            <div>Igor Kaze</div>
-                            <small>Posted 2 weeks ago</small>
-                        </div>
-                    </div>
-                </div>
-                <div class="quiz-title">Web Development Basics</div>
-                <div class="quiz-meta">
-                    <span>Duration: 25 minutes</span>
-                    <span>20 questions</span>
-                </div>
-                <button class="take-quiz-btn">Take Quiz</button>
-            </div>
+           
         </div>
     </div>
 

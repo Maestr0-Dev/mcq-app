@@ -125,7 +125,7 @@ public function getPerf($id) {
 }
 
 // save perfromances per student
-public function savePerf( array $data){
+public function savePerf(array $data){
     try{
         $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -135,7 +135,6 @@ public function savePerf( array $data){
         $conn = null;
     }catch(PDOException $err){
         $result= $err->getMessage();
-        echo "An error occurred: " . $err->getMessage();
         $conn = null;
         $data=[];
     }
@@ -195,7 +194,10 @@ public function MyCommunities($id) {
     try {
         $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM new_communities WHERE com_id = ?";
+        $sql = "SELECT * FROM new_communities n
+        JOIN comm_memebers c ON c.com_id=n.com_id
+        WHERE c.member_id=?
+        ";
         $statement = $conn->prepare($sql);
         $statement->execute([$id]);
         $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
@@ -208,13 +210,18 @@ public function MyCommunities($id) {
 
 }
 // get all existing communities
-public function getExistingCommunities() {
+public function getExistingCommunities($id) {
     try {
         $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM new_communities";
+        $sql = "
+            SELECT nc.* 
+            FROM new_communities nc
+            LEFT JOIN comm_memebers cm ON nc.com_id = cm.com_id AND cm.member_id = ?
+            WHERE cm.member_id IS NULL
+        ";
         $statement = $conn->prepare($sql);
-        $statement->execute();
+        $statement->execute([$id]);
         $result = $statement->setFetchMode(PDO::FETCH_ASSOC);
         $communities = $statement->fetchAll();
         $conn = null;
@@ -228,16 +235,19 @@ public function joinCommunity(array $data){
     try{
         $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql="INSERT INTO comm_memebers(member_id,comm_id,`date`) VALUES(?,?,?)";
+        $sql="INSERT INTO comm_memebers(member_id,com_id,`date`) VALUES(?,?,?)";
         $statement = $conn->prepare($sql);
         $statement->execute([$data[0],$data[1],$data[2]]);
         $conn = null;
+        $data=[];
+
     }catch(PDOException $err){
         $result= $err->getMessage();
         echo "An error occurred: " . $err->getMessage();
         $conn = null;
         $data=[];
     }
+
 }
 //function to get all the members of a community
 

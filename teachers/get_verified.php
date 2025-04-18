@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <div class="benefit-item">
                             <i class="fas fa-unlock"></i>
                             <h4>Exclusive Access</h4>
-                            <p>Unlock premium features and special opportunities</p>
+                            <p>Unlock special features and opportunities</p>
                         </div>
                         <div class="benefit-item">
                             <i class="fas fa-comments"></i>

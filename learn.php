@@ -326,7 +326,7 @@
                         <div class="book-details">
                             <h3 class="book-title">PSYCHOMOTOR: Mechanics</h3>
                             <p class="book-author">Chu Ferdinand</p>
-                            <p class="book-price">9,500 CFA</p>
+                            <p class="book-price">4,500 CFA</p>
                             <button class="buy-btn">Buy</button>
                         </div>
                     </div>
@@ -338,7 +338,7 @@
                         <div class="book-details">
                             <h3 class="book-title">PSYCHOMOTOR: Statistics</h3>
                             <p class="book-author">Chu Ferdinand</p>
-                            <p class="book-price">8,750 CFA</p>
+                            <p class="book-price">4,500 CFA</p>
                             <button class="buy-btn">Buy</button>
                         </div>
                     </div>
@@ -355,7 +355,7 @@
                         <div class="book-details">
                             <h3 class="book-title">Applied A-level Physics</h3>
                             <p class="book-author"></p>
-                            <p class="book-price">10,000 CFA</p>
+                            <p class="book-price">5,000 CFA</p>
                             <button class="buy-btn">Buy</button>
                         </div>
                     </div>
@@ -367,7 +367,7 @@
                         <div class="book-details">
                             <h3 class="book-title">Breakthrough Physics</h3>
                             <p class="book-author"></p>
-                            <p class="book-price">9,200 CFA</p>
+                            <p class="book-price">5,200 CFA</p>
                             <button class="buy-btn">Buy</button>
                         </div>
                     </div>
@@ -384,7 +384,7 @@
                         <div class="book-details">
                             <h3 class="book-title">A-level Chemistry</h3>
                             <p class="book-author">Ngulle Emmanuel</p>
-                            <p class="book-price">9,800 CFA</p>
+                            <p class="book-price">8,000 CFA</p>
                             <button class="buy-btn">Buy</button>
                         </div>
                     </div>

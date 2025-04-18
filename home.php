@@ -19,7 +19,7 @@
 <div class="header">
 <img src="Quiz-master-logo.png" alt="Quiz-Master Logo" style="width: 100px; height: auto; vertical-align: middle; margin-right: 10px;">
     <h1>Quiz-Master</h1>
-    <p>Your alternate platform for interactive learning through carefully curated MCQs</p>
+    <p>Your alternate platform for interactive learning through carefully curated Questions</p>
 </div>
 <?php
 include 'menu.php';

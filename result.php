@@ -18,13 +18,13 @@ if ( !isset($table)) {
 }
     // $dur=$_SESSION['duration'];
     $dur=0;
-    $date=date('Y-m-d H:i:s');
+    $date=date('Y-m-d h:i:s');
 
 $data = [$year, $subj];
 $ans_data=[$stud_id,$table,$lvl,$subj,$year,$score,$dur,$date];
 
 $db = new DB();
-$done=$db->savePerf($ans_data);
+$done= $db->savePerf($ans_data);
 
 $dB = new DB();
 $result = $dB->Get($table,$data);
@@ -63,14 +63,17 @@ $result = $dB->Get($table,$data);
     }
     ?>
 <div class="review-section" style="margin-left:20px;">
+<p>Tap on <i  style="color:green;"class="fa fa-brain"></i> for explanations.</p>
+
     <?php
     $num=1;
+    
 foreach($result as $key => $q) {
 ?>
 <br>
 <div class="question-cont">  <p><?=$q['instructions']?></p>
   <?php if(isset($_SESSION['id'])){
-    ?><p><?=$q['instructions']?></p>
+    ?>
     <?php
     } else{
         echo "no ID";}?>
