@@ -20,20 +20,20 @@ function teachers(){
 
     $teachers=$db->getAllTeachers();
 
-foreach($teachers as $t){
- echo"<tr>";
- echo"<td>".
- 
- "<img src='../teachers/teach_profil_imgs/".$t['profile_picture']."'>".
- "</td>";
- echo"<td>".$t['full_name']."</td>";
- echo"<td>".$t['email']."</td>";
- echo"<td>".$t['phone']."</td>";
- echo"<td>".$t['subjects']."</td>";
+    foreach($teachers as $t){
+        echo"<tr>";
+        echo"<td>".
+        
+        "<img src='../teachers/teach_profil_imgs/".$t['profile_picture']."'>".
+        "</td>";
+        echo"<td>".$t['full_name']."</td>";
+        echo"<td>".$t['email']."</td>";
+        echo"<td>".$t['phone']."</td>";
+        echo"<td>".$t['subjects']."</td>";
 
- echo"</tr>";
+        echo"</tr>";
 
-}
+    }
     
 }
 function countStudents(){

@@ -72,9 +72,9 @@ public function update_learner(array $data){
         try{
             $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
             $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql="INSERT INTO $table(`year`, title,`subject`,instructions,question,A,B,C,D,img,img_type,ans) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql="INSERT INTO $table(`year`, title,`subject`,instructions,question,A,B,C,D,img,ans) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
             $statement = $conn->prepare($sql);
-			$statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4],$data[5],$data[6],$data[7],$data[8],$data[9],$data[10],$data[11]]);
+			$statement->execute([$data[0],$data[1],$data[2],$data[3],$data[4],$data[5],$data[6],$data[7],$data[8],$data[9],$data[10]]);
 			$result = "Question added";
 			$conn = null;
         }catch(PDOException $err){

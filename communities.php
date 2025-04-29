@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+if( $_SESSION['logged_in']==true){
+
 include 'classes.php';
 //display all existing communities with a button to join
 $db = new DB();
@@ -360,3 +363,10 @@ $MyCommunities = $db3->MyCommunities($_SESSION['id']);
     </script>
 </body>
 </html>
+<?php
+}
+else{
+    header("location:login.php");
+
+}
+?>

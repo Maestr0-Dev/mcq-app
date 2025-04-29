@@ -62,7 +62,7 @@ if(!empty($_FILES['diagram']['name'])){
 
 }
    
-$data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$newImageName," ",$ans];
+$data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$newImageName,$ans];
 $db= new DB();
 $result=$db-> questions($table, $data);
  echo "
@@ -114,7 +114,7 @@ $result=$db-> questions($table, $data);
     ?>
 </select>
 
-<input type="text" name="title" placeholder="title" required>
+<input type="text" name="title" placeholder="title" >
 <select name="subject" id="subj" required>
     <option value="" selected disabled>subject</option>
     <?php

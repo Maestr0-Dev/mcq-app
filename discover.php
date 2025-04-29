@@ -1,7 +1,9 @@
 <?php
 session_start();
 include 'classes.php';
-
+if( $_SESSION['logged_in']!=true){
+    header("location:login.php");
+  }
 $db = new DB();
 $student_id = $_SESSION['id']; 
 
