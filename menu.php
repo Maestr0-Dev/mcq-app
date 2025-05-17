@@ -52,7 +52,7 @@ include 'classes.php';
 
     
 
-    <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+    <span class="menu-icon" onclick="toggleMenu()"><i class="fa fa-bars"></i></span>
 
   </div>
 

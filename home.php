@@ -25,7 +25,7 @@
 include 'menu.php';
 ?>
 <div class="main-content">
-    <h2>Learning is For Everyone</h2>
+    <h2>Learn smart</h2>
     <p>At Quiz-Master, we value the individual. Students are provided with experienced industry professionals who make it their business to help you understand your subjects.</p>
 </div>
 

@@ -62,7 +62,12 @@
             font-weight: 600;
         }
         
-        .my-books-btn {
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .header-btn {
             background: rgba(255, 255, 255, 0.2);
             border: none;
             border-radius: 8px;
@@ -76,7 +81,7 @@
             gap: 8px;
         }
         
-        .my-books-btn:hover {
+        .header-btn:hover {
             background: rgba(255, 255, 255, 0.4);
         }
         
@@ -285,6 +290,174 @@
             color: #6b7280;
             font-size: 1.1rem;
         }
+        
+        /* Notes Section Styles */
+        .notes-section {
+            margin-bottom: 40px;
+        }
+        
+        .notes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .note-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .note-header {
+            background: linear-gradient(135deg, #6366F1, #A855F7);
+            color: white;
+            padding: 15px;
+        }
+        
+        .note-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .note-content {
+            padding: 15px;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .note-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: linear-gradient(transparent, white);
+        }
+        
+        .note-actions {
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .note-btn {
+            background: none;
+            border: none;
+            color: #6366F1;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .my-notes-card {
+            border: 2px dashed #d1d5db;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            cursor: pointer;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .my-notes-card:hover {
+            border-color: #6366F1;
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+        
+        .add-note-icon {
+            width: 50px;
+            height: 50px;
+            background-color: #6366F1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .add-note-text {
+            font-weight: 600;
+            color: #6366F1;
+        }
+        
+        /* New Note Modal */
+        .note-modal-content {
+            max-width: 600px;
+        }
+        
+        .note-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-label {
+            font-weight: 500;
+            color: #4b5563;
+        }
+        
+        .form-input {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-textarea {
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 5px;
+            font-size: 1rem;
+            min-height: 200px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .cancel-btn {
+            padding: 10px 15px;
+            background-color: #e5e7eb;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .save-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #6366F1, #A855F7);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -298,13 +471,22 @@
                 </a>
                 <h1 class="header-title">Official Textbooks</h1>
             </div>
-            <button class="my-books-btn" onclick="openMyBooks()">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                </svg>
-                My Books
-            </button>
+            <div class="nav-buttons">
+                <button class="header-btn" onclick="openMyBooks()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                    My Books
+                </button>
+                <button class="header-btn" onclick="scrollToNotes()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Notes
+                </button>
+            </div>
         </header>
         
         <div class="search-container">
@@ -390,6 +572,107 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Notes Section -->
+            <section id="notesSection" class="notes-section">
+                <h2 class="subject-header">Notes</h2>
+                <div class="notes-container">
+                    <!-- Mathematics Notes -->
+                    <div class="note-card">
+                        <div class="note-header">
+                            <h3 class="note-title">Mathematics Notes</h3>
+                        </div>
+                        <div class="note-content">
+                            <p>Sample notes on Calculus, Algebra, and Statistics. Click to view comprehensive study materials, formulas, and example problems in various mathematics topics.</p>
+                            <p>Includes key concepts for differentiation, integration, linear algebra, and probability theory.</p>
+                        </div>
+                        <div class="note-actions">
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                View
+                            </button>
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Physics Notes -->
+                    <div class="note-card">
+                        <div class="note-header">
+                            <h3 class="note-title">Physics Notes</h3>
+                        </div>
+                        <div class="note-content">
+                            <p>Comprehensive notes on Mechanics, Electricity, Magnetism, and Modern Physics. Includes formulas, diagrams, and practical examples.</p>
+                            <p>Topics cover Newton's laws, circuits, electromagnetic induction, and quantum physics basics.</p>
+                        </div>
+                        <div class="note-actions">
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                View
+                            </button>
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Chemistry Notes -->
+                    <div class="note-card">
+                        <div class="note-header">
+                            <h3 class="note-title">Chemistry Notes</h3>
+                        </div>
+                        <div class="note-content">
+                            <p>Study materials for Organic Chemistry, Inorganic Chemistry, and Physical Chemistry. Contains reaction mechanisms, periodic table trends, and thermodynamics concepts.</p>
+                            <p>Includes lab safety protocols and experiment guidelines for practical sessions.</p>
+                        </div>
+                        <div class="note-actions">
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                View
+                            </button>
+                            <button class="note-btn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                    <polyline points="7 10 12 15 17 10"></polyline>
+                                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                                </svg>
+                                Download PDF
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- My Notes (Add New Notes) -->
+                    <div class="my-notes-card" onclick="openNewNoteModal()">
+                        <div class="add-note-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </div>
+                        <p class="add-note-text">Add New Notes</p>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
     
@@ -419,8 +702,42 @@
         </div>
     </div>
     
+    <!-- New Note Modal -->
+    <div id="newNoteModal" class="modal">
+        <div class="modal-content note-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Note</h2>
+                <button class="close-modal" onclick="closeNewNoteModal()">&times;</button>
+            </div>
+            <form class="note-form" id="newNoteForm">
+                <div class="form-group">
+                    <label class="form-label" for="noteTitle">Title</label>
+                    <input type="text" id="noteTitle" class="form-input" placeholder="Enter note title">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="noteSubject">Subject</label>
+                    <select id="noteSubject" class="form-input">
+                        <option value="">Select a subject</option>
+                        <option value="mathematics">Mathematics</option>
+                        <option value="physics">Physics</option>
+                        <option value="chemistry">Chemistry</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="noteContent">Content</label>
+                    <textarea id="noteContent" class="form-textarea" placeholder="Write your notes here..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="cancel-btn" onclick="closeNewNoteModal()">Cancel</button>
+                    <button type="button" class="save-btn" onclick="saveNote()">Save as PDF</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
     <script>
-        // Simple JavaScript for modal functionality
+        // Modal functionality
         function openMyBooks() {
             document.getElementById("myBooksModal").style.display = "block";
         }
@@ -429,13 +746,58 @@
             document.getElementById("myBooksModal").style.display = "none";
         }
         
-        // Close modal if clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById("myBooksModal");
-            if (event.target === modal) {
-                modal.style.display = "none";
+        function openNewNoteModal() {
+            document.getElementById("newNoteModal").style.display = "block";
+        }
+        
+        function closeNewNoteModal() {
+            document.getElementById("newNoteModal").style.display = "none";
+        }
+        
+        // Function to scroll to Notes section
+        function scrollToNotes() {
+            const notesSection = document.getElementById("notesSection");
+            if (notesSection) {
+                notesSection.scrollIntoView({ behavior: "smooth" });
             }
         }
-    </script>
+        
+        // Function to save note as PDF
+        function saveNote() {
+            // Get form values
+            const title = document.getElementById("noteTitle").value;
+            const subject = document.getElementById("noteSubject").value;
+            const content = document.getElementById("noteContent").value;
+            
+            // Basic validation
+            if (!title || !subject || !content) {
+                alert("Please fill in all fields");
+                return;
+            }
+            
+            // Here in a real implementation, we would use a library like jsPDF
+            // to generate the PDF file and trigger download
+            
+            alert("Note saved as PDF! (Simulation)");
+            closeNewNoteModal();
+            
+            // In a real implementation, you'd add the note to the user's notes collection
+            // and display it in the interface
+        }
+        
+        // Close modals if clicking outside of them
+        window.onclick = function(event) {
+            const myBooksModal = document.getElementById("myBooksModal");
+            const newNoteModal = document.getElementById("newNoteModal");
+            
+            if (event.target === myBooksModal) {
+                myBooksModal.style.display = "none";
+            }
+            
+            if (event.target === newNoteModal) {
+                newNoteModal.style.display = "none";
+            }
+        }
+        </script>
 </body>
 </html>
