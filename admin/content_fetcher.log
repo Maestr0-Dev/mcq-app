@@ -1,0 +1,81 @@
+[2025-07-05 00:10:57] Starting content fetch for Subject: biology, Category: definitions
+[2025-07-05 00:10:57] Processing topic: Cell
+[2025-07-05 00:10:59] Error processing Cell: HTTP Error: 401
+[2025-07-05 00:10:59] Processing topic: DNA
+[2025-07-05 00:11:01] Error processing DNA: HTTP Error: 401
+[2025-07-05 00:11:01] Processing topic: RNA
+[2025-07-05 00:11:04] Error processing RNA: HTTP Error: 401
+[2025-07-05 00:11:04] Processing topic: Protein
+[2025-07-05 00:11:06] Error processing Protein: HTTP Error: 401
+[2025-07-05 00:11:06] Processing topic: Enzyme
+[2025-07-05 00:11:08] Error processing Enzyme: HTTP Error: 401
+[2025-07-05 00:11:08] Processing topic: Mitosis
+[2025-07-05 00:11:10] Error processing Mitosis: HTTP Error: 401
+[2025-07-05 00:11:10] Processing topic: Meiosis
+[2025-07-05 00:11:27] Error processing Meiosis: HTTP Error: 401
+[2025-07-05 00:11:27] Processing topic: Photosynthesis
+[2025-07-05 00:11:28] Error processing Photosynthesis: HTTP Error: 401
+[2025-07-05 00:11:28] Processing topic: Cellular Respiration
+[2025-07-05 00:11:30] Error processing Cellular Respiration: HTTP Error: 401
+[2025-07-05 00:11:30] Processing topic: Evolution
+[2025-07-05 00:11:33] Error processing Evolution: HTTP Error: 401
+[2025-07-05 00:11:33] Processing topic: Natural Selection
+[2025-07-05 00:11:35] Error processing Natural Selection: HTTP Error: 401
+[2025-07-05 00:11:35] Processing topic: Genetics
+[2025-07-05 00:11:38] Error processing Genetics: HTTP Error: 401
+[2025-07-05 00:11:38] Processing topic: Chromosome
+[2025-07-05 00:11:40] Error processing Chromosome: HTTP Error: 401
+[2025-07-05 00:11:40] Processing topic: Gene
+[2025-07-05 00:11:52] Error processing Gene: HTTP Error: 401
+[2025-07-05 00:11:52] Processing topic: Allele
+[2025-07-05 00:11:58] Error processing Allele: HTTP Error: 401
+[2025-07-05 00:11:58] Processing topic: Phenotype
+[2025-07-05 00:12:01] Error processing Phenotype: HTTP Error: 401
+[2025-07-05 00:12:01] Processing topic: Genotype
+[2025-07-05 00:12:02] Error processing Genotype: HTTP Error: 401
+[2025-07-05 00:12:02] Processing topic: Ecosystem
+[2025-07-05 00:12:04] Error processing Ecosystem: HTTP Error: 401
+[2025-07-05 00:12:04] Processing topic: Food Chain
+[2025-07-05 00:12:07] Error processing Food Chain: HTTP Error: 401
+[2025-07-05 00:12:07] Processing topic: Biodiversity
+[2025-07-05 00:12:09] Error processing Biodiversity: HTTP Error: 401
+[2025-07-05 00:12:09] Processing topic: Taxonomy
+[2025-07-05 00:12:11] Error processing Taxonomy: HTTP Error: 401
+[2025-07-05 00:12:11] Processing topic: Prokaryote
+[2025-07-05 00:12:13] Error processing Prokaryote: HTTP Error: 401
+[2025-07-05 00:12:13] Processing topic: Eukaryote
+[2025-07-05 00:12:15] Error processing Eukaryote: HTTP Error: 401
+[2025-07-05 00:12:15] Processing topic: Bacteria
+[2025-07-05 00:12:17] Error processing Bacteria: HTTP Error: 401
+[2025-07-05 00:12:17] Processing topic: Virus
+[2025-07-05 00:12:19] Error processing Virus: HTTP Error: 401
+[2025-07-05 00:12:19] Processing topic: Fungi
+[2025-07-05 00:12:20] Error processing Fungi: HTTP Error: 401
+[2025-07-05 00:12:20] Processing topic: Plant
+[2025-07-05 00:12:24] Error processing Plant: HTTP Error: 401
+[2025-07-05 00:12:24] Processing topic: Animal
+[2025-07-05 00:12:26] Error processing Animal: HTTP Error: 401
+[2025-07-05 00:12:26] Completed. Success: 0, Errors: 28
+[2025-07-05 00:32:02] Starting content fetch for Subject: biology, Category: definitions
+[2025-07-05 00:32:02] Processing topic: Cell
+[2025-07-05 00:32:12] OpenAI API error: HTTP Error: 400
+[2025-07-05 00:36:25] Starting content fetch for Subject: biology, Category: definitions
+[2025-07-05 00:36:25] Processing topic: Cell
+[2025-07-05 00:36:25] Sending request to OpenAI for topic: Cell
+[2025-07-05 00:36:55] OpenAI API error for topic 'Cell': cURL Error: Connection timed out after 30007 milliseconds
+[2025-07-05 00:36:55] Fetching from Wikipedia: https://en.wikipedia.org/api/rest_v1/page/summary/Cell
+[2025-07-05 00:37:25] Wikipedia API error for topic 'Cell': cURL Error: Connection timed out after 30011 milliseconds
+[2025-07-05 23:11:46] Starting content fetch for Subject: biology, Category: definitions
+[2025-07-05 23:11:46] Processing topic: Cell
+[2025-07-05 23:11:46] Sending request to OpenAI for topic: Cell
+[2025-07-05 23:11:48] OpenAI API error for topic 'Cell': HTTP Error: 400 - Response: {
+    "error": {
+        "message": "you must provide a model parameter",
+        "type": "invalid_request_error",
+        "param": null,
+        "code": null
+    }
+}
+
+[2025-07-05 23:11:48] Fetching from Wikipedia: https://en.wikipedia.org/api/rest_v1/page/summary/Cell
+[2025-07-05 23:11:54] Raw API Response: {"type":"disambiguation","title":"Cell","displaytitle":"<span class=\"mw-page-title-main\">Cell</span>","namespace":{"id":0,"text":""},"wikibase_item":"Q2349697","titles":{"canonical":"Cell","normalized":"Cell","display":"<span class=\"mw-page-title-main\">Cell</span>"},"pageid":5995,"lang":"en","dir":"ltr","revision":"1286119232","tid":"a3e084bd-1bd1-11f0-a294-d6d2bcac8eb5","timestamp":"2025-04-17T21:19:26Z","description":"Topics referred to by the same term","description_source":"local","conte

@@ -117,9 +117,9 @@ if( $_SESSION['logged_in']==true){
             <h2>Choose an Option</h2>
             <select name="exam" id="" required>
     <option  disabled>Select exam</option>
-    <option value="o_level_mock">O-level Mock</option>
+    <!-- <option value="o_level_mock">O-level Mock</option> -->
     <option value="o_level_gce">O-level GCE</option>
-    <option value="a_level_mock">A-level Mock</option>
+    <!-- <option value="a_level_mock">A-level Mock</option> -->
     <option value="a_level_gce">A-level GCE</option>
 </select>
     

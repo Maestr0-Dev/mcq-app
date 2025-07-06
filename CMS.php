@@ -64,7 +64,7 @@ if(!empty($_FILES['diagram']['name'])){
    
 $data=[$year,$title,$subject,$instruction,$quest,$A,$B,$C,$D,$newImageName,$ans];
 $db= new DB();
-$result=$db-> questions($table, $data);
+$result= $db->questions($table, $data);
  echo "
  <script>
  alert('Added Successfully')
@@ -97,9 +97,9 @@ $result=$db-> questions($table, $data);
     <div class="question_info">
 <select name="exam" id="" required>
     <option disable>Select the type</option>
-    <option value="o_level_mock" disabled>O-level Mock</option>
+    <!-- <option value="o_level_mock" disabled>O-level Mock</option> -->
     <option value="o_level_gce">O-level GCE</option>
-    <option value="a_level_mock" disabled>A-level Mock</option>
+    <!-- <option value="a_level_mock" disabled>A-level Mock</option> -->
     <option value="a_level_gce">A-level GCE</option>
 </select>
 <select name="year" id="" required>

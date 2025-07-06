@@ -10,6 +10,8 @@ $table = $_SESSION['exam'];
 $num=$_SESSION['num'];
 $lvl=$_SESSION['level'];
 $stud_id=$_SESSION['id'];
+    $date=date("Y:M:D");
+
 
 if ( !isset($table)) {
     echo "Error: Missing session variables.";
@@ -22,6 +24,7 @@ if ( !isset($table)) {
 
 $data = [$year, $subj];
 $ans_data=[$stud_id,$table,$lvl,$subj,$year,$score,$dur,$date];
+
 
 $db = new DB();
 $done= $db->savePerf($ans_data);
