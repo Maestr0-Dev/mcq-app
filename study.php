@@ -100,7 +100,7 @@ function processContentForImages($content) {
 }
 
 // Get all subjects using DB class
-$subjects = $db->getSubjects();
+$subjects = $db->fetchSubjects();
 
 // Define subject icons
 $subjectIcons = [

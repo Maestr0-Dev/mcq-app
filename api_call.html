@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>API Call</title>
+</head>
+<body>
+  <script>
+    const apiKey = "AIzaSyDY765X0DfG-lS7amjslmWwd5TXItpAiAg";
+    const url = "http://localhost:5000/api/ai"; // Placeholder URL
+
+    async function callApi(message) {
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        return data.response;
+      } catch (error) {
+        console.error("Error calling API:", error);
+        return "Error: Could not get AI response.";
+      }
+    }
+
+    // Get message from URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const message = urlParams.get('message');
+
+    // Call the API and display the response
+    callApi(message)
+      .then(response => {
+        // Send the response back to the parent window
+        window.opener.postMessage(response, '*');
+        window.close();
+      });
+  </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ if (isset($_SESSION['started'])) {
     $subj = $_SESSION['subj'];
     $table = $_SESSION['exam'];
     $time = $_SESSION['time'];
+    $lvl = $_SESSION['level'];
     $_SESSION['mic_set']=true;
 
     if (!isset($table)) {
@@ -170,6 +171,7 @@ window.onload = startTimer;
         <p>D<input type="radio" name="us_ans[<?=$num?>]" value="<?=$q['D']?>" onclick="checkAns('<?=$q['D']?>','<?=$real_ans?>','<?=$num?>')"> <?=$q['D']?> </p>
 
 <?php
+        $_SESSION['tot']= $num;
     }
 ?>
 

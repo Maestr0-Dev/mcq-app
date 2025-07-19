@@ -42,7 +42,7 @@ include 'classes.php';
     <a href="performance.php"> View Performances <i class="fa fa-chart-line"></i> </a>
     <a href="chat_with_ai.php"> Braze AI <i class="fa fa-robot"></i> </a>
     <a href="communities.php">Community <i class="fa fa-users"></i> </a>
-    <a href="question_bank.php"> Archives <i class="fa fa-bank"></i> </a>
+    <a href="archive.php"> Archives <i class="fa fa-archive"></i> </a>
     <a href="study.php"> study <i class="fa fa-book"></i> </a>
     <!-- <a href="myQuiz.php">Persona <i class="fa fa-map"></i> </a>/\ here the user will be able to create personal quizes, notes,  -->
     <a href="settings.php">Settings<i class="fa fa-repair"></i> </a>

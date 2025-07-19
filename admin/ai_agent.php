@@ -86,7 +86,7 @@ class AIContentFetcher {
      * Fetch content using OpenAI API
      */
     private function fetchFromOpenAI($topic, $subject, $category) {
-        if (empty($this->apiKeys['openai']) || $this->apiKeys['openai'] === 'your-openai-api-key-here') {
+        if (empty($this->apiKeys['openai']) || $this->apiKeys['openai'] === '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') {
             $this->log("OpenAI API key not configured, skipping OpenAI fetch");
             return null;
         }

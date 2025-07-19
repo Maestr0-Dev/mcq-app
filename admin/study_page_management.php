@@ -109,17 +109,14 @@
 </head>
 <body>
     <?php
-    // Include your DB class
-    require_once 'admin_class.php'; // Replace with your actual DB class file
+    require_once 'admin_class.php'; 
     $db = new DB();
     
-    // Create diagrams directory if it doesn't exist
     $uploadDir = 'diagrams/';
     if (!file_exists($uploadDir)) {
         mkdir($uploadDir, 0777, true);
     }
     
-    // Handle form submissions
     $message = '';
     if ($_POST) {
         if (isset($_POST['action'])) {
@@ -128,7 +125,6 @@
                     $content = $_POST['content'];
                     $contentType = $_POST['content_type'];
                     
-                    // Handle diagram upload
                     if ($contentType === 'diagram' && isset($_FILES['diagram']) && $_FILES['diagram']['error'] == 0) {
                         $file = $_FILES['diagram'];
                         $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/svg+xml'];

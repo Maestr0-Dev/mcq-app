@@ -4,6 +4,98 @@ if( $_SESSION['logged_in']!==true){
   header("location:login.php");
   exit();
 }
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'get_ai_response') {
+    header('Content-Type: application/json');
+    
+    $message = $_POST['message'] ?? '';
+    $isAgentMode = $_POST['isAgentMode'] ?? false;
+    
+    if (empty($message)) {
+        echo json_encode(['error' => 'Message is required']);
+        exit();
+    }
+    
+    $apiKey = 'AIzaSyAcQR-u0L_189b-I0rrWb7qi-NyIg0SOoc';
+    
+    $systemMessage = $isAgentMode ? 
+        "You are Braze AI in agent mode. You are proactive, helpful, and can take initiative to suggest solutions and next steps. You analyze problems thoroughly and provide comprehensive assistance." :
+        "You are Braze AI, a helpful assistant. You respond to user queries in a short, simple, friendly and informative manner, waiting for user instructions before taking action.And you do all that in one paragraph";
+    
+    $fullMessage = $systemMessage . "\n\nUser: " . $message;
+    
+    $data = [
+        'contents' => [
+            [
+                'parts' => [
+                    [
+                        'text' => $fullMessage
+                    ]
+                ]
+            ]
+        ],
+        'generationConfig' => [
+            'temperature' => 0.7,
+            'topK' => 40,
+            'topP' => 0.95,
+            'maxOutputTokens' => 500,
+        ],
+        'safetySettings' => [
+            [
+                'category' => 'HARM_CATEGORY_HARASSMENT',
+                'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_HATE_SPEECH',
+                'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+                'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+            ],
+            [
+                'category' => 'HARM_CATEGORY_DANGEROUS_CONTENT',
+                'threshold' => 'BLOCK_MEDIUM_AND_ABOVE'
+            ]
+        ]
+    ];
+    
+    $curl = curl_init();
+    curl_setopt_array($curl, [
+        CURLOPT_URL => 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' . $apiKey,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => json_encode($data),
+        CURLOPT_HTTPHEADER => [
+            'Content-Type: application/json'
+        ],
+        CURLOPT_TIMEOUT => 30
+    ]);
+    
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
+    if (curl_errno($curl)) {
+        echo json_encode(['error' => 'Connection error: ' . curl_error($curl)]);
+        curl_close($curl);
+        exit();
+    }
+    
+    curl_close($curl);
+    
+    if ($httpCode !== 200) {
+        echo json_encode(['error' => 'API request failed with status: ' . $httpCode . '. Response: ' . $response]);
+        exit();
+    }
+    
+    $result = json_decode($response, true);
+    
+    if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+        echo json_encode(['response' => $result['candidates'][0]['content']['parts'][0]['text']]);
+    } else {
+        echo json_encode(['error' => 'Invalid API response: ' . $response]);
+    }
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +103,8 @@ if( $_SESSION['logged_in']!==true){
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Braze AI</title>
-  <style>
+
+   <style>
     :root {
       --primary: #2563eb;
       --primary-light: #3b82f6;
@@ -183,6 +276,7 @@ if( $_SESSION['logged_in']!==true){
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       max-width: 80%;
       line-height: 1.5;
+      white-space: pre-wrap;
     }
     
     .ai-message .message-content {
@@ -258,6 +352,11 @@ if( $_SESSION['logged_in']!==true){
       box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
     }
     
+    .message-input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
     .action-buttons {
       position: absolute;
       right: 0.5rem;
@@ -284,6 +383,11 @@ if( $_SESSION['logged_in']!==true){
       background-color: var(--primary-dark);
     }
     
+    .icon-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
     .icon-button.secondary {
       background-color: var(--light-gray);
       color: var(--gray);
@@ -292,6 +396,42 @@ if( $_SESSION['logged_in']!==true){
     .icon-button.secondary:hover {
       background-color: var(--gray);
       color: white;
+    }
+    
+    .loading-indicator {
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      color: var(--gray);
+      font-style: italic;
+    }
+    
+    .loading-indicator.active {
+      display: flex;
+    }
+    
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--light-gray);
+      border-top: 2px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .error-message {
+      background-color: #fee2e2;
+      color: #dc2626;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      margin: 1rem 0;
+      font-size: 0.875rem;
     }
     
     /* File upload panel */
@@ -383,6 +523,7 @@ if( $_SESSION['logged_in']!==true){
       }
     }
   </style>
+
 </head>
 <body>
   <div class="header">
@@ -395,7 +536,7 @@ if( $_SESSION['logged_in']!==true){
       </a>
       <div class="logo">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
+          <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v-.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
           <path d="M12 8c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
           <path d="M12 16a2 2 0 0 0 0-4"/>
         </svg>
@@ -423,7 +564,7 @@ if( $_SESSION['logged_in']!==true){
     <div class="message ai-message">
       <div class="avatar ai-avatar">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
+          <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v-.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
           <path d="M12 8c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
         </svg>
       </div>
@@ -431,6 +572,11 @@ if( $_SESSION['logged_in']!==true){
         Hello! I'm Braze AI. How can I assist you today?
       </div>
     </div>
+  </div>
+  
+  <div class="loading-indicator" id="loading-indicator">
+    <div class="spinner"></div>
+    <span>AI is thinking...</span>
   </div>
   
   <div class="file-upload-panel" id="file-upload-panel">
@@ -496,6 +642,7 @@ if( $_SESSION['logged_in']!==true){
     const fileUploadPanel = document.getElementById('file-upload-panel');
     const fileUploadInput = document.getElementById('file-upload-input');
     const fileTypeBtns = document.querySelectorAll('.file-type-btn');
+    const loadingIndicator = document.getElementById('loading-indicator');
     
     // Handle input resizing
     messageInput.addEventListener('input', function() {
@@ -508,9 +655,9 @@ if( $_SESSION['logged_in']!==true){
       document.body.classList.toggle('agent-active', this.checked);
       
       if (this.checked) {
-        addMessage('ai', 'Agent mode activated. I can now proactively help with your tasks.');
+        addMessage('ai', 'Agent mode activated. I can now proactively help with your tasks and provide more comprehensive assistance.');
       } else {
-        addMessage('ai', 'Agent mode deactivated. I\'ll wait for your instructions.');
+        addMessage('ai', 'Agent mode deactivated. I\'ll wait for your instructions and provide direct responses.');
       }
     });
     
@@ -549,9 +696,9 @@ if( $_SESSION['logged_in']!==true){
         addMessage('user', `I'm uploading: ${fileName}`);
         fileUploadPanel.classList.remove('active');
         
-        // Simulate AI response about the file
+        // Note: File upload functionality would need additional backend implementation
         setTimeout(() => {
-          addMessage('ai', `I've received your file "${fileName}". What would you like me to do with it?`);
+          addMessage('ai', `I've received your file "${fileName}". Please note that file processing is not yet implemented in this version. What would you like me to help you with regarding this file?`);
         }, 1000);
       }
     });
@@ -564,18 +711,73 @@ if( $_SESSION['logged_in']!==true){
     });
     
     // Handle sending messages
-    function sendMessage() {
+    async function sendMessage() {
       const message = messageInput.value.trim();
-      if (message) {
+      if (message && !sendButton.disabled) {
         addMessage('user', message);
         messageInput.value = '';
         messageInput.style.height = 'auto';
         
-        // Simulate AI response (in a real app, this would be an API call)
-        setTimeout(() => {
-          addMessage('ai', getResponse(message));
-        }, 1000);
+        // Disable input and show loading
+        setLoading(true);
+        
+        try {
+          const response = await fetch(window.location.href, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: new URLSearchParams({
+              action: 'get_ai_response',
+              message: message,
+              isAgentMode: agentToggle.checked
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.error) {
+            showError(data.error);
+          } else {
+            addMessage('ai', data.response);
+          }
+        } catch (error) {
+          showError('Failed to get AI response. Please check your internet connection and try again.');
+        } finally {
+          setLoading(false);
+        }
       }
+    }
+    
+    // Set loading state
+    function setLoading(isLoading) {
+      sendButton.disabled = isLoading;
+      messageInput.disabled = isLoading;
+      
+      if (isLoading) {
+        loadingIndicator.classList.add('active');
+        chatContainer.appendChild(loadingIndicator);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+      } else {
+        loadingIndicator.classList.remove('active');
+        messageInput.focus();
+      }
+    }
+    
+    // Show error message
+    function showError(message) {
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'error-message';
+      errorDiv.textContent = message;
+      chatContainer.appendChild(errorDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      
+      // Remove error after 5 seconds
+      setTimeout(() => {
+        if (errorDiv.parentNode) {
+          errorDiv.parentNode.removeChild(errorDiv);
+        }
+      }, 5000);
     }
     
     sendButton.addEventListener('click', sendMessage);
@@ -594,7 +796,7 @@ if( $_SESSION['logged_in']!==true){
       if (type === 'user') {
         messageDiv.classList.add('user-message');
         messageDiv.innerHTML = `
-          <div class="message-content">${content}</div>
+          <div class="message-content">${escapeHtml(content)}</div>
           <div class="avatar user-avatar">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -607,11 +809,11 @@ if( $_SESSION['logged_in']!==true){
         messageDiv.innerHTML = `
           <div class="avatar ai-avatar">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
+              <path d="M12 2c1.9 0 3.6.7 4.9 2 1.3 1.3 2 3 2.1 4.9v.1l.7 1.5c.2.6.3 1 .3 1.5 0 .5-.1.9-.3 1.5l-.7 1.5v-.1C19 17 16.2 20 12 20c-4.2 0-7-3-7.9-5.9v-.1l-.7-1.5C3.1 11.9 3 11.5 3 11c0-.5.1-.9.3-1.5l.7-1.5v-.1C4.8 4.7 8.1 2 12 2z"/>
               <path d="M12 8c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
             </svg>
           </div>
-          <div class="message-content">${content}</div>
+          <div class="message-content">${escapeHtml(content)}</div>
         `;
       }
       
@@ -619,24 +821,15 @@ if( $_SESSION['logged_in']!==true){
       chatContainer.scrollTop = chatContainer.scrollHeight;
     }
     
-    // Simple response function (would be replaced with actual AI response in a real app)
-    function getResponse(message) {
-      const isAgentMode = agentToggle.checked;
-      
-      if (message.toLowerCase().includes('hello') || message.toLowerCase().includes('hi')) {
-        return isAgentMode ? 
-          "Hello! I'm in agent mode and ready to help. I notice you're starting a conversation. Is there a specific task you'd like me to help with today?" : 
-          "Hello! How can I assist you today?";
-      } else if (message.toLowerCase().includes('help')) {
-        return isAgentMode ?
-          "I'm analyzing what you might need help with. Could you tell me more about what you're trying to accomplish? In agent mode, I can be more proactive in suggesting solutions." :
-          "I'd be happy to help. What do you need assistance with?";
-      } else {
-        return isAgentMode ?
-          "I'm processing your request in agent mode. This allows me to take more initiative in helping you solve problems. Based on what you've shared, would you like me to suggest next steps?" :
-          "Thank you for your message. How would you like me to help with this?";
-      }
+    // Escape HTML to prevent XSS
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
+    
+    // Focus on input when page loads
+    messageInput.focus();
   </script>
 </body>
 </html>
