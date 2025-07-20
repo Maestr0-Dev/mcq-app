@@ -19,8 +19,7 @@ class AIContentFetcher {
         
         // Configure your API keys here
         $this->apiKeys = [
-            'openai' => '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
-',
+            'openai' => ' ',
             'wikipedia' => null // Wikipedia doesn't require API key
         ];
     }
