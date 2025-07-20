@@ -458,7 +458,7 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Ace Your GCE Exams with Confidence</h1>
-                    <p>Access thousands of past questions, personalized study plans, and expert tutors. The ultimate exam preparation app for Cameroonian students.</p>
+                    <p>Access thousands of past questions, personalized study plans, and expert tutors. The ultimate exam preparation app for students.</p>
                     <div>
                         <button class="btn btn-primary" id="join-now-btn">Join Now</button>
                         <!-- <a href="#features" class="btn btn-secondary">Learn More</a> -->
@@ -528,6 +528,13 @@
                     </div>
                     <h3>AI assistant</h3>
                     <p>Get helped by AI to asnwer any question, and get into agent mode for futher assistance.</p>                
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map"></i>
+                    </div>
+                    <h3>Exam Preps</h3>
+                    <p>Get a complete plan and quizzes to help you prepare for youe exams on time.</p>                
                 </div>
                 
         </div>

@@ -37,7 +37,7 @@
     <a href="../communities.php">Community <i class="fa fa-users"></i> </a>
     <a href="question_bank.php"> Archives <i class="fa fa-bank"></i> </a>
     <a href="../study.php"> learn <i class="fa fa-book"></i> </a>
-    <a href="teachersContent.php"> My content <i class="fa fa-book"></i> </a>
+    <a href="../teacher_content.php"> My content <i class="fa fa-book"></i> </a>
 
     <!-- <a href="myQuiz.php">Persona <i class="fa fa-map"></i> </a>/\ here the user will be able to create personal quizes, notes,  -->
     <a href="settings.php">Settings<i class="fa fa-repair"></i> </a>

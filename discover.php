@@ -101,6 +101,9 @@ $mentors = $db->getStudentMentors($student_id);
                         <p>Subjects: <?= $mentor['subjects'] ?></p>
                         <p>On Platform: <?= $mentor['time_on_platform'] ?> years</p>
                     </div>
+                    <div class="teacher-actions">
+                        <a href="tutor_content.php?id=<?= $mentor['teacher_id'] ?>" class="mentor-btn">View Content</a>
+                    </div>
                 </div>
             <?php endforeach; ?>
         </div>

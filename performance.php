@@ -524,6 +524,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             <div class="chart-wrapper">
                 <canvas id="performanceChart"></canvas>
             </div>
+            <button id="generateQuizBtn" onclick="generatePersonalizedQuiz()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 0;">
+                Generate Personalized Quiz
+            </button>
         </div>
         
         <div class="no-data" id="noDataMessage" style="display: none;">
@@ -536,16 +539,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             </a>
         </div>
     </div>
-
+    
 </div>
 </div>
 
 
-
-  <!-- Add this button to your performance chart page -->
-<button id="generateQuizBtn" onclick="generatePersonalizedQuiz()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 0;">
-    Generate Personalized Quiz
-</button>
 
 <div id="quizStatus" style="margin: 10px 0; padding: 10px; border-radius: 5px; display: none;"></div>
 

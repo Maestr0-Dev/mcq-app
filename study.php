@@ -1,6 +1,10 @@
 <?php
 // Include the DB class
 require_once 'classes.php'; // Adjust path as needed
+// if (!isset($_SESSION['id'])) {
+//     header('Location: login.php');
+//     exit;
+// }
 
 // Initialize database connection
 $db = new DB();
@@ -455,6 +459,16 @@ $subjectIcons = [
         </div>
         
         <nav class="nav flex-column mt-3">
+             <div class="nav-item">
+                    <a class="nav-link" href="preps.php">
+                    Exam Preps
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="bookshop.php">
+                    Book Shop
+                    </a>
+                </div>
             <?php foreach($subjects as $subject): 
                 $icon = $subjectIcons[$subject] ?? 'fas fa-book';
                 $displayName = ucwords(str_replace('_', ' ', $subject));
@@ -477,6 +491,7 @@ $subjectIcons = [
                 </div>
             </div>
             <?php endforeach; ?>
+               
         </nav>
     </div>
     

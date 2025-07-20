@@ -717,6 +717,197 @@ public function deletePrepPlan($prep_id, $stud_id) {
     }
 }
 
+public function getCommunityPosts($com_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+            SELECT cp.*, s.stud_name 
+            FROM community_posts cp
+            JOIN students s ON cp.user_id = s.stud_id
+            WHERE cp.com_id = ?
+            ORDER BY cp.created_at DESC
+        ";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$com_id]);
+        $posts = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $posts;
+    } catch (PDOException $err) {
+        error_log("Database error in getCommunityPosts: " . $err->getMessage());
+        $conn = null;
+        return [];
+    }
+}
+
+public function createPost($com_id, $user_id, $post_type, $content, $quiz_id = null) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO community_posts (com_id, user_id, post_type, content, quiz_id) VALUES (?, ?, ?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$com_id, $user_id, $post_type, $content, $quiz_id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        error_log("Database error in createPost: " . $err->getMessage());
+        $conn = null;
+        return false;
+    }
+}
+
+public function createTeacherContent($teacher_id, $content_type, $title, $content) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO teacher_content (teacher_id, content_type, title, content) VALUES (?, ?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id, $content_type, $title, $content]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        error_log("Database error in createTeacherContent: " . $err->getMessage());
+        $conn = null;
+        return false;
+    }
+}
+
+public function getTeacherContent($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM teacher_content WHERE teacher_id = ? ORDER BY created_at DESC";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $content = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $content;
+    } catch (PDOException $err) {
+        error_log("Database error in getTeacherContent: " . $err->getMessage());
+        $conn = null;
+        return [];
+    }
+}
+
+public function getMenteesForTeacher($teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT s.stud_id, s.stud_name FROM students s JOIN mentors m ON s.stud_id = m.stud_id WHERE m.teacher_id = ? AND m.state = 'Yes'";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$teacher_id]);
+        $mentees = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $mentees;
+    } catch (PDOException $err) {
+        error_log("Database error in getMenteesForTeacher: " . $err->getMessage());
+        $conn = null;
+        return [];
+    }
+}
+
+public function sendContentToStudent($content_id, $student_id, $teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO student_content (content_id, student_id, teacher_id) VALUES (?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$content_id, $student_id, $teacher_id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        error_log("Database error in sendContentToStudent: " . $err->getMessage());
+        $conn = null;
+        return false;
+    }
+}
+
+public function getStudentContent($student_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+            SELECT sc.*, tc.title, tc.content_type, t.full_name 
+            FROM student_content sc
+            JOIN teacher_content tc ON sc.content_id = tc.content_id
+            JOIN teachers t ON sc.teacher_id = t.teacher_id
+            WHERE sc.student_id = ?
+            ORDER BY sc.sent_at DESC
+        ";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$student_id]);
+        $content = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $content;
+    } catch (PDOException $err) {
+        error_log("Database error in getStudentContent: " . $err->getMessage());
+        $conn = null;
+        return [];
+    }
+}
+
+public function getStudentContentById($student_content_id, $student_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+            SELECT sc.*, tc.title, tc.content, tc.content_type, t.full_name 
+            FROM student_content sc
+            JOIN teacher_content tc ON sc.content_id = tc.content_id
+            JOIN teachers t ON sc.teacher_id = t.teacher_id
+            WHERE sc.student_content_id = ? AND sc.student_id = ?
+        ";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$student_content_id, $student_id]);
+        $content = $statement->fetch(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $content;
+    } catch (PDOException $err) {
+        error_log("Database error in getStudentContentById: " . $err->getMessage());
+        $conn = null;
+        return false;
+    }
+}
+
+public function updateStudentContentStatus($student_content_id, $status) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE student_content SET status = ? WHERE student_content_id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$status, $student_content_id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        error_log("Database error in updateStudentContentStatus: " . $err->getMessage());
+        $conn = null;
+        return false;
+    }
+}
+
+public function getStudentContentFromTutor($student_id, $teacher_id) {
+    try {
+        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "
+            SELECT sc.*, tc.title, tc.content_type 
+            FROM student_content sc
+            JOIN teacher_content tc ON sc.content_id = tc.content_id
+            WHERE sc.student_id = ? AND sc.teacher_id = ?
+            ORDER BY sc.sent_at DESC
+        ";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$student_id, $teacher_id]);
+        $content = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $content;
+    } catch (PDOException $err) {
+        error_log("Database error in getStudentContentFromTutor: " . $err->getMessage());
+        $conn = null;
+        return [];
+    }
+}
+
 
 }
 

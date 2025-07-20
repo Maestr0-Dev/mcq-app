@@ -17,7 +17,7 @@ if( $_SESSION['logged_in']==true){
        $_SESSION['started']=true;
        $_SESSION['SCR']=0;
 
-      header("location:quiz.php");
+      header("location:passed_quest.php");
     
     }
 ?>

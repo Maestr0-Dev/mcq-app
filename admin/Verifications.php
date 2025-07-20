@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'C:\xampp\htdocs\mcq-app\classes.php';
+include '../classes.php';
 
 if (!isset($_SESSION['admin_logged_in'])) {
     // header("location:admin_login.php");

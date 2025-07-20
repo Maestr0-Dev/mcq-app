@@ -11,13 +11,14 @@ body {
   color: #333;
   line-height: 1.6;
   min-height: 100vh;
+  display: flex;
 }
 
 /* Main Content Area (adjusted for sidebar) */
 .main-content {
-  margin-left: 250px; /* Same as sidebar width */
   padding: 20px;
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .container {
@@ -216,6 +217,48 @@ button {
   background-color: #2d6bc1;
   box-shadow: 0 4px 8px rgba(58, 123, 213, 0.3);
 }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.tabs {
+    margin-top: 20px;
+}
+
+.tab-btn {
+    background-color: #f2f2f2;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 5px 5px 0 0;
+}
+
+.tab-btn.active {
+    background-color: #ddd;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
 
 /* Responsive Adjustments */
 @media (max-width: 992px) {

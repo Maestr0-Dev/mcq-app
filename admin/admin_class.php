@@ -1,6 +1,6 @@
 <?php
 
-class DB{
+class admindb{
     //database connection
 private $DBname="interactives_mcqs";
 private $pass="";
