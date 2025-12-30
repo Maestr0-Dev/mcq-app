@@ -1,7 +1,8 @@
 <?php
 session_start();
 include 'classes.php';
-if( $_SESSION['logged_in']!=true){
+      if(!isset( $_SESSION['id'])){
+
     header("location:login.php");
   }
 $db = new DB();

@@ -1,4 +1,4 @@
-&lt;?php
+<?php
 session_start();
 include 'classes.php';
 
@@ -49,13 +49,22 @@ $questions = parse_quiz($content['content']);
 $score = 0;
 $total_questions = count($questions);
 
-foreach ($questions as $i =&gt; $q) {
-    if (isset($answers[$i]) && strtoupper($answers[$i]) === strtoupper($q['answer'])) {
+foreach ($questions as $i => $q) {
+    if (isset($answers[$i]) && $answers[$i] === $q['answer']) {
         $score++;
     }
 }
 
+// Check if score and total_questions columns exist, and add them if they don't
+if (!$db->columnExists('student_content', 'score')) {
+    $db->addColumn('student_content', 'score', 'INT(11) NOT NULL DEFAULT 0');
+}
+if (!$db->columnExists('student_content', 'total_questions')) {
+    $db->addColumn('student_content', 'total_questions', 'INT(11) NOT NULL DEFAULT 0');
+}
+
 $db->updateStudentContentStatus($student_content_id, 'completed');
+$db->saveQuizScore($student_content_id, $score, $total_questions);
 
 // Store the result in the session to display on the result page
 $_SESSION['quiz_result'] = [
@@ -66,4 +75,4 @@ $_SESSION['quiz_result'] = [
 
 header('Location: quiz_result.php');
 exit;
-?&gt;
+?>

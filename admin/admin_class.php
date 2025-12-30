@@ -2,10 +2,14 @@
 
 class admindb{
     //database connection
+private $host="localhost";
 private $DBname="interactives_mcqs";
 private $pass="";
 private $username="root";
 
+    private function host(){
+        return $this->host;
+    }
     private function DBname(){
         return $this->DBname;
     }
@@ -17,10 +21,29 @@ private $username="root";
     }
 
 
+public function login(array $data){
+
+            try{
+                $conn= new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(),$this->username(),$this->pass());
+                $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $sql="SELECT * FROM admins WHERE adm_name ='$data[0]'  AND `password` = '$data[1]'";
+                $statement = $conn->prepare($sql);
+			    $statement->execute();
+                $result= $statement->setFetchMode(PDO::FETCH_ASSOC);
+                $user= $statement->fetchAll();
+                $conn = null;
+		}catch(PDOException $err){
+            $user=[];
+			$conn = null;
+			return $err->getMessage();
+		}
+            return $user;
+    }
+
 public function getAllSTudents(){
 
     try{
-        $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
+        $conn= new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(),$this->username(),$this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql="SELECT * FROM students";
         $statement = $conn->prepare($sql);
@@ -37,7 +60,7 @@ public function getAllSTudents(){
 }
 public function countStud(){
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT COUNT(*) AS count 
                 FROM students";
@@ -54,7 +77,7 @@ public function countStud(){
 }
 public function getAllTeachers(){
     try{
-    $conn= new PDO("mysql:host=localhost;dbname=".$this->DBname(),$this->username(),$this->pass());
+    $conn= new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(),$this->username(),$this->pass());
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $sql="SELECT * FROM teachers ";
     $statement = $conn->prepare($sql);
@@ -72,7 +95,7 @@ return $Tea;
 }
 public function countTeach(){
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT COUNT(*) AS count 
                 FROM teachers";
@@ -90,7 +113,7 @@ public function countTeach(){
 
 public function addStudyContent($subject, $category, $title, $content) {
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO study_content (subject, category, title, content, created_at) VALUES (?, ?, ?, ?, NOW())";
         $stmt = $conn->prepare($sql);
@@ -106,7 +129,7 @@ public function addStudyContent($subject, $category, $title, $content) {
 // Update study content
 public function updateStudyContent($id, $subject, $category, $title, $content) {
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "UPDATE study_content SET subject = ?, category = ?, title = ?, content = ?, updated_at = NOW() WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -122,7 +145,7 @@ public function updateStudyContent($id, $subject, $category, $title, $content) {
 // Delete study content
 public function deleteStudyContent($id) {
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "DELETE FROM study_content WHERE id = ?";
         $stmt = $conn->prepare($sql);
@@ -138,7 +161,7 @@ public function deleteStudyContent($id) {
 // Get all study content for admin view
 public function getAllStudyContent() {
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->query("SELECT * FROM study_content ORDER BY subject, category, id");
         $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -151,9 +174,9 @@ public function getAllStudyContent() {
 }
 
 // Get single content item by ID
-public function getStudyContentById($id) {
+    public function getStudyContentById($id) {
     try {
-        $conn = new PDO("mysql:host=localhost;dbname=" . $this->DBname(), $this->username(), $this->pass());
+        $conn = new PDO("mysql:host=".$this->host().";dbname=" . $this->DBname(), $this->username(), $this->pass());
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $stmt = $conn->prepare("SELECT * FROM study_content WHERE id = ?");
         $stmt->execute([$id]);
@@ -166,6 +189,66 @@ public function getStudyContentById($id) {
     }
 }
 
+// News Functions
+public function addNews($title, $content, $expiry_date) {
+    try {
+        $conn = new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO news (title, content, expiry_date) VALUES (?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$title, $content, $expiry_date]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        $conn = null;
+        return false;
+    }
+}
 
+public function getAllNews() {
+    try {
+        $conn = new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM news ORDER BY created_at DESC";
+        $statement = $conn->prepare($sql);
+        $statement->execute();
+        $news = $statement->fetchAll(PDO::FETCH_ASSOC);
+        $conn = null;
+        return $news;
+    } catch (PDOException $err) {
+        $conn = null;
+        return [];
+    }
+}
+
+public function updateNews($id, $title, $content, $expiry_date) {
+    try {
+        $conn = new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE news SET title = ?, content = ?, expiry_date = ? WHERE id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$title, $content, $expiry_date, $id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        $conn = null;
+        return false;
+    }
+}
+
+public function deleteNews($id) {
+    try {
+        $conn = new PDO("mysql:host=".$this->host().";dbname=".$this->DBname(), $this->username(), $this->pass());
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM news WHERE id = ?";
+        $statement = $conn->prepare($sql);
+        $statement->execute([$id]);
+        $conn = null;
+        return true;
+    } catch (PDOException $err) {
+        $conn = null;
+        return false;
+    }
+}
 }
 ?>

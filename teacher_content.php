@@ -15,13 +15,45 @@ $mentees = $db->getMenteesForTeacher($teacher_id);
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_content'])) {
     $content_type = $_POST['content_type'];
     $title = htmlspecialchars($_POST['title']);
-    $content = htmlspecialchars($_POST['content']);
-    
-    if ($db->createTeacherContent($teacher_id, $content_type, $title, $content)) {
-        header('Location: teacher_content.php');
-        exit;
+    $content = '';
+
+    if ($content_type === 'pdf') {
+        if (isset($_FILES['pdf_file']) && $_FILES['pdf_file']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['pdf_file'];
+            $file_ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+
+            if ($file_ext !== 'pdf') {
+                $error = "Only PDF files are allowed.";
+            } else {
+                $upload_dir = 'uploads/pdfs/';
+                if (!is_dir($upload_dir)) {
+                    mkdir($upload_dir, 0777, true);
+                }
+                $file_name = uniqid('', true) . '.' . $file_ext;
+                $file_path = $upload_dir . $file_name;
+
+                if (move_uploaded_file($file['tmp_name'], $file_path)) {
+                    $content = $file_path;
+                } else {
+                    $error = "Failed to upload file.";
+                }
+            }
+        } else {
+            $error = "Please select a PDF file to upload.";
+        }
     } else {
-        $error = "Failed to create content.";
+        $content = htmlspecialchars($_POST['content']);
+    }
+
+    if (!isset($error) && !empty($title) && (!empty($content) || $content_type === 'pdf')) {
+        if ($db->createTeacherContent($teacher_id, $content_type, $title, $content)) {
+            header('Location: teacher_content.php');
+            exit;
+        } else {
+            $error = "Failed to create content.";
+        }
+    } elseif (!isset($error)) {
+        $error = "Title and content/PDF are required.";
     }
 }
 
@@ -53,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_content'])) {
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: white;
             min-height: 100vh;
             color: #333;
             line-height: 1.6;
@@ -412,13 +444,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_content'])) {
 
         <div class="content-creation">
             <h2>Create New Content</h2>
-            <form action="teacher_content.php" method="POST">
-                <select name="content_type" required>
+            <form action="teacher_content.php" method="POST" enctype="multipart/form-data">
+                <select name="content_type" id="contentType" required onchange="toggleContentFields()">
                     <option value="note">Note</option>
                     <option value="quiz">Quiz</option>
+                    <option value="pdf">PDF</option>
                 </select>
                 <input type="text" name="title" placeholder="Content Title" required>
-                <textarea name="content" placeholder="Content (for quizzes, use a simple format like Q1: Question|A|B|C|D|Answer)" required></textarea>
+                <textarea name="content" id="contentText" placeholder="Content (for quizzes, use a simple format like Q1: Question|A|B|C|D|Answer)" required></textarea>
+                <input type="file" name="pdf_file" id="pdfFile" style="display: none;" accept=".pdf">
                 <button type="submit" name="create_content">Create Content</button>
             </form>
             <?php if (isset($error)) echo "<p class='error'>$error</p>"; ?>
@@ -460,5 +494,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['send_content'])) {
             <?php if (isset($success)) echo "<p class='success'>$success</p>"; ?>
         </div>
     </div>
+    <script>
+        function toggleContentFields() {
+            const contentType = document.getElementById('contentType').value;
+            const contentText = document.getElementById('contentText');
+            const pdfFile = document.getElementById('pdfFile');
+
+            if (contentType === 'pdf') {
+                contentText.style.display = 'none';
+                contentText.required = false;
+                pdfFile.style.display = 'block';
+                pdfFile.required = true;
+            } else {
+                contentText.style.display = 'block';
+                contentText.required = true;
+                pdfFile.style.display = 'none';
+                pdfFile.required = false;
+            }
+        }
+        // Call it on page load to set the initial state
+        window.onload = toggleContentFields;
+    </script>
 </body>
 </html>

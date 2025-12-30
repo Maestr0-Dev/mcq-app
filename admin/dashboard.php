@@ -1,5 +1,19 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
 include "admin_class.php";
+include "../classes.php";
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header("location:login.php");
+    exit();
+}
+
+// Check admin level
+if ($_SESSION['admin_level'] < 2) {
+    header("location: CMS.php");
+    exit();
+}
 
 function stud(){
     $db= new admindb();
@@ -31,15 +45,13 @@ function teachers(){
 }
 
 function countStudents(){
-    $db= new DB();
-    $count=$db->countStud();
-    echo $count;
+    $db= new admindb();
+    return $db->countStud();
 }
 
 function countTeach(){
-    $db= new DB();
-    $count=$db->countTeach();
-    echo $count;
+    $db= new admindb();
+    return $db->countTeach();
 }
 ?>
 
@@ -66,9 +78,10 @@ function countTeach(){
     </style>
 </head>
 <body>
-    <?php include 'navbar.php'; ?>
-
+   
+        
     <div class="main-content">
+        <?php include 'admin_nav.php'; ?>
         <?php
         $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 
@@ -82,17 +95,14 @@ function countTeach(){
             case 'study_page_management':
                 include 'study_page_management.php';
                 break;
-            case 'ai_agent':
-                include 'ai_agent.php';
-                break;
             case 'cms':
                 include 'CMS.php';
                 break;
             case 'home':
             default:
                 echo '<h1>All Users</h1>';
-                echo '<div><h2>Students: <?php countStudents(); ?></h2></div>';
-                echo '<div><h2>Teachers: <?php countTeach(); ?></h2></div>';
+                echo '<div><h2>Students: ' . countStudents() . '</h2></div>';
+                echo '<div><h2>Teachers: ' . countTeach() . '</h2></div>';
                 echo '<div class="tabs">';
                 echo '<button class="tab-btn active" data-target="stud-sec">Students</button>';
                 echo '<button class="tab-btn" data-target="teach-sec">Teachers</button>';
@@ -110,6 +120,7 @@ function countTeach(){
                 break;
         }
         ?>
+        
     </div>
 
     <script>

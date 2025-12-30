@@ -24,9 +24,20 @@ if (isset($_SESSION['started'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      }
+    };
+    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="myCss/quiz-style.css">
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <script src="script.js"></script>
     <title>Quiz-Master</title>
@@ -90,34 +101,35 @@ function startTimer() {
 
 window.onload = startTimer;
 
-        // Function to read a specific question
-        function readQuestion(questionText) {
-    // Cancel any ongoing speech
-    if (window.speechSynthesis.speaking) {
-        window.speechSynthesis.cancel();
-    }
+        // Function to read a question from a DOM element by its ID
+        function readQuestionById(elementId) {
+            const questionElement = document.getElementById(elementId);
+            if (!questionElement) {
+                console.error("Question element not found: ", elementId);
+                return;
+            }
+            // Prioritize the data-speech-text attribute for pronunciation, fallback to innerText
+            const questionText = questionElement.dataset.speechText || questionElement.innerText;
 
-    // Create a new speech synthesis utterance
-    const speech = new SpeechSynthesisUtterance(questionText);
-    speech.lang = 'en-UK'; // Set the language
-    speech.rate = 1; // Adjust the rate for better clarity
-    speech.pitch = 1; // Adjust the pitch if needed
+            // Cancel any ongoing speech to prevent overlap
+            if (window.speechSynthesis.speaking) {
+                window.speechSynthesis.cancel();
+            }
 
-    // Speak the question
-    speech.onstart = () => {
-        console.log("Speech started for: " + questionText);
-    };
+            // Create a new speech synthesis utterance
+            const speech = new SpeechSynthesisUtterance(questionText);
+            speech.lang = 'en-UK'; // Set language for consistency
+            speech.rate = 0.75;       // Normal speech rate
+            speech.pitch = 1;      // Normal pitch
 
-    speech.onend = () => {
-        console.log("Speech ended for: " + questionText);
-    };
+            // Log events for debugging
+            speech.onstart = () => console.log("Speech started for: " + questionText);
+            speech.onend = () => console.log("Speech ended for: " + questionText);
+            speech.onerror = (event) => console.error("Speech error: ", event.error);
 
-    speech.onerror = (event) => {
-        console.error("Speech error: ", event.error);
-    };
-
-    window.speechSynthesis.speak(speech);
-}
+            // Speak the text
+            window.speechSynthesis.speak(speech);
+        }
     </script>
 </head>
 <body>
@@ -132,8 +144,8 @@ window.onload = startTimer;
 ?>
 <div class="quest_info">
     <p class="yr"> </p>
-    <p> <?=$t['title']?> <?=$t['year']?></p>
-    <p><?=$t['subject']?></p>
+    <p><?=$t['subject']?> | <?=$t['year']?></p>
+
     <p><i class="fa fa-clock"></i> <label for="" id="timer"></label></p>
 </div>
 <form action="result.php" method="post">
@@ -145,17 +157,22 @@ window.onload = startTimer;
         $real_ans = $q['ans'];
         $num++;
         $_SESSION['num']++;
+
+        // Create a speech-friendly version of the question
+        $speech_text = str_replace(
+            ['X', '⅒', '⁶', '²', '⁹', '°', '½', '¼', '¾', '³', '⁴', '⁵', '⁷', '⁸', '¹', '⁰'],
+            [' times ', ' one tenth ', ' to the power of 6 ', ' squared ', ' to the power of 9 ', ' degrees ', ' one half ', ' one quarter ', ' three quarters ', ' cubed ', ' to the power of 4 ', ' to the power of 5 ', ' to the power of 7 ', ' to the power of 8 ', ' to the power of 1 ', ' to the power of 0 '],
+            $q['question']
+        );
 ?>
 
         <p style="font-weight: bolder;">
-            <?=$num . '. ' . $q['question']?>
-            
+            <span id="question-text-<?=$num?>" data-speech-text="<?=htmlspecialchars($speech_text, ENT_QUOTES)?>"><?=$num . '. ' . $q['question']?></span>
             <?php 
             if($_SESSION['mic_set']==true){
             ?>
-            <i class="fa fa-microphone mic-icon" onclick="readQuestion('<?=htmlspecialchars($q['question'], ENT_QUOTES)?>')"></i>
-                <?php }
-                ?>
+            <i class="fa fa-microphone mic-icon" onclick="readQuestionById('question-text-<?=$num?>')"></i>
+            <?php } ?>
         </p>
 <?php
         if (!empty($q['img'])) {

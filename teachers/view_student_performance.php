@@ -1,14 +1,24 @@
 <?php
 session_start();
-include 'classes.php';
+include '../classes.php';
 
 // Check if user is logged in
-if (!isset($_SESSION['id'])) {
+if (!isset($_SESSION['teacher_id'])) {
     header('Location: login.php');
     exit;
 }
 
-$stud_id = $_SESSION['id'];
+$stud_id = null;
+if (isset($_POST['stud_id'])) {
+    $stud_id = $_POST['stud_id'];
+} elseif (isset($_GET['stud_id'])) {
+    $stud_id = $_GET['stud_id'];
+}
+
+if ($stud_id === null) {
+    header('Location: myStudents.php');
+    exit;
+}
 
 // Handle AJAX requests
 if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
@@ -160,6 +170,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
     exit();
 }
+
+$db = new DB();
+$student_info = $db->getStudentById($stud_id);
+$student_name = $student_info ? htmlspecialchars($student_info['stud_name']) : 'Student';
 ?>
 
 <!DOCTYPE html>
@@ -168,9 +182,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Performance Dashboard</title>
-    <link type="text/css" rel="stylesheet" href="css/style.css">
-    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css">
-    <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link type="text/css" rel="stylesheet" href="../css/style.css">
+    <link type="text/css" rel="stylesheet" href="../css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../fonts/css/all.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <style>
         .performance-container {
@@ -458,21 +472,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <body>
     <div class="performance-container">
         <div class="nav-buttons">
-            <a href="home.php" class="nav-btn">
-                <i class="fa fa-home"></i>
+            <a href="myStudents.php" class="nav-btn">
+                <i class="fa fa-arrow-left"></i>
                 
-            </a>
-            <a href="quest_selection.php" class="nav-btn">
-                <i class="fa fa-question-circle"></i>
             </a>
             <a class="nav-btn" onclick="refreshData()">
                 <i class="fa fa-refresh"></i>
-    </a>
+                
+            </a>
         </div>
         
         <div class="performance-summary">
-            <h2><i class="fa fa-chart-line"></i> Performance Dashboard</h2>
-            <p>Track your progress and analyze your performance trends</p>
+            <h2><i class="fa fa-chart-line"></i> <?= $student_name ?>'s Performances</h2>
+            <p>Track their progress and analyze their performance trends</p>
             <div class="summary-grid" id="summaryGrid">
                 <div class="summary-item">
                     <div class="summary-value" id="totalAttempts">0</div>
@@ -489,16 +501,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
                 <div class="summary-item">
                     <div class="summary-value" id="totalSubjects">0</div>
                     <div class="summary-label">Subjects</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="recent-tests" id="recentTests">
-            <h3><i class="fa fa-clock"></i> Recent Test Results</h3>
-            <div id="recentTestsList">
-                <div class="loading">
-                    <i class="fa fa-spinner"></i>
-                    <p>Loading recent tests...</p>
                 </div>
             </div>
         </div>
@@ -524,19 +526,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
             <div class="chart-wrapper">
                 <canvas id="performanceChart"></canvas>
             </div>
-            <button id="generateQuizBtn" onclick="generatePersonalizedQuiz()" style="background: #28a745; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; margin: 10px 0;">
-                Generate Personalized Quiz
-            </button>
         </div>
         
         <div class="no-data" id="noDataMessage" style="display: none;">
             <i class="fa fa-chart-line"></i>
             <h4>No Performance Data</h4>
-            <p>You haven't taken any tests yet. Start by taking a quiz to see your performance here.</p>
-            <a href="quest_selection.php" class="nav-btn">
-                <i class="fa fa-play"></i>
-                Take Your First Quiz
-            </a>
+            <p>This student has not taken any tests yet.</p>
         </div>
     </div>
     
@@ -548,51 +543,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 <div id="quizStatus" style="margin: 10px 0; padding: 10px; border-radius: 5px; display: none;"></div>
 
 <script>
-function generatePersonalizedQuiz() {
-
-    const studentId = getCurrentStudentId(); 
-    const subject = getCurrentSubject();     
-    const level = getCurrentLevel();         
-    
-    if (!studentId || !subject) {
-        showStatus('Please select a subject first.', 'error');
-        return;
-    }
-    
-    showStatus('Generating personalized quiz...', 'loading');
-    
-    const formData = new FormData();
-    formData.append('stud_id', studentId);
-    formData.append('subject', subject);
-    formData.append('level', level);
-    
-    fetch('generate_quiz.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            showStatus('Quiz generated successfully! Opening quiz page...', 'success');
-            setTimeout(() => {
-                window.location.href = 'quiz_page.php';
-            }, 1000);
-        } else {
-            showStatus('Error generatingg quiz: ' + result.error, 'error');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        showStatus('Error generating quiz. Please try again.', 'error');
-    });
-}
 
 function showStatus(message, type) {
     const statusDiv = document.getElementById('quizStatus');
     statusDiv.textContent = message;
     statusDiv.style.display = 'block';
     
-    // Style based on type
     if (type === 'success') {
         statusDiv.style.background = '#d4edda';
         statusDiv.style.color = '#155724';
@@ -612,7 +568,7 @@ function showStatus(message, type) {
         let currentLevel = null;
 
         function getCurrentStudentId() {
-            return <?php echo json_encode($_SESSION['id']); ?>;
+            return <?php echo json_encode($stud_id); ?>;
         }
 
         function getCurrentSubject() {
@@ -656,7 +612,7 @@ function showStatus(message, type) {
         }
         
         function loadSubjects() {
-            fetch('?ajax=1&action=subjects')
+            fetch('?ajax=1&action=subjects&stud_id=<?= $stud_id ?>')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -680,7 +636,7 @@ function showStatus(message, type) {
         }
         
         function loadSummaryStats() {
-            fetch('?ajax=1&action=summary')
+            fetch('?ajax=1&action=summary&stud_id=<?= $stud_id ?>')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -697,7 +653,7 @@ function showStatus(message, type) {
         }
         
         function loadRecentTests() {
-            fetch('?ajax=1&action=recent&limit=5')
+            fetch('?ajax=1&action=recent&limit=5&stud_id=<?= $stud_id ?>')
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
@@ -777,134 +733,116 @@ function showStatus(message, type) {
             loadPerformanceData(subject, level);
         }
         
-function loadPerformanceData(subject, level) {
-    const chartContainer = document.getElementById('chartContainer');
-    chartContainer.style.display = 'block';
-    chartContainer.classList.add('active'); // Ensure chart is visible
-
-    // Show loading state
-    document.getElementById('chartTitle').textContent = `Loading ${subject} (${level}-level) Performance...`;
-
-    fetch(`?ajax=1&action=performance&subject=${encodeURIComponent(subject)}&level=${encodeURIComponent(level)}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                if (data.performance && data.performance.length > 0) {
-                    displayChart(subject, level, data.performance);
-                    updateChartStats(data.stats);
-                } else {
+        function loadPerformanceData(subject, level) {
+            const chartContainer = document.getElementById('chartContainer');
+            chartContainer.style.display = 'block';
+            
+            // Show loading state
+            document.getElementById('chartTitle').textContent = `Loading ${subject} (${level}-level) Performance...`;
+            
+            fetch(`?ajax=1&action=performance&subject=${encodeURIComponent(subject)}&level=${encodeURIComponent(level)}&stud_id=<?= $stud_id ?>`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.performance && data.performance.length > 0) {
+                            displayChart(subject, level, data.performance);
+                            updateChartStats(data.stats);
+                        } else {
+                            handleNoPerformanceData(subject, level);
+                        }
+                    } else {
+                        console.error('Error loading performance data:', data.error);
+                        showMessage('Error loading performance data: ' + data.error, 'error');
+                        handleNoPerformanceData(subject, level);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    showMessage('Network error loading performance data', 'error');
                     handleNoPerformanceData(subject, level);
-                }
-            } else {
-                console.error('Error loading performance data:', data.error);
-                showMessage('Error loading performance data: ' + data.error, 'error');
-                handleNoPerformanceData(subject, level);
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            showMessage('Network error loading performance data', 'error');
-            handleNoPerformanceData(subject, level);
-        });
-}
+                });
+        }
         
-function displayChart(subject, level, performances) {
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-
-    // Destroy existing chart if it exists
-    if (currentChart) {
-        currentChart.destroy();
-    }
-
-    // Group performances by date (no time)
-    const dateGroups = {};
-    performances.forEach(p => {
-        // Use only the date part (yyyy-mm-dd) for grouping to avoid locale ambiguity
-        const dateObj = new Date(p.date_taken);
-        const dateKey = dateObj.getFullYear() + '-' + String(dateObj.getMonth()+1).padStart(2, '0') + '-' + String(dateObj.getDate()).padStart(2, '0');
-        if (!dateGroups[dateKey]) dateGroups[dateKey] = [];
-        dateGroups[dateKey].push(p);
-    });
-
-    // Prepare data for chart (one point per test, but tooltips will show all tests for that date)
-    const labels = performances.map(p => {
-        const dateObj = new Date(p.date_taken);
-        return dateObj.getFullYear() + '-' + String(dateObj.getMonth()+1).padStart(2, '0') + '-' + String(dateObj.getDate()).padStart(2, '0');
-    });
-    const scores = performances.map(p => parseFloat(p.score));
-
-    // Update chart title
-    document.getElementById('chartTitle').textContent = `${subject} (${level}-level) Performance Over Time`;
-
-    currentChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: 'Score',
-                data: scores,
-                borderColor: '#007bff',
-                backgroundColor: 'rgba(0, 123, 255, 0.1)',
-                borderWidth: 3,
-                fill: true,
-                tension: 0.4,
-                pointRadius: 8, // larger clickable area
-                pointHoverRadius: 12,
-                pointHitRadius: 20, // easier to hover
-                pointBackgroundColor: scores.map((score, index) => 
-                    performances[index].status === 'passed' ? '#28a745' : '#dc3545'
-                )
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: {
-                mode: 'nearest',
-                intersect: true
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 20,
-                    title: {
-                        display: true,
-                        text: 'Score (out of 20)'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    }
+        function displayChart(subject, level, performances) {
+            const ctx = document.getElementById('performanceChart').getContext('2d');
+            
+            // Destroy existing chart if it exists
+            if (currentChart) {
+                currentChart.destroy();
+            }
+            
+            // Prepare data for chart
+            const labels = performances.map(p => new Date(p.date_taken).toLocaleDateString());
+            const scores = performances.map(p => parseFloat(p.score));
+            
+            // Update chart title
+            document.getElementById('chartTitle').textContent = `${subject} (${level}-level) Performance Over Time`;
+            
+            currentChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Score',
+                        data: scores,
+                        borderColor: '#007bff',
+                        backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: scores.map((score, index) => 
+                            performances[index].status === 'passed' ? '#28a745' : '#dc3545'
+                        )
+                    }]
                 },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Date'
-                    },
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)'
-                    }
-                }
-            },
-            plugins: {
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            // Get the date for this point (in yyyy-mm-dd format)
-                            const date = context.label;
-                            // Get all performances for this date
-                            const tests = dateGroups[date] || [];
-                            // Show all tests for this date (subject, score, status) with 1 decimal place
-                            return tests.map(t => `${t.subject} (${t.level}): ${parseFloat(t.score).toFixed(1)}/20 - ${t.status}`);
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 20,
+                            title: {
+                                display: true,
+                                text: 'Score (out of 20)'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
                         }
                     },
-                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                    titleColor: '#fff',
-                    bodyColor: '#fff'
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const performance = performances[context.dataIndex];
+                                    return [
+                                        `Avg. Score: ${context.parsed.y.toFixed(1)}/20`,
+                                        `Percentage: ${((context.parsed.y/20)*100).toFixed(1)}%`,
+                                        `Status: ${performance.status}`,
+                                        `Year: ${performance.year}`
+                                    ];
+                                }
+                            },
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                            titleColor: '#fff',
+                            bodyColor: '#fff'
+                        }
+                    }
                 }
-            }
+            });
         }
-    });
-}
         
         function updateChartStats(stats) {
             const chartStats = document.getElementById('chartStats');

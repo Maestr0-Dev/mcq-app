@@ -56,9 +56,9 @@ if (isset($_POST['get_explanation'])) {
     $options = $_POST['options'];
     $image_path = $_POST['image_path'] ?? null;
     
-        $api_key = 'AIzaSyAcQR-u0L_189b-I0rrWb7qi-NyIg0SOoc';
+        $api_key = 'AIzaSyBjhglUlofps8fUgfCcvuIoP-dHHKkWsxM';
     
-    $prompt = "Please provide a brief explanation (2-3 sentences) of why the answer '{$answer}' is correct for this question:\n\n";
+    $prompt = "Please provide a brief explanation (3-4 sentences) of why the answer '{$answer}' is correct for this question:\n\n";
     $prompt .= "Question: {$question}\n\n";
     $prompt .= "Options:\n{$options}\n\n";
     $prompt .= "Correct Answer: {$answer}\n\n";
@@ -106,13 +106,22 @@ if (isset($_POST['get_explanation'])) {
     
     $response = file_get_contents($url, false, $context);
     
+    $http_status = $http_response_header[0];
     error_log("API Response: " . $response);
     error_log("HTTP Response Headers: " . json_encode($http_response_header));
     
     if ($response === false) {
         echo json_encode([
             'success' => false,
-            'error' => 'Failed to make API request - check your API key and internet connection'
+            'error' => 'Failed to make API request. HTTP Status: ' . $http_status
+        ]);
+        exit;
+    }
+    
+    if (strpos($http_status, '200') === false) {
+        echo json_encode([
+            'success' => false,
+            'error' => 'API request failed with status: ' . $http_status . '. Response: ' . substr($response, 0, 500)
         ]);
         exit;
     }
@@ -154,6 +163,8 @@ if (isset($_POST['get_explanation'])) {
         <link type="text/css" rel="stylesheet" href="css/style.css">
         <link type="text/css" rel="stylesheet" href="myCss/result-style.css">
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
         <script src="script.js"></script>
 <title>Results</title>
@@ -275,10 +286,16 @@ $num++;
 <a href="quest_selection.php">
     <button >
     <i class="fa fa-arrow-chart-line"></i>
-    Past questions
+    Take Another
     </button>
 </a>
-<button>Save </button>
+<a href="performnace.php">
+    <button >
+    <i class="fa fa-arrow-chart-line"></i>
+    Performances
+    </button>
+</a>
+
 <script>
 function getExplanation(questionId, question, answer, options, imagePath) {
     console.log('Brain icon clicked for:', questionId); // Debug log
@@ -294,7 +311,7 @@ function getExplanation(questionId, question, answer, options, imagePath) {
     // Show loading state
     brainIcon.classList.add('loading');
     explanationBox.className = 'explanation-box loading';
-    explanationBox.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Getting AI explanation...';
+    explanationBox.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Getting BrazeAI explanation...';
     
     // Prepare form data
     const formData = new FormData();

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if( $_SESSION['logged_in']!==true){
+if( !isset($_SESSION['id'])){
   header("location:login.php");
   exit();
 }
@@ -75,7 +75,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     
     if (curl_errno($curl)) {
-        echo json_encode(['error' => 'Connection error: ' . curl_error($curl)]);
+        error_log('Connection error: ' . curl_error($curl));
+        echo json_encode(['error' => 'Connection error. Please try again later.']);
         curl_close($curl);
         exit();
     }
@@ -83,7 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     curl_close($curl);
     
     if ($httpCode !== 200) {
-        echo json_encode(['error' => 'API request failed with status: ' . $httpCode . '. Response: ' . $response]);
+        error_log('API request failed with status: ' . $httpCode . '. Response: ' . $response);
+        echo json_encode(['error' => 'API request failed. Please try again later.']);
         exit();
     }
     

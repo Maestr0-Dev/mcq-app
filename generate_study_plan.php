@@ -2,6 +2,7 @@
 session_start();
 require_once 'classes.php';
 
+
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -36,7 +37,7 @@ if ($days_to_exam <= 0) {
 
 // --- Helper function to call Gemini API ---
 function callGeminiAPI($prompt) {
-    $apiKey = "AIzaSyAcQR-u0L_189b-I0rrWb7qi-NyIg0SOoc";
+    $apiKey = getenv('GEMINI_API_KEY');
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=" . $apiKey;
 
     $data = [
@@ -55,6 +56,7 @@ function callGeminiAPI($prompt) {
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
     curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 120); // 120-second timeout
 
     $response = curl_exec($ch);
     $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -88,7 +90,8 @@ Format the response as a JSON object with this exact structure:
 $plan_response = callGeminiAPI($plan_prompt);
 
 if (!$plan_response['success']) {
-    echo json_encode($plan_response);
+    error_log('Failed to generate study plan: ' . $plan_response['error']);
+    echo json_encode(['success' => false, 'error' => 'Failed to generate study plan. Please try again later.']);
     exit;
 }
 
@@ -106,7 +109,7 @@ $daily_plans = $plan_data['plan'];
 $db = new DB();
 
 // Start a transaction
-$conn = new PDO("mysql:host=localhost;dbname=interactives_mcqs", "root", "");
+$conn = new PDO("mysql:host=".$db->host().";dbname=".$db->DBname(), $db->username(), $db->pass());
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $conn->beginTransaction();
 
@@ -136,8 +139,8 @@ try {
         }";
 
         $quiz_response = callGeminiAPI($quiz_prompt);
-        if (!$quiz_response['success']) {
-            throw new Exception("Failed to generate quiz for day {$day_plan['day']}");
+if (!$quiz_response['success']) {
+            throw new Exception("Failed to generate quiz for day {$day_plan['day']}: " . $quiz_response['error']);
         }
         
         $quiz_json_text = $quiz_response['text'];

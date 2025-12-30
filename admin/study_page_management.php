@@ -108,9 +108,14 @@
     </style>
 </head>
 <body>
+    <?php   include "../classes.php"; ?>
+    <?php include 'admin_nav.php'; ?>
+
     <?php
+   
+
     require_once 'admin_class.php'; 
-    $db = new DB();
+    $db = new admindb();
     
     $uploadDir = 'diagrams/';
     if (!file_exists($uploadDir)) {

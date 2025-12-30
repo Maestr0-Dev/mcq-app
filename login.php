@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['level']=$result[0]['level'];
 
         $message = "<p style='color:green;'>Logged in successfully</p>";
-        header("location:home.php");
+        header("location:" . BASE_URL . "home.php");
     } else {
         $message = "<p style='color:red;'>Invalid username or password.</p>";
     }
@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="text" name="username" required placeholder="Username">
             <input type="password" name="password" required placeholder="Password">
             <button type="submit">Login</button>
-            <a href="stud_signin.php">Create an account</a>
+            <a href="<?php echo BASE_URL; ?>stud_signin.php">Create an account</a>
             <p><?=$message ?></p>
         </form>
     </div>

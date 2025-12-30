@@ -13,11 +13,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $date= date("Y-m-d h:i:s");
     $table="students";
 
-    $data = [$name,$email, $phone,$pw,$lvl,  $date];        
     $db = new DB();
-    $result = $db->newUser($table, $data);
-    
-    header("location:login.php");
+    if ($db->checkUserExists($name, $email)) {
+        $error = true;
+        $result = "Username or email already exists.";
+    } else {
+        $data = [$name,$email, $phone,$pw,$lvl,  $date];        
+        $result = $db->newUser($table, $data);
+        header("location:" . BASE_URL . "login.php");
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -113,7 +117,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                 <option value="O">O-level Student</option>
             </select>            
             <button type="submit">Sign up</button>
-            <a href="login.php">Already have an account? Login</a>
+            <a href="<?php echo BASE_URL; ?>login.php">Already have an account? Login</a>
             <p><span style="color:green"><?= $result ?></span></p>
         </form>
     </div>

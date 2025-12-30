@@ -18,6 +18,13 @@ $stud_id = $_SESSION['id'];
 $prep_id = $_POST['prep_id'] ?? 0;
 
 if (empty($prep_id)) {
+    // Fallback for urlencoded data
+    $input = file_get_contents('php://input');
+    parse_str($input, $post_vars);
+    $prep_id = $post_vars['prep_id'] ?? 0;
+}
+
+if (empty($prep_id)) {
     echo json_encode(['success' => false, 'error' => 'Prep plan ID is required']);
     exit;
 }

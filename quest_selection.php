@@ -1,10 +1,12 @@
 <?php 
 session_start();
 include 'classes.php';
-if( $_SESSION['logged_in']==true){
+      if(isset( $_SESSION['id'])){
+
     $year="";
     $subject="";
-    $subj=['Literature','History','Physics','English language','Mathemathics','Futher mathemathics','ICT','Computer science','Chemistry','Biology','Economics','French','Geography','Religion'];
+    $db = new DB();
+    $subj = $db->getSubjectsWithContent();
     $exam="";
     $time="";
     
@@ -31,6 +33,8 @@ if( $_SESSION['logged_in']==true){
     <title>Question selection</title>
     <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="myCss/qu-sel.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -127,14 +131,13 @@ if( $_SESSION['logged_in']==true){
        
             <h2>Select Subject</h2>
             <select name="subj" id="subject" required>
-            <option disabled default > </option>
+            <option disabled selected>Select a subject</option>
             <?php
-    
-    for($i=0;$i<count($subj);$i++){
-        ?>
-        <option value="<?=$subj[$i]?>"><?=$subj[$i]?></option>
- <?php }
-?>
+                foreach ($subj as $subject) {
+                    echo "<option value=\"$subject\">$subject</option>";
+                }
+            ?>
+            <!-- <option value="Physics">Physics</option> -->
             </select>
         
             <h2>Select Year</h2>
@@ -148,6 +151,8 @@ if( $_SESSION['logged_in']==true){
     <?php
     }
     ?>
+    <!-- <option value="2024">2024</option> -->
+
 </select>
         
             <h2>Select Timer</h2>

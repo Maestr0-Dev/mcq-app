@@ -20,8 +20,10 @@ if (empty($quiz_id)) {
     exit;
 }
 
+require_once 'classes.php';
+$db = new DB();
 try {
-    $conn = new PDO("mysql:host=localhost;dbname=interactives_mcqs", "root", "");
+    $conn = new PDO("mysql:host=".$db->host().";dbname=".$db->DBname(), $db->username(), $db->pass());
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     $sql = "SELECT quiz_data FROM prep_quizzes WHERE quiz_id = ?";

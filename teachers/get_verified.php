@@ -16,18 +16,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handle ID card upload
     if (!empty($_FILES['id_card']['name'])) {
-        $id_card_name = $_FILES['id_card']['name'];
+        $id_card_name = basename($_FILES['id_card']['name']);
         $id_card_tmp = $_FILES['id_card']['tmp_name'];
-        $id_card_path = 'verification_docs/' . uniqid();
-        move_uploaded_file($id_card_tmp, $id_card_path);
+        $id_card_size = $_FILES['id_card']['size'];
+        $id_card_ext = strtolower(pathinfo($id_card_name, PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'pdf'];
+
+        if (in_array($id_card_ext, $allowed_ext) && $id_card_size < 5000000) {
+            $id_card_path = 'verification_docs/' . uniqid('', true) . '.' . $id_card_ext;
+            move_uploaded_file($id_card_tmp, $id_card_path);
+        } else {
+            $message = "Invalid file type or size for ID card.";
+        }
     }
 
     // Handle teacher certificate upload
     if (!empty($_FILES['certificate']['name'])) {
-        $certificate_name = $_FILES['certificate']['name'];
+        $certificate_name = basename($_FILES['certificate']['name']);
         $certificate_tmp = $_FILES['certificate']['tmp_name'];
-        $certificate_path = 'verification_docs/' . uniqid();
-        move_uploaded_file($certificate_tmp, $certificate_path);
+        $certificate_size = $_FILES['certificate']['size'];
+        $certificate_ext = strtolower(pathinfo($certificate_name, PATHINFO_EXTENSION));
+
+        if (in_array($certificate_ext, $allowed_ext) && $certificate_size < 5000000) {
+            $certificate_path = 'verification_docs/' . uniqid('', true) . '.' . $certificate_ext;
+            move_uploaded_file($certificate_tmp, $certificate_path);
+        } else {
+            $message = "Invalid file type or size for certificate.";
+        }
     }
 
     // Save verification request to the database

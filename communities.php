@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-if( $_SESSION['logged_in']==true){
+      if(isset( $_SESSION['id'])){
+
 
 include 'classes.php';
 //display all existing communities with a button to join

@@ -4,7 +4,7 @@ $name = "";
 $num = "";
 $email = "";
 $level = "";
-if ($_SESSION['logged_in'] == true) {
+if (isset($_SESSION['id'] ) ){
     $name = $_SESSION['uname'];
     $num = $_SESSION['number'];
     $email = $_SESSION['email'];

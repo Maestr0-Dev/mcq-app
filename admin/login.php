@@ -1,32 +1,29 @@
-<?php 
-        session_start();
-
+<?php
+session_start();
 include '../classes.php';
 
-
-$email = ""; 
-$password = ""; 
-$error = ""; 
+$message = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     $db = new DB();
-    $teacher = $db->teacherLogin([$email, $password]);
+    $admin = $db->adminLogin($email, $password);
 
-        if (count($teacher) > 0) {
-
-        // Start session and redirect to dashboard
-        $_SESSION['teacher_id'] = $teacher['teacher_id'];
-        $_SESSION['full_name'] = $teacher['full_name'];
-        $_SESSION['email'] = $teacher['email'];
-        $_SESSION['phone'] = $teacher['phone'];
-        $_SESSION['subjects'] = $teacher['subjects'];
-        $_SESSION['profile_picture'] = $teacher['profile_picture'];
-        header("location:index2.php");
+    if ($admin) {
+        $_SESSION['admin_logged_in'] = true;
+        $_SESSION['admin_id'] = $admin['admin_id'];
+        $_SESSION['admin_name'] = $admin['adm_name'];
+        $_SESSION['admin_level'] = $admin['level'];
+        
+        if ($admin['level'] == 1) {
+            header("location: CMS.php");
+        } else {
+            header("location: dashboard.php");
+        }
     } else {
-        $error = "Invalid email or password.";
+        $message = "<p style='color:red;'>Invalid email or password.</p>";
     }
 }
 ?>
@@ -35,8 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Login</title>
-    <link type="text/css" rel="stylesheet" href="myCss/signin.css">
+    <title>Admin Login</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -49,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
         .login-container {
             background: white;
-            padding: 30px;
+            padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             width: 300px;
@@ -76,30 +72,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             width: 100%;
             margin: 10px 0;
         }
-        .login-container a {
-            display: block;
-            margin-top: 10px;
-            color: #666;
-            text-decoration: none;
-        }
-        .login-container a:hover {
-            text-decoration: underline;
-        }
-        .login-container p {
-            margin: 10px 0;
-            color: red;
-        }
     </style>
 </head>
 <body>
     <div class="login-container">
-        <h1>Teacher Login</h1>
+        <h1>Admin Login</h1>
         <form action="" method="post">
             <input type="email" name="email" required placeholder="Email">
             <input type="password" name="password" required placeholder="Password">
             <button type="submit">Login</button>
-            <a href="teacher_signin.php">Don't have an account? Sign up</a>
-            <p><?= $error ?></p>
+            <p><?=$message ?></p>
         </form>
     </div>
 </body>

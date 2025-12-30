@@ -39,7 +39,7 @@ try {
         'status' => $input['status']
     ];
     
-    $result = $performance->savePerf($perf_data);
+    $result = $performance->savePersonalizedQuizPerf($perf_data);
     
     if ($result !== false) {
         session_start();

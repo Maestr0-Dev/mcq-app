@@ -1,5 +1,4 @@
 <?php
-// session_start();
 include 'classes.php';
 ?>
 
@@ -8,10 +7,10 @@ include 'classes.php';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="css/style.css">
     <link type="text/css" rel="stylesheet" href="myCss/menu-style.css">
-    <link type="text/css" rel="stylesheet" href="fonts/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <title>Quiz-Master</title>
     <style>
@@ -24,35 +23,40 @@ include 'classes.php';
 
 
 <div class="navbar" id="navbar">
-<a href="home.php"><i class="fa fa-home"></i></a>
+<a href="<?php echo BASE_URL; ?>home.php"><i class="fa fa-home"></i></a>
 
 <?php
-      if(isset( $_SESSION['logged_in'])&& $_SESSION['logged_in']==true){
+      if(isset( $_SESSION['id'])){
         ?>
-    <a href="user_profile.php">My Profile <i class="fa fa-user"></i></a>
+    <a href="<?php echo BASE_URL; ?>user_profile.php">My Profile <i class="fa fa-user"></i></a>
     <?php 
       }
     else{?>
-      <a href="login.php" style="border: 1px solid white; background: none; color: gray; padding: 10px 20px; text-decoration: none; font-size: 18px; margin: 0 10px; border-radius: 5px;">Login <i class="fa fa-sign-in-alt"></i></a>
+      <a href="<?php echo BASE_URL; ?>login.php" style="border: 1px solid white; background: none; color: gray; padding: 10px 20px; text-decoration: none; font-size: 18px; margin: 0 10px; border-radius: 5px;">Login <i class="fa fa-sign-in-alt"></i></a>
     <?php
     }
     ?>
-    <a href="quest_selection.php"> Passed Questions<i class="fa fa-pen-to-square"></i> </a>
-    <a href="discover.php"> Tutors <i class="fa fa-chalkboard-user"></i> </a>
-    <a href="performance.php"> View Performances <i class="fa fa-chart-line"></i> </a>
-    <a href="chat_with_ai.php"> Braze AI <i class="fa fa-robot"></i> </a>
-    <a href="communities.php">Community <i class="fa fa-users"></i> </a>
-    <a href="archive.php"> Archives <i class="fa fa-archive"></i> </a>
-    <a href="study.php"> study <i class="fa fa-book"></i> </a>
+    <a href="<?php echo BASE_URL; ?>quest_selection.php">Passed Questions<i class="fa fa-pen-to-square"></i> </a>
+    <a href="<?php echo BASE_URL; ?>teachers.php">Tutors <i class="fa fa-chalkboard-user"></i> </a>
+    <a href="<?php echo BASE_URL; ?>performance.php">Performances <i class="fa fa-chart-line"></i> </a>
+    <a href="<?php echo BASE_URL; ?>braze_ai.php">Braze AI <i class="fa fa-robot"></i> </a>
+    <a href="<?php echo BASE_URL; ?>communities.php">Community <i class="fa fa-users"></i> </a>
+    <a href="<?php echo BASE_URL; ?>archive.php"> Archives <i class="fa fa-archive"></i> </a>
+    <a href="<?php echo BASE_URL; ?>study.php">study <i class="fa fa-book"></i> </a>
     <!-- <a href="myQuiz.php">Persona <i class="fa fa-map"></i> </a>/\ here the user will be able to create personal quizes, notes,  -->
-    <a href="settings.php">Settings<i class="fa fa-repair"></i> </a>
+    <a href="<?php echo BASE_URL; ?>settings.php">Settings<i class="fa fa-repair"></i> </a>
 
     <!-- <a href="question_bnk.php">School<i class="fa fa-"></i></a> -->
 
-    <span class="menu-icon" onclick="toggleMenu()"><i class="fa fa-bars"></i></span>
+    <span class="menu-icon" onclick="toggleMenu()"><i class="fa-solid fa-bars"></i></span>
 
   </div>
 
-
+<script>
+function toggleMenu() {
+  var navbar = document.getElementById("navbar");
+  navbar.classList.toggle("active");
+}
+</script>
 </body>
 </html>

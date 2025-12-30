@@ -2,9 +2,9 @@
 session_start();
 include '../classes.php';
 
-if (!isset($_SESSION['admin_logged_in'])) {
-    // header("location:admin_login.php");
-    // exit();
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_level'] < 2) {
+    header("location: CMS.php");
+    exit();
 }
 
 $db = new DB();
@@ -72,6 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </style>
 </head>
 <body>
+    <?php include 'admin_nav.php'; ?>
+
     <div class="container">
         <h1>Teacher Verifications</h1>
         <table>

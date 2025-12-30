@@ -6,6 +6,45 @@
     <title>Quiz Master - Ace Your GCE Exams</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
+        .news-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border: none;
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px auto;
+            max-width: 1000px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .news-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .news-content strong {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            display: block;
+            margin-bottom: 10px;
+        }
         :root {
             --gradient: linear-gradient(135deg, #4776E6, #8E54E9);
             --primary: #6C5CE7;
@@ -455,6 +494,21 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
+            <?php
+            include 'classes.php';
+            $db = new DB();
+            $news_items = $db->getAllNews();
+            if (!empty($news_items)) {
+                echo '<div class="news-section">';
+                echo '<div class="news-content">';
+                foreach ($news_items as $item) {
+                    echo '<strong>' . htmlspecialchars($item['title']) . '</strong>' . htmlspecialchars($item['content']);
+                    echo '<br><br>';
+                }
+                echo '</div>';
+                echo '</div>';
+            }
+            ?>
             <div class="hero-content">
                 <div class="hero-text">
                     <h1>Ace Your GCE Exams with Confidence</h1>

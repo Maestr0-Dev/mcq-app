@@ -30,23 +30,26 @@
 </div>
 <div class="navbar" id="navbar">
 
-    <a href="../quest_selection.php">Past Question <i class="fa fa-pen-to-square"></i> </a>
-    <a href="My_student.php"> My students<i class="fa fa-user"></i> </a>
-    <!-- <a href="performance.php"> View Performances <i class="fa fa-chart-line"></i> </a> -->
-    <a href="../chat_with_ai.php"> Braze AI <i class="fa fa-robot"></i> </a>
-    <a href="../communities.php">Community <i class="fa fa-users"></i> </a>
-    <a href="question_bank.php"> Archives <i class="fa fa-bank"></i> </a>
-    <a href="../study.php"> learn <i class="fa fa-book"></i> </a>
-    <a href="../teacher_content.php"> My content <i class="fa fa-book"></i> </a>
+    <!-- <a href="<?php echo BASE_URL; ?>quest_selection.php">Past Question <i class="fa fa-pen-to-square"></i> </a> -->
+    <a href="<?php echo BASE_URL; ?>teachers/myStudents.php"> My students<i class="fa fa-user"></i> </a>
+    <!-- <a href="<?php echo BASE_URL; ?>performance.php"> View Performances <i class="fa fa-chart-line"></i> </a> -->
+    <a href="<?php echo BASE_URL; ?>chat_with_ai.php"> Braze AI <i class="fa fa-robot"></i> </a>
+    <a href="<?php echo BASE_URL; ?>communities.php">Community <i class="fa fa-users"></i> </a>
+
+
+    
+    <a href="<?php echo BASE_URL; ?>teachers/question_bank.php"> Archives <i class="fa fa-bank"></i> </a>
+    <a href="<?php echo BASE_URL; ?>study.php"> learn <i class="fa fa-book"></i> </a>
+    <a href="<?php echo BASE_URL; ?>teacher_content.php"> My content <i class="fa fa-book"></i> </a>
 
     <!-- <a href="myQuiz.php">Persona <i class="fa fa-map"></i> </a>/\ here the user will be able to create personal quizes, notes,  -->
-    <a href="settings.php">Settings<i class="fa fa-repair"></i> </a>
+    <a href="<?php echo BASE_URL; ?>teachers/settings.php">Settings<i class="fa fa-repair"></i> </a>
 
     <?php
       if(isset( $_SESSION['teacher_id'])){
         $path = "teach_profil_imgs/" . $_SESSION['profile_picture'];
         ?>
-    <a href="teacher_profile.php">My Profile <i class="fa fa-user"></i>
+    <a href="<?php echo BASE_URL; ?>teachers/teacher_profile.php">My Profile <i class="fa fa-user"></i>
         <img src="<?=$path?>" alt="Profile Picture" style="width: 40px; height: 40px; border-radius: 50%; margin-left: 10px;">
 </a>
     <?php 
